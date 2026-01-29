@@ -1,0 +1,6 @@
+Write a Java program that declares and initializes variables of the following data types: int,  String, boolean, and double. Print each variable on a new line along with an appropriate message describing its data type.
+
+Declare two double variables, length and width, and assign them values 5.5 and 3.0, respectively. Calculate the area (length * width) and print the result.
+
+Declare an integer variable named numStudents and initialize it with the value 32. Print the value of this variable.
+
