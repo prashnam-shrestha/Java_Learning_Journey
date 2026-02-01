@@ -13,12 +13,13 @@ import java.util.ArrayList;
 public class RpgGame {
 
     public static void main(String[] args) {
-        ArrayList<GameCharacter> party = new ArrayList<GameCharacter>();
-        party.add(new GameCharacter("Thor", 100));
-        party.add(new Mage("Gandalf", 80, 50));
         
-        for (GameCharacter c: party) {
-            c.attack();
-        }
+        Warrior Thor = new Warrior("Thor", 100, 50);
+        Mage Xavior = new Mage("Gandalf", 80, 50);
+        
+        
+        Thor.attack(Xavior);
+        Xavior.attack(Thor);
+        
     }
 }

@@ -8,7 +8,7 @@ package com.mycompany.rpggame;
  *
  * @author prashnamshrestha
  */
-public class GameCharacter {
+public abstract class GameCharacter {
     protected String name;
     protected int health;
     
@@ -36,9 +36,7 @@ public class GameCharacter {
     }
     
     // Methods
-    public void attack() {
-        System.out.printf("%s performs a basic attack\n", name);
-    }
+    public abstract void attack(GameCharacter Target);
     
     public void takeDamage(int amount) {
         health -= amount;

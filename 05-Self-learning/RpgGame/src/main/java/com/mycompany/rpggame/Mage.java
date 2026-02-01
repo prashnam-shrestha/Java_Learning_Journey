@@ -19,8 +19,10 @@ public class Mage extends GameCharacter {
     }
     
     @Override
-    public void attack() {
-        System.out.printf("%s casts a Fireball for 40 damage!\n", name);
+    public void attack(GameCharacter target) {
+        int damage = 25;
+        target.takeDamage(damage);
+        System.out.printf("%s casts a Fireball at %s, 40 damage!\n", name, target.getName());
     }
     
 }

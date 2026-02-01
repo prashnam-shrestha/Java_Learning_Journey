@@ -18,8 +18,13 @@ public class Warrior extends GameCharacter {
     }
     
     @Override
-    public void attack() {
-        System.out.printf("%s swings a heavy sword for 20 damage!\n", name);
+    public void attack(GameCharacter target) {
+        
+        int damage = 20;
+        target.takeDamage(damage);
+        System.out.printf("%s smashes %s for 20 damage!\n", name, target.getName());
     }
+
+   
             
 }
