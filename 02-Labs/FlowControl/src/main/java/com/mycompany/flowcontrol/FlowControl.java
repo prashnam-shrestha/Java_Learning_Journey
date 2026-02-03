@@ -87,19 +87,19 @@ public class FlowControl {
         // Qn 8
         System.out.print("Enter year: ");
         int year = scanner.nextInt();
-        if (((year % 400) == 0) || ((year % 4 ) == 0)) {
+        if (((year % 400) == 0) || ((year % 4 ) == 0) && ((year % 100 ) != 0 ) ){
             System.out.println("It is leap year");
         }
         else {
             System.out.println("It is not leap year");
         }
         
-        // Qn 9
+        // Qn 9 DONE IN A COMPLEX WAY TO BOOST CONCEPT INSDEAD OF SIMPLER WAY
         System.out.print("Enter letter:");
         char letter = scanner.next().charAt(0);
         
         letter = Character.toLowerCase(letter);
-        
+        boolean leapyear = false;
         List<Character> vowels = new ArrayList<>();
         vowels.add('a');
         vowels.add('e');
@@ -109,12 +109,80 @@ public class FlowControl {
         
         for (int i = 0; i < 5; i++) {
             if (vowels.get(i) == letter) {
+                leapyear = true;
                 System.out.println("It is vowel");
                 break;
             }
         }
+        if (!leapyear) {
+            System.out.println("It is not a vowel");
+        }
         
-
+        // Qn 10 
+        System.out.print("Enter number");
+        int numCheck = scanner.nextInt();
+        if (numCheck >= 1 && numCheck <= 100) {
+            System.out.println("It is in between 1 and 100");
+        }
+        else {
+            System.out.println("It is not in between 1 and 100");
+        }
         
+        // Qn 11
+        System.out.print("Enter number: ");
+        int number1 = scanner.nextInt();
+        System.out.print("Enter number: ");
+        int number2 = scanner.nextInt();
+        System.out.print("Enter number: ");
+        int number3 = scanner.nextInt();
+        
+        System.out.printf("Largest: %s\n", Math.max(number1, Math.max(number2, number3)));
+         
+        // Qn 12
+        System.out.print("Enter grade: ");
+        int grade = scanner.nextInt();
+        if (grade >= 90) {
+            System.out.println("A");
+        }
+        else if (grade >= 75) {
+            System.out.println("B");
+        }
+        else if (grade >= 60) {
+            System.out.println("C");
+        }
+        else {
+            System.out.print("Fail");
+        }
+        
+        // Qn 13
+        System.out.print("Enter number: ");
+        int numberDivisible = scanner.nextInt();
+        if ((numberDivisible % 5 == 0 ) && (numberDivisible % 11 == 0)) {
+            System.out.println("It is divisible by 5 and 11");
+        }
+        else {
+            System.out.println("It is not divisible by 5 and 11");
+        }
+        
+        // Qn 14
+        System.out.print("Enter String: ");
+        scanner.nextLine();
+        String userString = scanner.nextLine();
+        if (userString.equals(userString.toUpperCase())) {
+            System.out.println("It is all uppercase");
+        }
+        else {
+            System.out.println("It is not all uppercase");
+        }
+        
+        // Qn 15
+        System.out.print("Enter number: ");
+        int number = scanner.nextInt();
+        if (number % 3 == 0) {
+            System.out.println("It is multiple of 3");
+        }
+        else if(number % 7 == 0) {
+            System.out.println("It is multiple of 7");
+        } 
     }
 }
