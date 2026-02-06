@@ -29,7 +29,7 @@ public class TodoList {
     
     public void viewTask() {
         
-        System.out.println("-- -Your tasks: ---");
+        System.out.println("--- Your tasks: ---");
         for (Tasks t: List) {
             System.out.printf("%s | Completed: %s | %s |\n",List.indexOf(t) + 1, t.isCompleted(), t.getDescription());
         }

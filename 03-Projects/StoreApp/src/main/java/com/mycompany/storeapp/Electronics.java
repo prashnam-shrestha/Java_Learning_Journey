@@ -8,7 +8,7 @@ package com.mycompany.storeapp;
  *
  * @author prashnamshrestha
  */
-public class Electronics extends Product {
+public class Electronics extends Product implements Taxable {
     
     private String brand;
     private int warrantyPeriod;
@@ -44,6 +44,14 @@ public class Electronics extends Product {
 
     public void setWarrantyPeriod(int warrantyPeriod) {
         this.warrantyPeriod = warrantyPeriod;
+    }
+    
+    public double getTax() {
+        
+        double price = this.getPrice();
+        double taxAmount = price * 0.4;
+        this.setPrice(price + taxAmount);
+        return taxAmount;
     }
     
 }

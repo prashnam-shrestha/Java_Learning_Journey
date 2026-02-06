@@ -17,6 +17,21 @@ public class ShoppingCart {
         
     }
     
+    public void taxProduct() {
+        
+        for (Product p : cart) {
+            String name = p.getName();
+            if (p instanceof Taxable) {
+                double taxAmount = ((Taxable) p).getTax();
+                System.out.printf("%s tax: %s\n", name, taxAmount);
+                
+            }
+            else {
+                System.out.printf("%s is not taxable\n", name);
+            }
+        }
+    }
+    
     public void addProduct(Product product) {
         cart.add(product);
         System.out.printf("%s added on cart.\n",product.getName());

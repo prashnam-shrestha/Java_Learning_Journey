@@ -8,7 +8,8 @@ package com.mycompany.storeapp;
  *
  * @author prashnamshrestha
  */
-public class Clothing extends Product {
+public class Clothing extends Product implements Taxable {
+    
     private double size;
     private String Material;
     
@@ -44,7 +45,13 @@ public class Clothing extends Product {
         return discount;
     }
     
-    
+    public double getTax() {
+        
+        double price = this.getPrice();
+        double taxAmount = price * 0.1;
+        this.setPrice(price + taxAmount);
+        return taxAmount;
+    }
     
     
 }
