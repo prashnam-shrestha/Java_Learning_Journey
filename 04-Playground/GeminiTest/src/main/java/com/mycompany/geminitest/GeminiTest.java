@@ -93,7 +93,7 @@ public class GeminiTest {
         else {
             balance -= withdrawAmt;
             balance -= FEE_withdraw;
-            System.out.printf("Withdrawn Rs %s with fee.\n", withdrawAmt);
+            System.out.printf("Withdrawn Rs %s.2f with fee.\n", withdrawAmt);
         } 
         System.out.println("balance" + balance);
        
