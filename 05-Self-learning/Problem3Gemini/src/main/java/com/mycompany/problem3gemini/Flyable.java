@@ -9,5 +9,5 @@ package com.mycompany.problem3gemini;
  * @author prashnamshrestha
  */
 public interface Flyable {
-    
+    public void fly();
 }

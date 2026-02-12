@@ -8,6 +8,10 @@ package com.mycompany.problem3gemini;
  *
  * @author prashnamshrestha
  */
-public class Airplane {
+public class Airplane implements Flyable {
+    
+    public void fly() {
+        System.out.println("Starting engines");
+    }
     
 }

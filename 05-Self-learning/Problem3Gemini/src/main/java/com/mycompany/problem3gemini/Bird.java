@@ -8,6 +8,9 @@ package com.mycompany.problem3gemini;
  *
  * @author prashnamshrestha
  */
-public class Bird {
+public class Bird implements Flyable {
     
+    public void fly() {
+        System.out.println("Flapping wings");
+    }
 }

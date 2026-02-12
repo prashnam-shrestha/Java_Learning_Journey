@@ -30,5 +30,15 @@ public class Problem3Gemini {
         
         ball.getArea();
         keyboard.getArea();
+        
+        // Qn 8
+//        ArrayList<Flyable> airborn = new ArrayList<>();
+//        airborn.add(new Bird());
+//        airboryhfmy name is bigya ghatanoin.add(new Bird());
+//        airborn.add(new Airplane());
+//        
+//        for (Flyable f: airborn) {
+//            instanceof Flyable;
+//        }
     }
 }
