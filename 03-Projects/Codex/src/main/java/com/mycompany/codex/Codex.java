@@ -12,14 +12,14 @@ import java.util.Scanner;
  * @author prashnamshrestha
  */
 public class Codex {
+    public static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
         // Main file to run program
         
         // new Library by default
-        Library lib = new Library("Prashnam library", "Sunnyday2008");
+        Library lib = new Library("Prashnam library", "demoPassword1234");
         
-        Scanner sc = new Scanner(System.in);
         
         boolean exit = false;
         do {
@@ -48,6 +48,7 @@ public class Codex {
                     printMenuRegister();
                     System.out.print("\n👉 Enter your choice: ");
                     int choiceRegisterMain = sc.nextInt();
+                    sc.nextLine();
                     
                     if (choiceRegisterMain == 1) {
                         registerNewUser(lib);
@@ -69,9 +70,7 @@ public class Codex {
             }
                 
         } while(!exit);
-        
-         sc.close();
-            
+                    
     }
 
     // Other functions
@@ -96,7 +95,7 @@ public class Codex {
     
     public static void printMenuUser(User user) {
         System.out.println("\n=======================================================");
-        System.out.printf("               👋 Welcome, Member: %-18s \n", user.getUserId());
+        System.out.printf("               👋 Welcome, Member: %-18s \n", user.getMemberId());
         System.out.println("=======================================================");
         System.out.println("     [1] Search Book Catalog");
         System.out.println("     [2] Borrow a Book");
@@ -108,7 +107,7 @@ public class Codex {
     
     public static void printMenuAdmin(Admin admin) {
         System.out.println("\n=======================================================");
-        System.out.printf("            🛠️ Welcome, Administrator: %-13s \n", admin.getAdminId());
+        System.out.printf("            🛠️ Welcome, Administrator: %-13s \n", admin.getMemberId());
         System.out.println("=======================================================");
         System.out.println("     [1] Add New Book");
         System.out.println("     [2] Remove Book");
@@ -120,7 +119,6 @@ public class Codex {
     }
     
     public static void registerNewAdmin(Library lib) {
-        Scanner sc = new Scanner(System.in);
         
         System.out.print("\n🔐 Enter Master Library Password: ");
         String password = sc.nextLine();
@@ -145,7 +143,6 @@ public class Codex {
     }
     
     public static void registerNewUser(Library lib) {
-            Scanner sc = new Scanner(System.in);
 
             System.out.print("\n👤 Enter new User Username: ");
             String newUserId = sc.nextLine();
@@ -166,7 +163,7 @@ public class Codex {
         
         // Checking admin
         for (Admin a: registeredAdmins) {
-            if (a.getAdminId().equals(loginId) && a.getPassword().equals(loginPassword)) {
+            if (a.getMemberId().equals(loginId) && a.getMemberPass().equals(loginPassword)) {
                 
                 boolean logOut = false;
                 while (!logOut) {
@@ -179,7 +176,7 @@ public class Codex {
         }
         
         for (User u: registeredUsers) {
-            if (u.getUserId().equals(loginId) && u.getPassword().equals(loginPassword)) {
+            if (u.getMemberId().equals(loginId) && u.getMemberPass().equals(loginPassword)) {
                 
                 boolean logOut = false;
                 while (!logOut) {
@@ -195,7 +192,6 @@ public class Codex {
     }
     
     public static boolean adminHomePage(Admin admin1, Library lib) {
-        Scanner sc = new Scanner(System.in);
         
         printMenuAdmin(admin1);
         System.out.print("\n👉 Enter your choice: ");
@@ -267,6 +263,7 @@ public class Codex {
                     }
                     if ((b.getIdOfBook() == bookIdUpdate) && (b.getStatusOfBook() == Status.BORROWED)) {
                         System.out.println("\n❌ Cannot update a book that is currently checked out!");
+                        notFound3 = false;
                         break;
                     }
                 }
@@ -299,7 +296,6 @@ public class Codex {
     }
     
     public static boolean userHomePage(User u, Library lib) {
-        Scanner sc = new Scanner(System.in);
         
         printMenuUser(u);
         System.out.print("\n👉 Enter your choice: ");
@@ -350,4 +346,5 @@ public class Codex {
         // No logout if !case5;
         return false; 
     }
+    
 }

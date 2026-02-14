@@ -179,9 +179,8 @@ public class Library {
     // Update book
     public void updateBook(Book b, String newTitle, String newAuthor) {
                 
-        inventory.remove(b);
-        Book book1 = new Book(newTitle, newAuthor, this);
-        inventory.add(book1);
+        b.setTitleOfBook(newTitle);
+        b.setAuthorOfBook(newAuthor);
             
     }
 
