@@ -20,14 +20,12 @@ public class Codex {
         // new Library by default
         Library lib = new Library("Prashnam library", "demoPassword1234");
         
-        
         boolean exit = false;
         do {
             
             printMenuMain(lib);
             System.out.print("\n👉 Enter your choice: ");
-            int choiceMainMenu = sc.nextInt();
-            sc.nextLine();
+            int choiceMainMenu = getValidInt();
             
             switch(choiceMainMenu) {
                 // Login
@@ -47,8 +45,7 @@ public class Codex {
                 case 2:
                     printMenuRegister();
                     System.out.print("\n👉 Enter your choice: ");
-                    int choiceRegisterMain = sc.nextInt();
-                    sc.nextLine();
+                    int choiceRegisterMain = getValidInt();
                     
                     if (choiceRegisterMain == 1) {
                         registerNewUser(lib);
@@ -195,8 +192,7 @@ public class Codex {
         
         printMenuAdmin(admin1);
         System.out.print("\n👉 Enter your choice: ");
-        int choiceAdminHomePage = sc.nextInt();
-        sc.nextLine();
+        int choiceAdminHomePage = getValidInt();
         
         switch(choiceAdminHomePage) {
             
@@ -209,8 +205,7 @@ public class Codex {
                 String authorName = sc.nextLine();
                 
                 System.out.print("🔢 Enter Number of Copies: ");
-                int howMany = sc.nextInt();
-                sc.nextLine();
+                int howMany = getValidInt();
                 
                 Book bookNew = new Book(bookName, authorName, lib);
                 
@@ -221,11 +216,11 @@ public class Codex {
             // Remove book
             case 2:
                     System.out.printf("\n🆔 Enter Book ID to remove: ");
-                    int bookIdDelete = sc.nextInt();
-                    sc.nextLine();
+                    int bookIdDelete = getValidInt();
+                    
                     boolean notFound = true;
                     
-                    for (Book b: lib.inventory) {
+                    for (Book b: lib.getInventory()) {
                         if ((b.getIdOfBook() == bookIdDelete) && (b.getStatusOfBook() == Status.BORROWED)) {
                             System.out.println("\n❌ Cannot remove a book that is currently checked out!");
                             notFound = false;
@@ -246,11 +241,10 @@ public class Codex {
             // Update
             case 3:
                 System.out.printf("\n🆔 Enter Book ID to update: ");
-                int bookIdUpdate = sc.nextInt();
-                sc.nextLine();
+                int bookIdUpdate = getValidInt();
                 boolean notFound3 = true;
                 
-                for (Book b: lib.inventory) {
+                for (Book b: lib.getInventory()) {
                     if ((b.getIdOfBook() == bookIdUpdate) && (b.getStatusOfBook() != Status.BORROWED)) {
                         
                         System.out.printf("\n🏷️ Enter new Book title: ");
@@ -299,8 +293,7 @@ public class Codex {
         
         printMenuUser(u);
         System.out.print("\n👉 Enter your choice: ");
-        int choiceUserHomePage = sc.nextInt();
-        sc.nextLine();
+        int choiceUserHomePage = getValidInt();
         
         switch(choiceUserHomePage) {
             
@@ -315,8 +308,7 @@ public class Codex {
             // Check out;
             case 2:
                 System.out.print("\n📖 Enter Book ID to borrow: ");
-                int borrowId = sc.nextInt();
-                sc.nextLine();
+                int borrowId = getValidInt();
                 
                 lib.checkOutBook(borrowId, u);
                 break;
@@ -324,8 +316,7 @@ public class Codex {
             // Return book
             case 3:
                 System.out.print("\n↩️ Enter Book ID to return: ");
-                int returnId = sc.nextInt();
-                sc.nextLine();
+                int returnId = getValidInt();
                 
                 lib.checkInBook(returnId, u);
                 break;
@@ -345,6 +336,20 @@ public class Codex {
         }
         // No logout if !case5;
         return false; 
+    }
+    
+    public static int getValidInt() {
+        while (true) {
+            try {
+                int choice = sc.nextInt();
+                sc.nextLine();
+                return choice;
+            }
+            catch (Exception error) {
+                System.out.printf("\n❌ Invalid! Please try again: ");    
+                sc.nextLine();
+            }
+        }
     }
     
 }

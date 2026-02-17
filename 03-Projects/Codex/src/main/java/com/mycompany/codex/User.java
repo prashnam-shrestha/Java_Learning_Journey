@@ -16,7 +16,7 @@ public class User extends Members{
         super(memberId, memberPass);
     }
 
-    ArrayList<Book> userPocket = new ArrayList<>();
+    private ArrayList<Book> userPocket = new ArrayList<>();
     
     // Add book in the pocket
     public void addBookPocket(Book book) {
@@ -46,4 +46,14 @@ public class User extends Members{
             b.getInfoOfBook();
         }
     }
+
+    public ArrayList<Book> getUserPocket() {
+        return userPocket;
+    }
+
+    public void setUserPocket(ArrayList<Book> userPocket) {
+        this.userPocket = userPocket;
+    }
+    
+    
 }
