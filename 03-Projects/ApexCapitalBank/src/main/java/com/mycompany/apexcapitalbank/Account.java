@@ -11,7 +11,10 @@ import java.util.ArrayList;
  *
  * @author prashnamshrestha
  */
+
+
 public abstract class Account {
+    
     private int accountNo;
     private int accountPin;
     private double balance;
@@ -23,12 +26,8 @@ public abstract class Account {
     public Account(double balance) {
         
         setBalance(balance);
-        
-        int accountNo = (int)(Math.random() * 9000) + 1000;
-        setAccountNo(accountNo);
-        
-        int accountPin = (int)(Math.random() * 900) + 100;
-        setAccountPin(accountPin);
+        setAccountNo(getNewAccountNum());
+        setAccountPin(getNewPinNum());
         
 
     }
@@ -135,7 +134,18 @@ public abstract class Account {
         this.freeze = freeze;
     }
     
-    
-    
-    
+    public static int accountNumberGenerated = 1000;
+
+    public static int accountPinGenerated = 100;
+
+    public static int getNewAccountNum() {
+        accountNumberGenerated ++;
+        return accountNumberGenerated;
+    }
+
+    public static int getNewPinNum() {
+        accountPinGenerated ++;
+        return ((int)(Math.random() * 900) + 100) + accountPinGenerated;
+    }
+
 }

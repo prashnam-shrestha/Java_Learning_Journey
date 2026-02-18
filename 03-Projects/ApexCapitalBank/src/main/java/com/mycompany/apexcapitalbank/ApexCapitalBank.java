@@ -29,7 +29,9 @@ public class ApexCapitalBank {
     public static void main(String[] args) {
         
         boolean run = true;
+        
         while (run) {
+            
             displayMainMenu();
             int choice = getValidInt("  >> Select Option: ");
             
@@ -60,71 +62,8 @@ public class ApexCapitalBank {
                      System.out.println("  [!] Invalid choice. Please try again.");
                      
             }
-             
-             
-
+              
         }
-        
-        
-        
-        
-        
-//        // Playground for building
-//        
-//        Customer customer1 = new Customer("Amrit Shrestha", "+977 9816086590", LocalDate.of(2009, Month.MARCH, 10), "amrit123");
-//        Customer customer2 = new Customer("Saman Shrestha", "+977 9816086590", LocalDate.of(2009, Month.MARCH, 10), "Saman123");
-//        Admin admin = new Admin("Prashnam Shrestha", "+977 9810929090", getValidDate("Enter date of birth( YYYY-MM-DD ): "), "admin123");
-//        
-////        System.out.println(admin.getInfoGeneral());
-////        System.out.println(customer.getInfoGeneral());
-//        
-//        SavingsAccount a1 = new SavingsAccount(0, 10);
-//        SavingsAccount a2 = new SavingsAccount(2500, 10);
-//        FixedDepositAccount fd1 = new FixedDepositAccount(1000, 10, getValidDate("Enter maturity period: "));
-//        LoanAccount l1 = new LoanAccount(1000, 10);
-//        
-//        customer1.addAccountsCustomer(a1);
-//        customer1.addAccountsCustomer(fd1);
-//        customer2.addAccountsCustomer(a2);
-//        customer2.addAccountsCustomer(l1);
-//        
-//        
-//        registeredCustomer.add(customer2);
-//        registeredCustomer.add(customer1);
-//        registeredAdmin.add(admin);
-//        
-//        a1.deposit(1000);
-//        a1.withdraw(1000);
-//        a2.transferBal(1000, a1);
-//        a2.withdraw(500);
-//        l1.withdraw(1000);
-//        l1.deposit(1000);
-//        fd1.deposit(1000);
-//        fd1.withdraw(500);
-//        accountsMaster.add(a1);
-//        accountsMaster.add(a2);
-//        accountsMaster.add(fd1);
-//        accountsMaster.add(l1);
-//        
-//        
-//        for(Account a: accountsMaster) {
-//            a.performEOM();
-//        }
-//        
-//        
-//        // Transaction history
-//        a1.getAccountTransactions();
-//        a2.getAccountTransactions();
-//        l1.getAccountTransactions();
-//        
-//        for (Customer c: registeredCustomer) {
-//            System.out.printf("------ %s has following accounts -----\n", c.getName());
-//            c.getInfoAccounts();
-//        }
-//        
-         //Real engine
-         
-        
         
     }
     public static Scanner sc = new Scanner(System.in);
@@ -345,8 +284,8 @@ public class ApexCapitalBank {
 
                 System.out.println("\n--- OPEN NEW ACCOUNT ---");
                 System.out.println("  1. Savings Account");
-                System.out.println("  2. Fixed Deposit (FD) Account");
-                System.out.println("  3. Loan Account");
+                System.out.println("  2. Loan Account");
+                System.out.println("  3. Fixed Deposit (FD) Account");
                 int choiceType = getValidInt("  >> Select Account Type: ");
                 switch (choiceType) {
                     case 1:
@@ -442,14 +381,19 @@ public class ApexCapitalBank {
             case 4:
                 
                 int accNo = getValidInt("  >> Enter Account Number to Freeze: ");
+                boolean match = false;
                 for (Account acc: accountsMaster) {
                     if (accNo == acc.getAccountNo()) {
                         acc.setFreeze(true);
                         System.out.println("  [✓] Account Frozen Successfully.");
+                        match = true;
                         break;
                     }
                 }
-                System.out.println("  [!] Account Not Found."); // Only prints if loop finishes without break, techincally logic flow allows this.
+                if (!match) {
+                    System.out.println("  [!] Account Not Found.");
+                }
+                
                 break;
                 
             // Exit
