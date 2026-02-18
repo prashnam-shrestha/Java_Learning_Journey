@@ -5,12 +5,13 @@
 package com.mycompany.apexcapitalbank;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
 /**
  *
  * @author prashnamshrestha
  */
-public class Transaction {
+public class Transaction implements Serializable{
     private transactionType type;
     private LocalDate date;
     private Account receiver;

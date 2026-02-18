@@ -6,6 +6,7 @@ package com.mycompany.apexcapitalbank;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 
 
-public abstract class Account {
+public abstract class Account implements Serializable {
     
     private int accountNo;
     private int accountPin;
@@ -26,8 +27,12 @@ public abstract class Account {
     public Account(double balance) {
         
         setBalance(balance);
-        setAccountNo(getNewAccountNum());
-        setAccountPin(getNewPinNum());
+        
+        int accountNo = (int)(Math.random() * 9000) + 1000;
+        setAccountNo(accountNo);
+        
+        int accountPin = (int)(Math.random() * 900) + 100;
+        setAccountPin(accountPin);
         
 
     }
@@ -145,7 +150,8 @@ public abstract class Account {
 
     public static int getNewPinNum() {
         accountPinGenerated ++;
-        return ((int)(Math.random() * 900) + 100) + accountPinGenerated;
+        return  + accountPinGenerated;
     }
-
+    
+ 
 }

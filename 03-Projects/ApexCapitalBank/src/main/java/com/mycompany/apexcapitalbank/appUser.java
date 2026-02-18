@@ -6,12 +6,12 @@ package com.mycompany.apexcapitalbank;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+import java.io.Serializable;
 /**
  *
  * @author prashnamshrestha
  */
-public class appUser {
+public class appUser implements Serializable{
     private String name;
     private String phone;
     private String password;

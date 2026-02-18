@@ -28,6 +28,8 @@ public class ApexCapitalBank {
 
     public static void main(String[] args) {
         
+        DatabaseManager.loadGame();
+        
         boolean run = true;
         
         while (run) {
@@ -65,6 +67,8 @@ public class ApexCapitalBank {
               
         }
         
+        DatabaseManager.saveGame();
+        
     }
     public static Scanner sc = new Scanner(System.in);
     
@@ -93,7 +97,7 @@ public class ApexCapitalBank {
         System.out.println("========================================");
         System.out.println("  1. Customer Portal");
         System.out.println("  2. Administrator Portal");
-        System.out.println("  3. Exit Application");
+        System.out.println("  3. Save & Exit");
         System.out.println("----------------------------------------");
     }
     
