@@ -26,13 +26,13 @@ public class Transaction implements Serializable{
     
     public String getInfoTransaction() {
         if (getType() == transactionType.DEPOSIT) {
-            return String.format("  [+] Deposit:     Rs %s  | Date: %s", getAmount(), getDate());
+            return String.format("  [+] Deposit:    Rs %s  | Date: %s", getAmount(), getDate());
         }
         else if (getType() == transactionType.WITHDRAW) {
-            return String.format("  [-] Withdrawal:   Rs %s  | Date: %s", getAmount(), getDate());
+            return String.format("  [-] Withdrawal: Rs %s  | Date: %s", getAmount(), getDate());
         }
         else if (getType() == transactionType.TRANSFER) {
-            return String.format("  [>] Transfer:     Rs %s  | To: %s | Date: %s", getAmount(), getReceiver().getAccountNo() , getDate());
+            return String.format("  [>] Transfer:   Rs %s  | To: %s | Date: %s", getAmount(), getReceiver().getAccountNo() , getDate());
         }
         else {
             return String.format("  [%] Interest:   Rs %s  | Date: %s", getAmount(), getDate());
