@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class DatabaseManager {
     
-    // This is the name of the file that will be created on your computer
     private static final String FILE_NAME = "ApexBankData.txt";
 
 
