@@ -1,0 +1,61 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.expensetracker;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class Wallet {
+    
+    private double balance;
+    private String nameWallet;
+    
+    public Wallet(String name, double balance) {
+        setBalance(balance);
+        setNameWallet(name);
+    }
+    
+    public boolean withdraw(double amount) {
+        double bal = getBalance();
+        if (bal < amount) {
+            return false;
+        }
+        else {
+            this.setBalance(bal - amount);
+            return true;
+        }
+    }
+    
+    public void deposit(double amount) {
+        setBalance(getBalance() + amount);
+    }
+    
+    public String showDetail() {
+        return "Wallet " + getNameWallet() + " : Rs " + getBalance();
+    }
+
+    // Getters and Setters
+    
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getNameWallet() {
+        return nameWallet;
+    }
+
+    public void setNameWallet(String nameWallet) {
+        this.nameWallet = nameWallet;
+    }
+    
+    
+    
+    
+}
