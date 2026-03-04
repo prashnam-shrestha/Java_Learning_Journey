@@ -27,10 +27,11 @@ public abstract class Account implements Serializable {
     public Account(double balance) {
         
         setBalance(balance);
-        setAccountNo(getNewPinNum());
         
-        int accountPin = (int)(Math.random() * 900) + 100;
-        setAccountPin(getNewPinNum() + accountPin);
+        setAccountNo(getNewAccountNum());
+        
+        int accountPin = (int) (Math.random() * 900) + 100;
+        setAccountPin(getNewAccountNum() + accountPin);
         
 
     }
@@ -148,7 +149,7 @@ public abstract class Account implements Serializable {
 
     public static int getNewPinNum() {
         accountPinGenerated ++;
-        return  accountPinGenerated;
+        return accountPinGenerated;
     }
     
  
