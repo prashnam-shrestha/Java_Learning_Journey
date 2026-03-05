@@ -12,11 +12,11 @@ import java.time.LocalDate;
  */
 public class Category {
     private String nameCategory;
-    private LocalDate date;
+    private CashFlowType typeCashFlow;
     
-    public Category(String nameCategory, LocalDate date) {
+    public Category(String nameCategory, CashFlowType typeCashFlow) {
         setNameCategory(nameCategory);
-        setDate(date);
+        setTypeCashFlow(typeCashFlow);
     }
 
     public String getNameCategory() {
@@ -27,13 +27,17 @@ public class Category {
         this.nameCategory = nameCategory;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public CashFlowType getTypeCashFlow() {
+        return typeCashFlow;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTypeCashFlow(CashFlowType typeCashFlow) {
+        this.typeCashFlow = typeCashFlow;
     }
+
+
+   
+    
     
     
 }

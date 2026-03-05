@@ -5,6 +5,7 @@
 package com.mycompany.expensetracker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -12,10 +13,11 @@ import java.util.ArrayList;
  */
 public class AppState {
     
-    private ArrayList<Expense> expenses= new ArrayList<>();
-    private ArrayList<Category> category= new ArrayList<>();
-    private ArrayList<Wallet> wallet= new ArrayList<>();
-    private ArrayList<Transaction> transaction= new ArrayList<>();
+    private List<Expense> expenses= new ArrayList<>();
+    private List<Income> incomes= new ArrayList<>();
+    private List<Category> category= new ArrayList<>();
+    private List<Wallet> wallet= new ArrayList<>();
+    private List<Transaction> transaction= new ArrayList<>();
     
     public AppState() {
         
@@ -24,37 +26,47 @@ public class AppState {
     
     // Getters and Setters
 
-    public ArrayList<Expense> getExpenses() {
+    public List<Expense> getExpenses() {
         return expenses;
     }
 
-    public void setExpenses(ArrayList<Expense> expenses) {
+    public void setExpenses(List<Expense> expenses) {
         this.expenses = expenses;
     }
 
-    public ArrayList<Category> getCategory() {
+    public List<Category> getCategory() {
         return category;
     }
 
-    public void setCategory(ArrayList<Category> category) {
+    public void setCategory(List<Category> category) {
         this.category = category;
     }
 
-    public ArrayList<Wallet> getWallet() {
+    public List<Wallet> getWallet() {
         return wallet;
     }
 
-    public void setWallet(ArrayList<Wallet> wallet) {
+    public void setWallet(List<Wallet> wallet) {
         this.wallet = wallet;
     }
 
-    public ArrayList<Transaction> getTransaction() {
+    public List<Transaction> getTransaction() {
         return transaction;
     }
 
-    public void setTransaction(ArrayList<Transaction> transaction) {
+    public void setTransaction(List<Transaction> transaction) {
         this.transaction = transaction;
     }
+
+    public List<Income> getIncomes() {
+        return incomes;
+    }
+
+    public void setIncomes(List<Income> incomes) {
+        this.incomes = incomes;
+    }
+    
+    
     
     
     

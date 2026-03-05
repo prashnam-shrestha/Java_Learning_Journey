@@ -19,17 +19,39 @@ public class User {
        setName(name);
         
     }
-    
-    // Expense
-    public void addExpense(Expense expense) { 
+    public void addIncome(Income income) { 
         
-        appState.getExpenses().add(expense);
+        appState.getIncomes().add(income);
         
-        // Everytime an expense is added
+        // Everytime an income is added
         // Transaction is added
         
-        Transaction transactionNew = new Transaction(expense);
+        income.getWallet().deposit(income.getAmount());
+        
+        Transaction transactionNew = new Transaction(income);
         addTransaction(transactionNew);
+        
+
+    }
+    
+    // Expense
+    public boolean addExpense(Expense expense) { 
+        
+        // Checking if enough balance
+        boolean run = expense.getWallet().withdraw(expense.getAmount());
+        
+        if (run) {
+            appState.getExpenses().add(expense);
+        
+            // Everytime an expense is added
+            // Transaction is added
+            
+            Transaction transactionNew = new Transaction(expense);
+            addTransaction(transactionNew);
+            return run;
+        }
+        
+        return run;
 
     }
     

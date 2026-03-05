@@ -10,26 +10,41 @@ package com.mycompany.expensetracker;
  */
 public class Transaction {
     
-    public Expense expense;
+    public CashFlow incomeOrExpense;
+    public double currentBalance;
     
-    public Transaction(Expense expense) {
-        setExpense(expense);
+    public Transaction(CashFlow incomeOrExpense) {
+        setIncomeOrExpense(incomeOrExpense);
+        
+        currentBalance = incomeOrExpense.getWallet().getBalance();
+        
     }
     
     public String getDetail() {
-        String detail = "Transaction of " + expense.getCategory().getNameCategory() + " Rs " + expense.getAmount() + " on " + expense.getDate();
+        
+        String detail = String.format(
+                "Transaction: %s | Rs %.2f | Date: %s | Wallet: %s | Balance: Rs %.2f",
+                incomeOrExpense.getCategory().getNameCategory(),
+                incomeOrExpense.getAmount(),
+                incomeOrExpense.getDate(),
+                incomeOrExpense.getWallet().getNameWallet(),
+                currentBalance
+        );
+        
         return detail;
     }
     
     // Getters and Setters
 
-    public Expense getExpense() {
-        return expense;
+    public CashFlow getIncomeOrExpense() {
+        return incomeOrExpense;
     }
 
-    public void setExpense(Expense expense) {
-        this.expense = expense;
+    public void setIncomeOrExpense(CashFlow incomeOrExpense) {
+        this.incomeOrExpense = incomeOrExpense;
     }
+
+    
     
     
 }

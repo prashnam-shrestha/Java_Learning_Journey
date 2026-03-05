@@ -33,8 +33,9 @@ public class Wallet {
         setBalance(getBalance() + amount);
     }
     
-    public String showDetail() {
-        return "Wallet " + getNameWallet() + " : Rs " + getBalance();
+    public String getDetail() {
+        String info = "Wallet " + getNameWallet() + " : Rs " + getBalance();
+        return info;
     }
 
     // Getters and Setters
