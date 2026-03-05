@@ -55,8 +55,10 @@ public class User {
 
     }
     
+    // Delete expense
     public void deleteExpense(Expense expense) {
         appState.getExpenses().remove(expense);
+        
     }
     
     // Category

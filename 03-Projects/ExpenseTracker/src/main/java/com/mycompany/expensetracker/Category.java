@@ -14,6 +14,8 @@ public class Category {
     private String nameCategory;
     private CashFlowType typeCashFlow;
     
+    // Todo Budget
+    
     public Category(String nameCategory, CashFlowType typeCashFlow) {
         setNameCategory(nameCategory);
         setTypeCashFlow(typeCashFlow);
