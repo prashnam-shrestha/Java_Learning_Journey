@@ -23,7 +23,7 @@ public class Transaction {
     public String getDetail() {
         
         String detail = String.format(
-                "Transaction: %s | Rs %.2f | Date: %s | Wallet: %s | Balance: Rs %.2f",
+                " ⮂ Transaction: %-10s | Rs %-8.2f | Date: %s | Wallet: %-10s | Balance: Rs %.2f",
                 incomeOrExpense.getCategory().getNameCategory(),
                 incomeOrExpense.getAmount(),
                 incomeOrExpense.getDate(),

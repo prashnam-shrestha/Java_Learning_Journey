@@ -23,7 +23,7 @@ public class Expense extends CashFlow{
     }
     // General expense info
     public String getCashFlowInfo() {
-        String info = String.format("%s  %s  %s  %s  %s", getDate(), getCategory().getNameCategory(), getAmount(), getWallet().getNameWallet(), getName());
+        String info = String.format("%-12s | %-12s | Rs %-8.2f | %-12s | %s", getDate(), getCategory().getNameCategory(), getAmount(), getWallet().getNameWallet(), getName());
         return info;
     }
     

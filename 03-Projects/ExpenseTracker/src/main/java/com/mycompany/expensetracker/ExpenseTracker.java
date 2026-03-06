@@ -5,7 +5,6 @@
 package com.mycompany.expensetracker;
 
 import static com.mycompany.expensetracker.Utility.*;
-import java.util.Scanner;
 
 /**
  *
@@ -25,7 +24,7 @@ public class ExpenseTracker {
 //        
         u.addCategory(cFood);
         u.addWallet(wal);
-//        
+        
 //        // Add expense
 //        boolean runCode = u.addExpense(exp);
 //        
@@ -54,7 +53,7 @@ public class ExpenseTracker {
         while (run) {
             
             displayMainMenu(u);
-            int choice = getValidInt("Enter choice: "); 
+            int choice = getValidInt("  ➤ Enter choice: "); 
             switch (choice) {
                 
                 // Add expenses
@@ -69,7 +68,7 @@ public class ExpenseTracker {
                                 
                     }
                     else {
-                        System.out.println("Not enought Category! Please create them to add Expenses");
+                        System.out.println("\n  [!] Not enough Categories! Please create them to add Expenses.");
                     }
                     break;
                 
@@ -80,7 +79,7 @@ public class ExpenseTracker {
                     int expenseCount = u.getAppState().getExpenses().size();
                     if (expenseCount == 0) {
                         
-                        System.out.println("No expenses created yet!");
+                        System.out.println("\n  [i] No expenses created yet!");
                         break;
                     }
                         deleteExpenseOperation(u, expenseCount);
@@ -89,6 +88,12 @@ public class ExpenseTracker {
                   
                 // Manage Wallet
                 case 3:
+                    boolean runOperation = true;
+                    
+                    while (runOperation) {
+                       runOperation = manageWalletOperation(u);
+                    }
+                    
                     
                     break;
                 
@@ -106,16 +111,19 @@ public class ExpenseTracker {
                     
                 case 6:
                     run = false;
-                    System.out.println("Exiting the program!");
+                    System.out.println("\n────────────────────────────────────────────────────────");
+                    System.out.println("       Thank you for using Expense Tracker. Goodbye!    ");
+                    System.out.println("────────────────────────────────────────────────────────\n");
                     break;
                 
                 default:
-                    System.out.println("Optin not found!");
+                    System.out.println("\n  [x] Option not found! Please try again.");
                             
             }
         }
         
         // Temporary
+        System.out.println("\n--- Session Data Dump ---");
         for (Expense e : u.getAppState().getExpenses()) {
              System.out.println(e.getCashFlowInfo());
         }

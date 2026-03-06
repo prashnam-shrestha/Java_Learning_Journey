@@ -34,7 +34,7 @@ public class Wallet {
     }
     
     public String getDetail() {
-        String info = "Wallet " + getNameWallet() + " : Rs " + getBalance();
+        String info = String.format(" 💼 Wallet [%s] : Rs %.2f", getNameWallet(), getBalance());
         return info;
     }
 

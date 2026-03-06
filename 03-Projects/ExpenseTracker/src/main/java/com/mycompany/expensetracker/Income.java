@@ -11,18 +11,13 @@ import java.time.LocalDate;
  * @author prashnamshrestha
  */
 public class Income extends CashFlow{
-    private String nameIncome;
-    private double amount;
-    private LocalDate date;
-    private Category category;
-    private Wallet wallet;
     
     public Income(String name, double amount, Category category, Wallet wallet) {
         super(name, amount, category, wallet);
     }
     // General INcome info
     public String getCashFlowInfo() {
-        String info = getCategory().getNameCategory() + " INcome of Rs " + getAmount() + " for " + getName();
+        String info = String.format("[+] Income | %-12s | Rs %.2f | Source: %s", getCategory().getNameCategory(), getAmount(), getName());
         return info;
     }
     

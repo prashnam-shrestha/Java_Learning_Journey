@@ -12,5 +12,4 @@ package com.mycompany.expensetracker;
 public enum CashFlowType {
     INCOME,
     EXPENSE
-    
 }
