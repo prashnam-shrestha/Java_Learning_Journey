@@ -4,11 +4,13 @@
  */
 package com.mycompany.expensetracker;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public class Wallet {
+public class Wallet implements Serializable {
     
     private double balance;
     private String nameWallet;

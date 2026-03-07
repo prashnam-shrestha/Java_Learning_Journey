@@ -4,49 +4,28 @@
 
 package com.mycompany.expensetracker;
 
-import static com.mycompany.expensetracker.Utility.*;
+import static com.mycompany.expensetracker.CategoryService.*;
+import static com.mycompany.expensetracker.ExpenseService.*;
+import static com.mycompany.expensetracker.InputHelper.*;
+import static com.mycompany.expensetracker.MenuPrinter.*;
+import static com.mycompany.expensetracker.ReportService.*;
+import static com.mycompany.expensetracker.WalletService.*;
+
 
 /**
  *
  * @author prashnamshrestha
  */
 public class ExpenseTracker {
+    
+    private static final String SAVE_FILE = "expensetracker_data.ser";
 
     public static void main(String[] args) {
         
-        User u = new User("Prashnam");
-        Wallet wal = new Wallet("Esewa", 1000);
-//        
-        Category cSalary = new Category("Salary", CashFlowType.INCOME);
-        Category cFood = new Category("Food", CashFlowType.EXPENSE);
-//        Expense exp = new Expense("Momo", 1000, cFood, wal);
-//        Income inc = new Income("Salary", 1000, cSalary, wal);
-//        
-        u.addCategory(cFood);
-        u.addWallet(wal);
-        
-//        // Add expense
-//        boolean runCode = u.addExpense(exp);
-//        
-//        if (!runCode) {
-//            System.out.println("NO enough balance to add expense");
-//        }
-//        else {
-//            System.out.println("Expense added successfully");;
-//        }
-//        
-//        // Add income
-//        u.addIncome(inc);
-//        
-//        
-//        
-//        // General info
-//        
-//        
-//        displayMainMenu(u);
-//        displayWalletMenu(u);
-//        displayCategoryMenu(u);
-//        displayCashFlow(u);
+        User u = new User("Default User");
+    
+        AppState LoadedState = DataManager.loadAppState(SAVE_FILE);
+        u.setAppState(LoadedState);
         
         // Application 
         boolean run = true;
@@ -93,24 +72,27 @@ public class ExpenseTracker {
                     while (runOperation) {
                        runOperation = manageWalletOperation(u);
                     }
-                    
-                    
+
                     break;
-                
                  
                 // Manage Category
                 case 4:
+                    boolean runOperation2 = true;
                     
+                    while (runOperation2) {
+                       runOperation2 = manageCategoryOperation(u);
+                    }
                     break;
                 
                 // Report Cashflow
                 case 5:
-                    
+                        displayCashFlow(u);
                     break;
                 
-                    
                 case 6:
                     run = false;
+                    
+                    DataManager.saveAppState(u.getAppState(), SAVE_FILE);
                     System.out.println("\n────────────────────────────────────────────────────────");
                     System.out.println("       Thank you for using Expense Tracker. Goodbye!    ");
                     System.out.println("────────────────────────────────────────────────────────\n");
@@ -122,18 +104,89 @@ public class ExpenseTracker {
             }
         }
         
-        // Temporary
-        System.out.println("\n--- Session Data Dump ---");
-        for (Expense e : u.getAppState().getExpenses()) {
-             System.out.println(e.getCashFlowInfo());
-        }
-        for (Transaction t : u.getAppState().getTransaction()) {
-             System.out.println(t.getDetail());
-        }
-        for (Wallet w : u.getAppState().getWallet()) {
-             System.out.println(w.getDetail());
-        }
+    }
+    
+// Manage Category Operation
+    public static boolean manageCategoryOperation(User u) {
         
+        // Display Wallet and Options
+        displayCategoryMenu(u);
+        
+        int choice = getValidInt("  ➤ Enter choice: ");
+        switch (choice) {
+            
+            // Add Category
+            case 1:
+                
+                handleAddCategory(u);
+                break;
+
+            case 2:
+                
+                handleDeleteCategory(u);
+                
+                break;
+
+            // Exit
+                
+            case 3:
+                
+                return false;
+                
+            default:
+                System.out.println("\n  [x] Option not found! Please try again.");
+                
+        } 
+        return true;
+    }
+    
+    // Manage wallet operation
+    public static boolean manageWalletOperation(User u) {
+        
+        // Display Wallet and Options
+        displayWalletMenu(u);
+        
+        
+        int choice = getValidInt("  ➤ Enter choice: ");
+        switch (choice) {
+            
+            // Add Wallet
+            case 1:
+                
+                handleAddWallet(u);
+                break;
+             
+            // Delete Wallet
+            case 2:
+                
+                handleDelete(u);
+                break;
+            
+            // Deposit
+            case 3:
+                
+                handleDeposit(u);
+                break;
+            
+            // Withdraw cash
+            case 4:
+                handleWithdraw(u);
+                break; 
+                
+            // Show transaction
+            case 5:
+                showTransaction(u);
+                break;
+            
+            // Exit
+            case 6:
+                return false;
+                
+            default:
+                System.out.println("\n  [x] Option not found! Please try again.");
+                
+        } 
+        return true;
     }
          
 }

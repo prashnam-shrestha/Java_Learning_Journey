@@ -4,13 +4,14 @@
  */
 package com.mycompany.expensetracker;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author prashnamshrestha
  */
-public class Category {
+public class Category implements Serializable {
     private String nameCategory;
     private CashFlowType typeCashFlow;
     

@@ -4,11 +4,13 @@
  */
 package com.mycompany.expensetracker;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public class Transaction {
+public class Transaction implements Serializable {
     
     public CashFlow incomeOrExpense;
     public double currentBalance;

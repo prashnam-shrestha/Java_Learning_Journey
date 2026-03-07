@@ -4,13 +4,14 @@
  */
 package com.mycompany.expensetracker;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author prashnamshrestha
  */
-public abstract class CashFlow {
+public abstract class CashFlow implements Serializable {
 
     private String name;
     private double amount;

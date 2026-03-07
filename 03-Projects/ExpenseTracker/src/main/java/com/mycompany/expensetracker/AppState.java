@@ -4,6 +4,7 @@
  */
 package com.mycompany.expensetracker;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author prashnamshrestha
  */
-public class AppState {
+public class AppState implements Serializable {
     
     private List<Expense> expenses= new ArrayList<>();
     private List<Income> incomes= new ArrayList<>();

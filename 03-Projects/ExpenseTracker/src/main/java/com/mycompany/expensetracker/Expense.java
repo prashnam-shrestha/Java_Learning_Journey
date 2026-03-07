@@ -12,12 +12,6 @@ import java.time.LocalDate;
  */
 public class Expense extends CashFlow{
     
-    private String nameExpense;
-    private double amount;
-    private LocalDate date;
-    private Category category;
-    private Wallet wallet;
-    
     public Expense(String name, double amount, Category category, Wallet wallet) {
         super(name, amount, category, wallet);
     }

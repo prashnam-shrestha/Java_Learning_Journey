@@ -4,8 +4,6 @@
  */
 package com.mycompany.expensetracker;
 
-import java.time.LocalDate;
-
 /**
  *
  * @author prashnamshrestha
@@ -17,7 +15,7 @@ public class Income extends CashFlow{
     }
     // General INcome info
     public String getCashFlowInfo() {
-        String info = String.format("[+] Income | %-12s | Rs %.2f | Source: %s", getCategory().getNameCategory(), getAmount(), getName());
+        String info = String.format("%-12s | %-12s | Rs %-8.2f | %-12s | %s", getDate(), getCategory().getNameCategory(), getAmount(), getWallet().getNameWallet(), getName());
         return info;
     }
     
