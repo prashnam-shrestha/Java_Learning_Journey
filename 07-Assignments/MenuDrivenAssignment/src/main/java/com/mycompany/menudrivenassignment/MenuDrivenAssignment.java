@@ -32,6 +32,8 @@ public class MenuDrivenAssignment {
                     if (userNew != null) {
                         users.addUser(userNew);
                         System.out.println("You have successfully signed up.");
+                        
+                        System.out.println();
                         System.out.println(userNew.getUserInfo());
                     }
                     break;
@@ -104,7 +106,7 @@ public class MenuDrivenAssignment {
 
 
         if (!checkValidAge(dob)) {
-            System.out.println("User must be atleast 18 years old..\n" +
+            System.out.println("User must be atleast 21 years old..\n" +
                                 "Please start again");
             return null;
         }
