@@ -4,6 +4,7 @@
  */
 package com.mycompany.greencampus;
 
+import static com.mycompany.greencampus.CampusData.uniqueId;
 import java.time.LocalDate;
 
 /**
@@ -12,7 +13,7 @@ import java.time.LocalDate;
  */
 public abstract class User {
     
-    private String uniqueId;
+    private String Id;
     private String name;
     private String email;
     private LocalDate dateOfBirth;
@@ -24,7 +25,8 @@ public abstract class User {
         setEmail(email);
         setDateOfBirth(dateOfBirth);
         setPassword(password);
-        setUniqueId(uniqueId);
+        setUniqueId(String.valueOf(uniqueId));
+        uniqueId++;
         
     }
     public abstract void displayRole();
@@ -63,11 +65,11 @@ public abstract class User {
     }
 
     public String getUniqueId() {
-        return uniqueId;
+        return Id;
     }
 
     public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
+        this.Id = uniqueId;
     }
     
     
