@@ -5,6 +5,7 @@
 package com.mycompany.hashmaplearning;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  *
@@ -13,13 +14,22 @@ import java.util.HashMap;
 public class HashMapLearning {
 
     public static void main(String[] args) {
-      
-        HashMap fun = new HashMap();
-        fun.put("name", "Password");
-        fun.put("name2", "Password2");
         
-        fun.replace("name", "NewP@ssword");
-        System.out.println(fun.keySet());
+      Scanner sc = new Scanner(System.in);
+        
+        HashMap menu = new HashMap();
+        menu.put("Burger", 200);
+        menu.put("Biryani", 120);
+        
+        System.out.print("Food name: ");
+        String food = sc.nextLine();
+        
+        if (menu.containsKey(food)) {
+            System.out.printf("That will be $%s please!\n", menu.get(food));
+            return;
+        }
+        System.out.printf("Sorry we dont serve %s\n", food);
+        
     } 
     
 }
