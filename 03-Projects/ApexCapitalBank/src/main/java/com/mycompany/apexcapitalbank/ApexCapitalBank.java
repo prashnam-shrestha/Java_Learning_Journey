@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class ApexCapitalBank {
     
         public static String passwordApex = "demoPassword123";
+        
     
         // Customers
         public static ArrayList<Customer> registeredCustomer = new ArrayList<>();
