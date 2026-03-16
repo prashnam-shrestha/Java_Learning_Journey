@@ -29,11 +29,12 @@ public class GreenActivity {
     
     // MEthods
     public void calculatePoints() {
-        if (getActivityType() == activityType.WalkingorCycling ) {
+        
+        if (getActivityType() == ActivityType.WalkingorCycling ) {
             this.points = 20;
-        } else if (getActivityType() == activityType.Savingelectricity) {
+        } else if (getActivityType() == ActivityType.Savingelectricity) {
             this.points = 15;
-        } else if (getActivityType() == activityType.UsingReusableMaterials) {
+        } else if (getActivityType() == ActivityType.UsingReusableMaterials) {
             this.points = 20;
         } else {
             this.points = 5; // default

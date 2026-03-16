@@ -9,6 +9,7 @@ package com.mycompany.greencampus;
  * @author prashnamshrestha
  */
 public enum ActivityType {
+    
     WalkingorCycling,
     Savingelectricity,
     UsingReusableMaterials,

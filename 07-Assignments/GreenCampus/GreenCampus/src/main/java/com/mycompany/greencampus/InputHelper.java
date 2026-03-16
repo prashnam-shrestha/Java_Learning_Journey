@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author prashnamshrestha
  */
-public class inputHelper {
+public class InputHelper {
     
     public static Scanner sc = new Scanner(System.in);
     
@@ -30,21 +30,6 @@ public class inputHelper {
         }
     }
     
-    public static LocalDate getValidDate(String text) {
-        while (true) {
-            try {
-                System.out.print(text);
-                
-                String input = sc.nextLine();
-                LocalDate date = LocalDate.parse(input);
-
-                return date;
-            }
-            catch (Exception e) {
-                System.out.println("Please enter a in (YYYY-MM-DD) format!");
-            }
-        }
-    }
     
     
     public static String getValidEmail(String text) {
@@ -61,17 +46,6 @@ public class inputHelper {
             System.out.println("Please enter in '@xyz.com' format!");
         }
             
-    }
-    
-    public static boolean checkEmailExists(String email, CampusData data) {
-            
-        for (User u: data.getUsers()) {
-            
-            if (u.getEmail().equals(email)) {
-               return true;
-            }
-        }
-        return false;
     }
     
     public static String getValidPassword(String text) {

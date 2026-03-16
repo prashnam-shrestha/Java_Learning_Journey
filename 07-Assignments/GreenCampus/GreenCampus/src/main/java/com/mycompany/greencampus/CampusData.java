@@ -13,15 +13,17 @@ import java.util.List;
  */
 public class CampusData {
     
+    // Static variable for ID 
     public static int uniqueId = 100;
     
+    // Place to store data
     private List<User> users;
     private List<NormalUser> normalUsers;
     private List<Admin> admins;
     private List<GreenActivity> activities;
     
     
-    
+    // Constructor
     public CampusData() {
         
         setUsers(new ArrayList<>());

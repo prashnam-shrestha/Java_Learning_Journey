@@ -16,14 +16,12 @@ public abstract class User {
     private String Id;
     private String name;
     private String email;
-    private LocalDate dateOfBirth;
     private String password;
     
-    public User(String name, String email, LocalDate dateOfBirth, String password) {
+    public User(String name, String email,  String password) {
         
         setName(name);
         setEmail(email);
-        setDateOfBirth(dateOfBirth);
         setPassword(password);
         setUniqueId(String.valueOf(uniqueId));
         uniqueId++;
@@ -48,13 +46,6 @@ public abstract class User {
         this.email = email;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     public String getPassword() {
         return password;

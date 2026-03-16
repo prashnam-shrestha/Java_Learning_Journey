@@ -5,7 +5,6 @@
 package com.mycompany.greencampus;
 
 import static com.mycompany.greencampus.GreenCampus.data;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +13,13 @@ import java.util.List;
  * @author prashnamshrestha
  */
 public class NormalUser extends User {
+    
     private int points;
     private List<GreenActivity> activityUser;
     
-    public NormalUser(String name, String email,  LocalDate dateOfBirth, String password, int point) {
+    public NormalUser(String name, String email, String password, int point) {
         
-        super(name, email, dateOfBirth, password);
+        super(name, email, password);
         setPoints(point);
         setActivityUser(new ArrayList<>());
         
