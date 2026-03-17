@@ -18,10 +18,10 @@ public class GreenCampus {
     public static void main(String[] args) {
         
         // Defaut Admin and Normal User for testing
-        NormalUser user = new NormalUser("student", "student@gmail.com", "password", 0);
+        NormalUser user = new NormalUser("student", "student@gmail.com", "password@123", 0);
         data.addNormalUser(user);
         
-        Admin user2 = new Admin("admin", "admin@gmail.com", "password");
+        Admin user2 = new Admin("admin", "admin@gmail.com", "password@123");
         data.addAdmins(user2);
         
         // Main running loop
@@ -68,29 +68,28 @@ public class GreenCampus {
          System.out.printf("Enter password: ");
         String password = sc.nextLine();
         
-        for (NormalUser u: data.getNormalUsers()) { // Loop through all normal users
+        for (User u: data.getUsers()) { // Loop through all normal users
             
-            // If passowrd and email matches..
+            // Login if passowrd and email matches..
             if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
                     
-                // ..call logged operation
                 u.displayRole();
-                normalUserLogged(u);
-
-            }    
-        }
-        for (Admin u: data.getAdmins()) { // Loop through all admins
-            
-            // If passoword and email matches..
-            if (u.getEmail().equals(email) & u.getPassword().equals(password)) {
                 
-                // ..call logged operation
-                u.displayRole();
-                adminLogged(u);
-            }    
+                // Login as normal user
+                if (u instanceof NormalUser) {
+                    normalUserLogged((NormalUser) u);
+                    return;
+                } 
+                // Login as admin
+                else {
+                    adminLogged((Admin) u);
+                    return;
+                }   
+
+            }   
         }
-        
         System.out.println("Email or Password Not matched!");
+        
     }
     
     // Register operation for either user or admin

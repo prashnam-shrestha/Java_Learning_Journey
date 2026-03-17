@@ -23,6 +23,8 @@ public class Admin extends User implements Reportable {
     }
     
     public void viewAllActivity(CampusData data) {
+        
+        System.out.println("\n==== All Green Activities ====");
         int num = 1;
         for (GreenActivity a: data.getActivities()) {
             System.out.printf("%s. |  %s | %s | %s |\n",num, a.getDate(), a.getNormalUser().getName() , a.getActivityName());
@@ -76,7 +78,7 @@ public class Admin extends User implements Reportable {
         }
         
        // Print most common activity
-        System.out.println("Most Popular Eco-Action:   " + popularAction + " (" + highestCount + " times)");
+        System.out.println("Most Popular Eco-Action: " + popularAction + " (" + highestCount + " times)");
         
     }
     

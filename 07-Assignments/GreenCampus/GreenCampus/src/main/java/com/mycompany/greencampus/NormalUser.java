@@ -44,14 +44,22 @@ public class NormalUser extends User {
     
     // View my activity
     public void viewMyActivity() {
-        displayRole();
+        
+        System.out.println();
+        if (this.getActivityUser().size() == 0) {
+            
+            System.out.println("You haven't logged any green activities yet.");
+            System.out.printf("Total Points Earned: %s\n", getPoints());
+            return;
+        }
         
         int num = 1;
+        System.out.println("==== Green Activities Logged ====");
         for (GreenActivity a: getActivityUser()) {
             System.out.printf("%s.| %s | %s | Points earned: %s \n",num, a.getDate() ,a.getActivityName(), a.getPoints());
             num++;
         }
-        System.out.printf("Total Points Earned: %s\n", getPoints());
+        System.out.printf("\nTotal Points Earned: %s\n", getPoints());
     }
     
     public int getPoints() {
