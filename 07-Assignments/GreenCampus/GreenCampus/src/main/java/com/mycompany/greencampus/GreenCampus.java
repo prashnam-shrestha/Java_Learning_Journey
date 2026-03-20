@@ -116,14 +116,19 @@ public class GreenCampus {
             int choice = getValidInt("Enter your choice: ");
 
             if (choice == 1) {
+                
                 NormalUser newNormalUser = new NormalUser(name, email, password, 0);
                 data.addNormalUser(newNormalUser);
-                
+                System.out.println("Successfully registered as student!");
+                System.out.println("Your User ID: " + newNormalUser.getUniqueId());
                 return;
             }
             else if (choice == 2) {
+                
                 Admin newAdmin= new Admin(name, email, password);
                 data.addAdmins(newAdmin);
+                System.out.println("Successfully registered as admin!");
+                System.out.println("Your Admin ID: " + newAdmin.getUniqueId());
                 return;
             }   
              System.out.println("Option not found!");  

@@ -21,14 +21,14 @@ public class MenuPrinter {
         System.out.printf("\nWelcome! %s\n", u.getName());
         System.out.println("1. Log green activity");
         System.out.println("2. View my activity");
-        System.out.println("3. Exit");
+        System.out.println("3. Logout");
     }
     
     public static void displayAdminMenu(Admin a) {
         System.out.printf("\nWelcome! %s\n", a.getName());
         System.out.println("1. View all activities");
         System.out.println("2. Generate Report");
-        System.out.println("3. Exit");
+        System.out.println("3. Logout");
     }
     
     public static void displayActivityMenu() {

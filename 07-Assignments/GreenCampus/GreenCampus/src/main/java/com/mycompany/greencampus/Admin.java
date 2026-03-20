@@ -24,6 +24,13 @@ public class Admin extends User implements Reportable {
     
     public void viewAllActivity(CampusData data) {
         
+        System.out.println();
+        if (data.getActivities().size() == 0) {
+            
+            System.out.println("No logged green activities yet.");
+            return;
+        }
+        
         System.out.println("\n==== All Green Activities ====");
         int num = 1;
         for (GreenActivity a: data.getActivities()) {
