@@ -11,7 +11,7 @@ package com.mycompany.darksteplegend;
 public class Hero extends Character{
     
     private int enemiesKilled = 0;
-    private boolean shieldOn;
+    private boolean shieldOn = false;
     private int mana;
     private int exp;
     private LevelType level = LevelType.BASIC;
@@ -24,6 +24,15 @@ public class Hero extends Character{
     }
     
     // METHODS
+    
+    public void addItem(Item item) { // Add ITEM HERO
+        this.getInventory().add(item);  
+    }
+    
+    public void removeItem(Item item) { // Remove ITEM
+        this.getInventory().remove(item);
+    }
+    
     public void resetStatus() { // Reset STATUS OF HERO
         
         this.setCurrentHp(this.getMaxHp());
@@ -35,22 +44,37 @@ public class Hero extends Character{
         this.getInventory().clear();
     }
     
-    public void attack(Enemy enemy) { // Attack PASSIVE
+    public boolean attack(Enemy enemy) { // Attack PASSIVE
         
         if (enemy.isIsAlive() && enemy.takeDamage(this.getPassiveDmg())) {
             this.enemiesKilled++;
+            
         }
+        this.mana += 10;
+        return true; // Passive attack is always successful 
  
     }
     
-    public void attack(Enemy enemy, AttackType type) { // Attack SKILL 2 OR ULTIMATE
+    public boolean attack(Enemy enemy, AttackType type) { // Attack SKILL 2 OR ULTIMATE
         
-        if (type == AttackType.SKILL2 && enemy.takeDamage(this.getSkill2Dmg())) {
-            this.enemiesKilled++;
+        if (type == AttackType.SKILL2 && this.getMana() > 20) {
+            
+            if (enemy.takeDamage(this.getSkill2Dmg())) {
+                this.enemiesKilled++;
+            }
+            this.mana -=20;
+            return true;
         }
-        else if (type == AttackType.ULTIMATE && enemy.takeDamage(this.getUltimateDmg())) {
-            this.enemiesKilled++;
+        else if (type == AttackType.ULTIMATE && this.getMana() > 30) {
+            
+            if (enemy.takeDamage(this.getUltimateDmg())) {
+                this.enemiesKilled++;
+            }
+            
+            this.mana -=30;
+            return true;
         }
+        return false;
     }
     
     public boolean takeDamage(int damage) { // Deal DAMAGE OF HERO
@@ -62,9 +86,9 @@ public class Hero extends Character{
             if (this.getCurrentHp() <= 0) { 
                 
                 this.setIsAlive(false); 
-                return false; // return dead
+                return true; // return dead
             }
-            return true; // return alive
+            return false; // return alive
             
         }
         
@@ -97,6 +121,12 @@ public class Hero extends Character{
                             
             }
         }
+    }
+    
+    public String getStatus() {
+        
+        return String.format("HP: %s | LVL: %s | KILL: %s | MB: %s | EXP %s | NAME: %s \n", 
+                this.getCurrentHp(), this.getLevel(), this.getEnemiesKilled(), this.getMana(), this.getExp(), this.getName());
     }
     
     // GETTERS AND SETTERS

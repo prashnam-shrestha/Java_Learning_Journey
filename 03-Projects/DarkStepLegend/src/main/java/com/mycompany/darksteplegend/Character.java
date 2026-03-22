@@ -32,7 +32,7 @@ public abstract class Character {
         setGold(gold);
         setPassiveDmg(passiveDmg);
         setSkill2Dmg(skill2Dmg);
-        setUltimateDmg(ultimateDmg);
+        setUltimateDmg(ultimateDmg); 
         
     }
     // ABSTRACT METHODS
@@ -40,6 +40,10 @@ public abstract class Character {
     public abstract boolean takeDamage(int damage); // Damage DEALT
     
     public abstract void resetStatus(); // Reset STATUS
+    
+    public abstract void addItem(Item item); // Add ITEM
+    
+    public abstract String getStatus(); // Get STATUS
     
     
     // GETTERS AND SETTERS
@@ -102,7 +106,7 @@ public abstract class Character {
 
     public List<Item> getInventory() {
         return inventory;
-    }
+    } 
 
     public void setInventory(List<Item> inventory) {
         this.inventory = inventory;

@@ -10,9 +10,22 @@ package com.mycompany.darksteplegend;
  */
 public class GameLogger {
    
-    public static void printAttack(Character who, Character target, AttackType type) {
+    public static void printAttack(Character who, Character target, AttackType type, boolean success) {
+        
+        if (!success) {
+            Hero hero = (Hero) who;
+            int mana = hero.getMana();
+            
+            if (type == AttackType.SKILL2) {
+                System.out.printf("Need %s more mana to use SKILL 2.\n", 20 - mana);
+                return;
+            }
+           System.out.printf("Need %s more mana to use ULTIMATE.\n", 30 - mana);
+           return;
+        }
 
         switch (type) {
+            
             case PASSIVE:
                 System.out.printf("%s slashes %s for %s!", who.getName(), target.getName(), who.getPassiveDmg());
                 break;
@@ -27,5 +40,5 @@ public class GameLogger {
         }
         System.out.println();
     }
-    
+        
 }

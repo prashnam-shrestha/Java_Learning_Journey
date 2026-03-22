@@ -22,6 +22,15 @@ public class Enemy extends Character{
     }    
     
     // METHODS
+    public String getStatus()  {
+        return String.format("HP: %s | DIFFICULTY: %s | NAME: %s \n", 
+                this.getCurrentHp(),this.getEnemyType(), this.getName());
+    }
+    
+    public void addItem(Item item) { // Add ITEM ENEMY
+        this.getInventory().add(item);  
+    }
+    
     public void resetStatus() { // Reset STATUS OF ENEMY
         
         this.setCurrentHp(this.getMaxHp());
@@ -63,6 +72,7 @@ public class Enemy extends Character{
         }
         
         int damage = getRightAttack();
+
         hero.takeDamage(damage);
         
         if (damage > this.getSkill2Dmg()) {
@@ -82,9 +92,9 @@ public class Enemy extends Character{
         if (this.getCurrentHp() <= 0) { 
 
             this.setIsAlive(false); 
-            return false; // return dead
+            return true; // return dead
         }
-        return true; // return alive
+        return false; // return alive
     }
     
     // GETTERS AND SETTERS

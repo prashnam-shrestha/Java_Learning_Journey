@@ -13,33 +13,54 @@ import static com.mycompany.darksteplegend.GameLogger.*;
 public class DarkStepLegend {
 
     public static void main(String[] args) {
-        //  name,  maxHp,  gold,  passiveDmg,  skill2Dmg,  ultimateDmg,  type
-        Enemy Goblin = new Enemy("Goblin", 500, 20, 10, 20, 30, EnemyType.EASY);
-        
-        Hero mage = new Hero("Mage", 250, 0, 10, 20, 30);
-        
-        mage.attack(Goblin);
-        printAttack(mage, Goblin, AttackType.PASSIVE);
-        
-        mage.attack(Goblin, AttackType.SKILL2);
-        printAttack(mage, Goblin, AttackType.SKILL2);
-        
-        mage.attack(Goblin, AttackType.ULTIMATE);
-        printAttack(mage, Goblin, AttackType.ULTIMATE);
-        
-        AttackType type;
-        
-        type = Goblin.attack(mage);
-        printAttack(Goblin, mage, type);
-        
-        type = Goblin.attack(mage);
-        printAttack(Goblin, mage, type);
-        
-        type = Goblin.attack(mage);
-        printAttack(Goblin, mage, type);
-        
-        type = Goblin.attack(mage);
-        printAttack(Goblin, mage, type);
-        
+//        //  name,  maxHp,  gold,  passiveDmg,  skill2Dmg,  ultimateDmg,  type
+//        Enemy Goblin = new Enemy("Goblin", 500, 20, 10, 20, 30, EnemyType.MEDIUM); // Enemy type can be EnemyType.EASY, EnemyType.MEDIUM, EnemyType.HARD
+//        
+//        Hero mage = new Hero("Mage", 250, 0, 10, 20, 30);
+//        
+//        // HERO passive attack
+//        boolean success;
+//        success = mage.attack(Goblin);
+//        printAttack(mage, Goblin, AttackType.PASSIVE, success);
+//           
+//        // HERO Skill 2 attack
+//        success = mage.attack(Goblin, AttackType.SKILL2);
+//        printAttack(mage, Goblin, AttackType.SKILL2, success);
+//        
+//        // HERO Ultimate attack
+//        success = mage.attack(Goblin, AttackType.ULTIMATE);
+//        printAttack(mage, Goblin, AttackType.ULTIMATE, success);
+//        
+//        AttackType type;
+//        
+//        type = Goblin.attack(mage);
+//        printAttack(Goblin, mage, type, true);
+//        
+//        type = Goblin.attack(mage);
+//        printAttack(Goblin, mage, type, true);
+//        
+//        type = Goblin.attack(mage);
+//        printAttack(Goblin, mage, type, true);
+//        
+//        type = Goblin.attack(mage);
+//        printAttack(Goblin, mage, type,true);
+//        
+//        System.out.println(mage.getStatus());
+//        System.out.println(Goblin.getStatus());
+
+          GameData data = new GameData();
+          
+          Map map1 = new Map("JUNGLE", data);
+          data.addMap(map1);
+          
+          Hero hero = new Hero("Mage", 25000, 0, 10, 20, 30);
+          GameWorld world = new GameWorld(map1, hero, GameWorldType.HARD);
+          
+          for (int i = 0; i < 3; i++) {
+              world.playGame();
+          }
+             
+          
+          
     }
 }
