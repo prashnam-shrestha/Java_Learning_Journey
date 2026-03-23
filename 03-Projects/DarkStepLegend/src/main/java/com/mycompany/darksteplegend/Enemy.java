@@ -21,10 +21,37 @@ public class Enemy extends Character{
         setEnemyType(type);
     }    
     
+    // Inside Enemy.java    
+    public Enemy(Enemy template) {
+        // Call super with all the values from template
+        super(
+            template.getName(),
+            template.getMaxHp(),
+            template.getGold(),
+            template.getPassiveDmg(),
+            template.getSkill2Dmg(),
+            template.getUltimateDmg()
+        );
+
+        // Copy Enemy-specific fields
+        this.enemyType = template.enemyType;
+        this.exp = template.exp;
+
+        // Important: reset runtime state (don't copy currentHp, isAlive, attackCount!)
+        this.setCurrentHp(template.getMaxHp());
+        this.setIsAlive(true);// full health
+        this.attackCount = 0;
+    }
+    
     // METHODS
     public String getStatus()  {
         return String.format("HP: %s | DIFFICULTY: %s | NAME: %s \n", 
                 this.getCurrentHp(),this.getEnemyType(), this.getName());
+    }
+    
+    public String getMiniStatus() {
+        return String.format("HP: %s | NAME: %s \n", 
+                this.getCurrentHp(), this.getName());
     }
     
     public void addItem(Item item) { // Add ITEM ENEMY

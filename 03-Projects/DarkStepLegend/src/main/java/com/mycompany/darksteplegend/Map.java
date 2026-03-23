@@ -45,12 +45,7 @@ public class Map {
     
     // Gets enemy from phase
     public Enemy getEnemyFromPhase() {
-        System.out.println("ENEMIES IN SURVIVAL");
-        for (Enemy e: mapAllEnemies.get(currentPhase)) {
-            
-            System.out.println(e.getStatus());
-        }
-        System.out.println("----END LIST");
+
         for (Enemy e: mapAllEnemies.get(currentPhase)) {
 
    

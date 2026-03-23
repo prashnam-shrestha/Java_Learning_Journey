@@ -57,7 +57,7 @@ public class Hero extends Character{
     
     public boolean attack(Enemy enemy, AttackType type) { // Attack SKILL 2 OR ULTIMATE
         
-        if (type == AttackType.SKILL2 && this.getMana() > 20) {
+        if (type == AttackType.SKILL2 && this.getMana() >= 20) {
             
             if (enemy.takeDamage(this.getSkill2Dmg())) {
                 this.enemiesKilled++;
@@ -65,7 +65,7 @@ public class Hero extends Character{
             this.mana -=20;
             return true;
         }
-        else if (type == AttackType.ULTIMATE && this.getMana() > 30) {
+        else if (type == AttackType.ULTIMATE && this.getMana() >= 30) {
             
             if (enemy.takeDamage(this.getUltimateDmg())) {
                 this.enemiesKilled++;
@@ -123,10 +123,15 @@ public class Hero extends Character{
         }
     }
     
+
     public String getStatus() {
-        
-        return String.format("HP: %s | LVL: %s | KILL: %s | MB: %s | EXP %s | NAME: %s \n", 
+        return String.format("HP: %s | LVL: %s | KILL: %s | MB: %s | EXP: %s | NAME: %s", 
                 this.getCurrentHp(), this.getLevel(), this.getEnemiesKilled(), this.getMana(), this.getExp(), this.getName());
+    }
+    
+    public String getMiniStatus() {
+        return String.format("HP: %s | MB: %s | EXP: %s", 
+                this.getCurrentHp(), this.getMana(), this.getExp());
     }
     
     // GETTERS AND SETTERS

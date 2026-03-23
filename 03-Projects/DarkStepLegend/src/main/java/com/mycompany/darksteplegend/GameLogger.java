@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.darksteplegend;
 
-/**
- *
- * @author prashnamshrestha
- */
 public class GameLogger {
    
     public static void printAttack(Character who, Character target, AttackType type, boolean success) {
@@ -17,28 +9,38 @@ public class GameLogger {
             int mana = hero.getMana();
             
             if (type == AttackType.SKILL2) {
-                System.out.printf("Need %s more mana to use SKILL 2.\n", 20 - mana);
+                System.out.printf("   ⚠️ Need %s more mana to use SKILL 2.\n", 20 - mana);
                 return;
             }
-           System.out.printf("Need %s more mana to use ULTIMATE.\n", 30 - mana);
+           System.out.printf("   ⚠️ Need %s more mana to use ULTIMATE.\n", 30 - mana);
            return;
         }
-
+        
+        int damage;
+        
         switch (type) {
-            
             case PASSIVE:
-                System.out.printf("%s slashes %s for %s!", who.getName(), target.getName(), who.getPassiveDmg());
+                damage = who.getPassiveDmg();
+                System.out.printf("   ➤ %s slashes %s! 💥 [-%s HP]\n", who.getName(), target.getName(), damage);
                 break;
 
             case SKILL2:
-                System.out.printf("%s strikes %s! -%s HP", who.getName(), target.getName(), who.getSkill2Dmg());
+                damage = who.getSkill2Dmg();
+                System.out.printf("   ✨ %s uses Skill Two on %s! 💥 [-%s HP]\n", who.getName(), target.getName(), damage);
                 break;
 
             default:
-                System.out.printf("%s lands a hit! %s takes %s", who.getName(), target.getName(), who.getUltimateDmg());
+                damage = who.getUltimateDmg();
+                System.out.printf("   ☄️ %s unleashes Ultimate! %s takes a massive hit! 💥 [-%s HP]\n", who.getName(), target.getName(), damage);
                 break;
         }
-        System.out.println();
     }
-        
+    
+    public static void printDeath(Character died, Character killed) {
+        if (died instanceof Hero) {
+            System.out.println("\n💀 YOU HAVE BEEN DEFEATED... TRY AGAIN.");
+        } else {
+            System.out.printf("\n⚔️ %s HAS BEEN SLAIN!\n", died.getName().toUpperCase());
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package com.mycompany.darksteplegends;
 
-import static com.mycompany.darksteplegends.InputHelper.*;
+import static com.mycompany.darksteplegend.InputHelper.*;
 import static com.mycompany.darksteplegends.MenuPrinter.*;
 
 import java.util.ArrayList;

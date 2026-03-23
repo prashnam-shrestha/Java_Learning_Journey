@@ -1,4 +1,4 @@
-package com.mycompany.darksteplegends;
+package com.mycompany.darksteplegend;
 
 import java.util.Scanner;
 

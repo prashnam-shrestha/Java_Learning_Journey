@@ -72,11 +72,13 @@ public class GameData {
     // METHODS
     public Enemy getEnemyFromData(EnemyType type) {
         
+        List<Enemy> templates = gameAllEnemiesHM.get(type);
+        if (templates == null || templates.isEmpty()) {
+        return null; // or throw exception
+        }
+        Enemy template = templates.get(new Random().nextInt(templates.size()));
         
-        Enemy randomEnemy = randomEnemy = gameAllEnemiesHM.get(type)
-                            .get(new Random().nextInt(gameAllEnemiesHM.get(type).size()));
-        
-        return randomEnemy;
+        return new Enemy(template); // Create copy of the enemy
     }
     
     public void addPlayer(Player player) { // Add Player

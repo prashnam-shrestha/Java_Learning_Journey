@@ -13,11 +13,18 @@ import static com.mycompany.darksteplegend.GameLogger.*;
 public class DarkStepLegend {
 
     public static void main(String[] args) {
-//        //  name,  maxHp,  gold,  passiveDmg,  skill2Dmg,  ultimateDmg,  type
+        //  name,  maxHp,  gold,  passiveDmg,  skill2Dmg,  ultimateDmg,  type
 //        Enemy Goblin = new Enemy("Goblin", 500, 20, 10, 20, 30, EnemyType.MEDIUM); // Enemy type can be EnemyType.EASY, EnemyType.MEDIUM, EnemyType.HARD
 //        
-//        Hero mage = new Hero("Mage", 250, 0, 10, 20, 30);
-//        
+        Hero mage = new Hero("Mage", 250, 0, 10, 20, 30);
+        
+        GameData data = new GameData();
+        Map map = new Map("JUNGLE", data);
+        
+        GameWorld gameWorld = new GameWorld(map, mage, GameWorldType.EASY);
+        gameWorld.playGame();
+        
+        
 //        // HERO passive attack
 //        boolean success;
 //        success = mage.attack(Goblin);
@@ -48,17 +55,6 @@ public class DarkStepLegend {
 //        System.out.println(mage.getStatus());
 //        System.out.println(Goblin.getStatus());
 
-          GameData data = new GameData();
-          
-          Map map1 = new Map("JUNGLE", data);
-          data.addMap(map1);
-          
-          Hero hero = new Hero("Mage", 25000, 0, 10, 20, 30);
-          GameWorld world = new GameWorld(map1, hero, GameWorldType.HARD);
-          
-          for (int i = 0; i < 3; i++) {
-              world.playGame();
-          }
              
           
           
