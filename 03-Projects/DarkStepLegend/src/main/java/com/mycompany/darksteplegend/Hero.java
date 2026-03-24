@@ -4,6 +4,10 @@
  */
 package com.mycompany.darksteplegend;
 
+import com.mycompany.darksteplegend.Character;
+import com.mycompany.darksteplegend.Enemy;
+import static com.mycompany.darksteplegend.GameLogger.*;
+
 /**
  *
  * @author prashnamshrestha
@@ -23,7 +27,77 @@ public class Hero extends Character{
         setExp(0);
     }
     
-    // METHODS
+        // METHODS
+    public void rewardHero(Hero hero, Enemy enemy, Map map) {
+
+        // ✅ REWARD EXP AND GOLD
+        int goldReward = 0;
+        int expReward = 0;
+
+        switch (enemy.getEnemyType()) {
+            case EASY -> { goldReward = 10; expReward = 15; }
+            case MEDIUM -> { goldReward = 20; expReward = 40; }
+            case HARD -> { goldReward = 50; expReward = 100; }
+            case BOSS -> { goldReward = 200; expReward = 400; }
+        }
+
+        // Update hero stats
+        hero.setGold(hero.getGold() + goldReward);
+        hero.setExp(hero.getExp() + expReward);
+
+        // Print reward
+        printRewardHero(hero, goldReward, expReward);
+
+        // ✅ ITEM DROP BASED ON PHASE
+        Item item = null;
+        boolean itemGot = false;
+
+        switch (map.getCurrentPhase()) {
+            case SURVIVAL -> {
+                if (Math.random() < 0.30) { item = map.getData().getGameAllItems().get(0); itemGot = true; }
+            }
+            case BLOODBATH -> {
+                if (Math.random() < 0.40) { item = map.getData().getGameAllItems().get(1); itemGot = true; }
+            }
+            case SLAUGHTER -> {
+                if (Math.random() < 0.70) { item = map.getData().getGameAllItems().get(2); itemGot = true; }
+            }
+            case EXTINCTION -> {
+                item = map.getData().getGameAllItems().get(3);
+                itemGot = true;
+            }
+        }
+
+        if (itemGot && item != null) {
+            hero.addItem(item);
+            printItemGained(item);
+        }
+    }
+    
+    public void useItem(Item item) {
+        
+        if (item.getItemType() == ItemType.MANA_POTION) {
+            this.mana+= 30;
+        }
+        else if (item.getItemType() == ItemType.MINOR_HP_POTION) {
+            this.setCurrentHp(this.getCurrentHp() + 50);
+        }
+        else if (item.getItemType() == ItemType.SHIELD_SCROLL) {
+            this.setShieldOn(true);
+        }
+        else if (item.getItemType() == ItemType.ELIXIR_OF_POWER) {
+            this.setPassiveDmg(this.getPassiveDmg() + 10);
+        }
+    }
+    
+    
+    public void showInventory() {
+        int i = 1;;
+        for (Item item: this.getInventory()) {
+            System.out.printf("%s. %s\n", i, item.getItemInfo());
+            i++;
+        }
+    }
     
     public void addItem(Item item) { // Add ITEM HERO
         this.getInventory().add(item);  
@@ -84,7 +158,7 @@ public class Hero extends Character{
             this.setCurrentHp(this.getCurrentHp() - damage);
             
             if (this.getCurrentHp() <= 0) { 
-                
+                this.setCurrentHp(0);
                 this.setIsAlive(false); 
                 return true; // return dead
             }
@@ -102,24 +176,28 @@ public class Hero extends Character{
         if (exp >= 60) {
             
             switch(getLevel()) {
+                
                 case (LevelType.BASIC):
                     
-                    setLevel(LevelType.ELITE);
-                    this.setPassiveDmg(currentDmg + (currentDmg * (5/100)));
-                    exp -=60;
+                    setLevel(LevelType.ELITE);;
+                    System.out.printf("📈 LEVEL UPGRADED: %s", LevelType.ELITE);
                     break;
                 
                 case (LevelType.ELITE):
                     
                     setLevel(LevelType.LEGEND);
-                    this.setPassiveDmg(currentDmg + (currentDmg * (5/100)));
-                    exp -=60;
+                    System.out.printf("📈 LEVEL UPGRADED: %s", LevelType.LEGEND);
                     break;
                 
                 default:
-                    break;
+                    return;
                             
             }
+            double damageIncrease = (double) currentDmg * 0.5;
+            this.setPassiveDmg(currentDmg + (int) damageIncrease);
+            System.out.println(" | ✅ +%s PASSIVE DMG | EXP -60");
+            exp -=60;
+            
         }
     }
     

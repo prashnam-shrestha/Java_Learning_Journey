@@ -14,7 +14,7 @@ import java.util.List;
 public class Player {
     
     private String playerName;
-    
+
     // PLAYER DATA
     private List<GameWorld> playerWorlds;
     private List<Hero> playerHeroes;

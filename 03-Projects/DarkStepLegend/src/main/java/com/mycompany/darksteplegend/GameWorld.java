@@ -1,28 +1,37 @@
 package com.mycompany.darksteplegend;
 
+import com.mycompany.darksteplegend.Enemy;
+import com.mycompany.darksteplegend.FightResult;
+import com.mycompany.darksteplegend.PhaseType;
 import static com.mycompany.darksteplegend.GameLogger.*;
 import static com.mycompany.darksteplegend.InputHelper.getValidInt;
 import static com.mycompany.darksteplegend.MenuPrinter.printHeroBattleMenu;
 
 public class GameWorld {
+    
+    private String gameWorldName;
     private Map map;
     private Hero hero;
+    PhaseType playingPhase; 
     private GameWorldType gameWorldType;
 
-    public GameWorld(Map map, Hero hero, GameWorldType gameWorldType) {
+    public GameWorld(Map map, Hero hero, GameWorldType gameWorldType, String name) {
         setMap(map);
         setHero(hero);
         setGameWorldType(gameWorldType);
+        setGameWorldName(name);
+        playingPhase = map.getCurrentPhase();
     }
 
     // METHODS
 
-    public void playGame() {
-        boolean showStatus = true;
-        hero.setCurrentHp(40);
+    public void exploreWorld() {
+        
+        boolean showStatus = true;;
         System.out.println("\n⚔ === BATTLE COMMENCES === ⚔\n");
-
+        
         while (true) {
+            
             if (map.checkMapProgression()) {
 
                 // RESET
@@ -30,9 +39,22 @@ public class GameWorld {
                 hero.setCurrentHp(hero.getMaxHp());
 
                 System.out.println("\n✨ === AREA CLEARED === ✨\n");
+                System.out.println("\n✨ === WORLD RESET === ✨\n");
                 return;
             }
+            
+            if (map.getCurrentPhase() != playingPhase) {
+                
+                System.out.printf("NEW PHASE UPCOMMING: %s\n", map.getCurrentPhase());
+                playingPhase = map.getCurrentPhase();
+                System.out.println("MAP LOADING....");
+                pause(3000);
+            }
 
+            System.out.printf("PHASE PLAYING : %s\n", map.getCurrentPhase());
+
+
+            
             Enemy enemy = map.getEnemyFromPhase();
 
             if (showStatus) {
@@ -45,31 +67,39 @@ public class GameWorld {
             switch (this.simulateFight(enemy)) {
 
                 case (FightResult.WIN):
+                    
                     hero.setCurrentHp(hero.getMaxHp());
+                    hero.setIsAlive(true);
+                    hero.rewardHero(hero, enemy, map);
+                    hero.checkLevelUp();
                     System.out.println("\n✔ VICTORY — HP RESTORED\n");
-                    break;
+                    return;
 
                 case (FightResult.LOOSE):
+                    
                     if (gameWorldType == GameWorldType.EASY) {
                         hero.setCurrentHp(hero.getMaxHp());
+                        hero.setIsAlive(true);
                         System.out.println("\n↻ RECOVERED (EASY MODE)\n");
-                        return;
+            
                         
                     } else if (gameWorldType == GameWorldType.HARD) {
+                        
                         System.out.println("\n☠ RESETTING PROGRESS (HARD MODE)\n");
                         hero.resetStatus();
                         map.resetAllEnemies();
-                        return;
+            
                     }
-                    break;
+                    return;
 
                 case (FightResult.RUNAWAY):
                     int gold = hero.getGold();
-                    hero.setGold(gold - (20 / 100 * gold));
+                    double goldLost = (double) gold * 0.2;
+                    hero.setGold(gold - (int) goldLost);
 
                     System.out.println("\n🏃 ESCAPED...");
-                    System.out.println("💸 GOLD LOST\n");
-                    break;
+                    System.out.printf("💸 GOLD LOST: %s\n", goldLost);
+                    return;
 
                 case (FightResult.CONTINUEFIGHT):
                     break;
@@ -83,7 +113,7 @@ public class GameWorld {
 
         AttackType type;
         type = enemy.attack(hero);
-        pause(500);
+//        pause(500);
         
         // Clean, single-line turn separator
         System.out.println("\n──────────────────────────────────────────────────────");
@@ -93,7 +123,7 @@ public class GameWorld {
         
 
         System.out.println("\n[ENEMY ATTACKING]");
-        pause(1000);
+//        pause(2000);
         printAttack(enemy, hero, type, true);
         
         if (!hero.isIsAlive()) {
@@ -102,14 +132,14 @@ public class GameWorld {
             
         }
 
-        pause(1000); 
+//        pause(1000); 
          // Print menu right before asking for input
-        int choice = getValidInt("➤ Select Action: ", 1, 4);
+        int choice = getValidInt("➤ Select Action: ", 1, 5);
 
         boolean success;
 
         System.out.println("\n[HERO ATTACKING]");
-        pause(1000); 
+//        pause(1000); 
 
         switch (choice) {
             case 1:
@@ -128,14 +158,31 @@ public class GameWorld {
                 break;
 
             case 4:
+                int size = hero.getInventory().size();
+                
+                if (size <= 0) {
+                    System.out.println("INVENTORY IS EMPTY");
+                    break;
+                }
+                hero.showInventory();
+                int itemIndex = getValidInt("Ente Item no :", 1, size) - 1;
+                
+                Item item = hero.getInventory().get(itemIndex);
+                hero.useItem(item);
+                printUseItem(hero, item.getItemType());
+                hero.removeItem(item);
+                break;
+                
+                
+            case 5:
                 System.out.println("   ➤ RUN ATTEMPT...\n");
-                return FightResult.RUNAWAY;
+                return FightResult.RUNAWAY;     
 
             default:
                 break;
         }
 
-        pause(1000); 
+//        pause(1000); 
 
         if (!enemy.isIsAlive()) {
             hero.setEnemiesKilled(hero.getEnemiesKilled() + 1);
@@ -162,4 +209,13 @@ public class GameWorld {
     public void setHero(Hero hero) { this.hero = hero; }
     public GameWorldType getGameWorldType() { return gameWorldType; }
     public void setGameWorldType(GameWorldType gameWorldType) { this.gameWorldType = gameWorldType; }
+
+    public String getGameWorldName() {
+        return gameWorldName;
+    }
+
+    public void setGameWorldName(String gameWorldName) {
+        this.gameWorldName = gameWorldName;
+    }
+    
 }

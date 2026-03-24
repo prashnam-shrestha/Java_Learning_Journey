@@ -9,5 +9,8 @@ package com.mycompany.darksteplegend;
  * @author prashnamshrestha
  */
 public enum ItemType {
-    
+    MINOR_HP_POTION,
+    MANA_POTION,
+    SHIELD_SCROLL,
+    ELIXIR_OF_POWER,
 }

@@ -20,12 +20,14 @@ public class GameData {
     private List<Map> gameAllMaps;
     HashMap<EnemyType, List<Enemy>> gameAllEnemiesHM = new HashMap<>();
     private List<Hero> gameAllHeroes;
+    private List<Item> gameAllItems;
     
     public GameData() {
         
         setGameAllPlayers(new ArrayList<>());
         setGameAllMaps(new ArrayList<>());
         setGameAllHeroes(new ArrayList<>());
+        setGameAllItems(new ArrayList<>());
         
         // Easy enemies
         List<Enemy> easyEnemies = new ArrayList<>();
@@ -64,8 +66,36 @@ public class GameData {
         gameAllEnemiesHM.put(EnemyType.BOSS, bossEnemies);
         
         // All heros
-        Hero hero = new Hero("Mage", 250, 0, 10, 20, 30);
-        addHero(hero);
+        Hero mage = new Hero("Mage", 250, 0, 10, 20, 30);
+        Hero warrior = new Hero("Warrior", 300, 0, 15, 30, 50);
+        Hero assassin = new Hero("Assassin", 180, 0, 25, 45, 90);
+        Hero paladin = new Hero("Paladin", 450, 0, 12, 25, 40);
+        Hero berserker = new Hero("Berserker", 220, 0, 30, 20, 70);
+        Hero archmage = new Hero("Archmage", 200, 0, 10, 50, 100);
+        
+        addHero(mage);
+        addHero(warrior);
+        addHero(assassin);
+        addHero(paladin);
+        addHero(berserker);
+        addHero(archmage);
+        
+        // 1. Easy Reward (Restores 50 HP)
+        Item minorHpPotion = new Item("Minor HP Potion", ItemType.MINOR_HP_POTION, 50);
+
+        // 2. Medium Reward (Restores 30 Mana)
+        Item manaPotion = new Item("Mana Potion", ItemType.MANA_POTION, 30);
+
+        // 3. Hard Reward (Gives 1 Shield - we use '1' to represent true or 1 charge)
+        Item shieldScroll = new Item("Shield Scroll", ItemType.SHIELD_SCROLL, 1);
+
+        // 4. Boss Reward (Adds +10 Permanent Damage)
+        Item elixirOfPower = new Item("Elixir of Power", ItemType.ELIXIR_OF_POWER, 10);
+        
+        addItem(minorHpPotion);
+        addItem(manaPotion);
+        addItem(shieldScroll);
+        addItem(elixirOfPower);
     }
     
     
@@ -94,6 +124,10 @@ public class GameData {
     public void addHero(Hero hero) {
         
         gameAllHeroes.add(hero);
+    }
+    
+    public void addItem(Item item) {
+        gameAllItems.add(item);
     }
     
     // GETTERS AND SETTERS
@@ -129,6 +163,16 @@ public class GameData {
     public void setGameAllHeroes(List<Hero> gameAllHeroes) {
         this.gameAllHeroes = gameAllHeroes;
     }
+
+    public List<Item> getGameAllItems() {
+        return gameAllItems;
+    }
+
+    public void setGameAllItems(List<Item> gameAllItems) {
+        this.gameAllItems = gameAllItems;
+    }
+    
+    
     
     
 }

@@ -10,4 +10,46 @@ package com.mycompany.darksteplegend;
  */
 public class Item {
     
+    private String itemName;
+    private ItemType itemType;
+    private int itemEffect;
+    
+    public Item(String name, ItemType type, int effect) {
+        
+        setItemName(name);
+        setItemType(type);
+        setItemEffect(effect);
+    }
+    // METHODS
+    public String getItemInfo() {
+        return String.format("NAME: %s | TYPE: %s | EFFECT: %s\n", itemName, itemType, itemEffect);
+    }
+    
+
+    // GETTERS AND SETTERS
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public int getItemEffect() {
+        return itemEffect;
+    }
+
+    public void setItemEffect(int itemEffect) {
+        this.itemEffect = itemEffect;
+    }
+    
+    
 }

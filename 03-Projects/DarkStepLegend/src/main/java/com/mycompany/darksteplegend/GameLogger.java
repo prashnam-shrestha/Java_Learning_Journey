@@ -43,4 +43,42 @@ public class GameLogger {
             System.out.printf("\n⚔️ %s HAS BEEN SLAIN!\n", died.getName().toUpperCase());
         }
     }
+    public static void printUseItem(Hero hero, ItemType type) {
+
+        switch(type) {
+            case MINOR_HP_POTION:
+                System.out.printf("🧪 %s used HP Potion ❤️ +%d\n", 
+                    hero.getName(), 50);
+                break;
+
+            case MANA_POTION:
+                System.out.printf("🔮 %s used Mana Potion 💙 +%d\n", 
+                    hero.getName(), 30);
+                break;
+
+            case SHIELD_SCROLL:
+                System.out.printf("🛡️ %s used Shield! 🚫 Next hit blocked\n", 
+                    hero.getName());
+                break;
+
+            case ELIXIR_OF_POWER:
+                System.out.printf("⚡ %s used Power Elixir! 💥 ATK ↑\n", 
+                    hero.getName());
+                break;
+
+            default:
+                System.out.println("❓ Unknown item...");
+        }
+    }
+    
+    public static void printRewardHero(Hero hero, int gold, int exp) {
+        System.out.printf("💰 +%d Gold | ✨ +%d EXP\n", gold, exp);
+    }
+    
+    public static void printItemGained(Item item) {
+        if (item == null) {
+            System.out.println("GOT AN UNKNOWN ITEM (REPORT A BUG)");
+        }
+        System.out.printf("🎁 +1 %s\n", item.getItemName().toUpperCase());
+    }
 }

@@ -4,6 +4,10 @@
  */
 package com.mycompany.darksteplegend;
 
+import com.mycompany.darksteplegend.Enemy;
+import com.mycompany.darksteplegend.EnemyType;
+import com.mycompany.darksteplegend.GameData;
+import com.mycompany.darksteplegend.PhaseType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +26,7 @@ public class Map {
     public Map(String name, GameData data) {
         
         setData(data);
+        setMapName(name);
         
         // Fill up with enemies;
         List<Enemy> phase1 = new ArrayList<>();
@@ -69,7 +74,9 @@ public class Map {
             }
         }
         // IF all are dead in specific phase
+        
         switch (currentPhase) {
+            
             
             case (PhaseType.SURVIVAL):
                 currentPhase = PhaseType.BLOODBATH;
@@ -87,7 +94,8 @@ public class Map {
                 return true; // Return map complete
             
             default:
-                break;               
+                break;   
+                
         }
         return false; // Return map incomplete
     }
@@ -132,6 +140,16 @@ public class Map {
     public void setMapAllEnemies(HashMap<PhaseType, List<Enemy>> mapAllEnemies) {
         this.mapAllEnemies = mapAllEnemies;
     }
+
+    public PhaseType getCurrentPhase() {
+        return currentPhase;
+    }
+
+    public void setCurrentPhase(PhaseType currentPhase) {
+        this.currentPhase = currentPhase;
+    }
+    
+    
     
     
 }

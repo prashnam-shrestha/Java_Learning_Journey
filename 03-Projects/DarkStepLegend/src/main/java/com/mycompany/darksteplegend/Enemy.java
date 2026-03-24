@@ -117,7 +117,7 @@ public class Enemy extends Character{
         this.setCurrentHp(this.getCurrentHp() - damage);
 
         if (this.getCurrentHp() <= 0) { 
-
+            this.setCurrentHp(0);
             this.setIsAlive(false); 
             return true; // return dead
         }

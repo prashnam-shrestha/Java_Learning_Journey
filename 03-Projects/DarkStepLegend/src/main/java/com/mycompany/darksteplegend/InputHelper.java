@@ -28,4 +28,17 @@ public class InputHelper {
             }
         }
     }
+    
+    public static String getValidString(String text) {
+        while (true) {
+            System.out.print(text);
+            String input = sc.nextLine();
+            if (input.length() <= 0){
+                System.out.println("❌ [ERROR] Please enter a valid text!");
+            }
+            else {
+                return input;
+            }  
+        }
+    }
 }
