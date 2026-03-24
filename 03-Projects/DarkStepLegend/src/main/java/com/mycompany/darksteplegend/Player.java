@@ -14,7 +14,7 @@ import java.util.List;
 public class Player {
     
     private String playerName;
-
+    private String password;
     // PLAYER DATA
     private List<GameWorld> playerWorlds;
     private List<Hero> playerHeroes;
@@ -23,13 +23,20 @@ public class Player {
     private int playerGold;
     
     // CONSTRUCTOR
-    public Player(String name) {
+    public Player(String name, String pass, GameData data) {
         
         setPlayerName(name);
         setPlayerWorlds(new ArrayList<>());
         setPlayerHeroes(new ArrayList<>());
         setPlayerMaps(new ArrayList<>());
         setPlayerGold(100);
+        setPassword(pass);
+        
+        Map map = new Map("JUNGLE", data);
+        Hero mage = new Hero("Mage", 250, 0, 15, 20, 30);
+        this.addPlayerHero(mage);
+        this.addPlayerMap(map);
+        
     }
     //  METHODS 
     public void addPlayerHero(Hero hero) { // Add new unlocked HERO
@@ -97,6 +104,16 @@ public class Player {
     public void setPlayerGold(int playerGold) {
         this.playerGold = playerGold;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    
     
     
 }

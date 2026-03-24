@@ -27,8 +27,32 @@ public class Hero extends Character{
         setExp(0);
     }
     
+    public Hero(Hero template) {
+
+        super(
+            template.getName(),
+            template.getMaxHp(),
+            template.getGold(),
+            template.getPassiveDmg(),
+            template.getSkill2Dmg(),
+            template.getUltimateDmg()
+        );
+
+        // Copy Hero-specific fields
+        this.mana = template.mana;
+        this.exp = template.exp;
+        this.level = template.level;
+
+        // Reset runtime state
+        this.setCurrentHp(template.getMaxHp());
+        this.setIsAlive(true);
+        this.enemiesKilled = 0;
+        this.shieldOn = false;
+        this.exp = 0;
+    }
+    
         // METHODS
-    public void rewardHero(Hero hero, Enemy enemy, Map map) {
+    public void rewardHero(Enemy enemy, Map map) {
 
         // ✅ REWARD EXP AND GOLD
         int goldReward = 0;
@@ -42,11 +66,11 @@ public class Hero extends Character{
         }
 
         // Update hero stats
-        hero.setGold(hero.getGold() + goldReward);
-        hero.setExp(hero.getExp() + expReward);
+        this.setGold(this.getGold() + goldReward);
+        this.setExp(this.getExp() + expReward);
 
         // Print reward
-        printRewardHero(hero, goldReward, expReward);
+        printRewardHero(this, goldReward, expReward);
 
         // ✅ ITEM DROP BASED ON PHASE
         Item item = null;
@@ -69,7 +93,7 @@ public class Hero extends Character{
         }
 
         if (itemGot && item != null) {
-            hero.addItem(item);
+            this.addItem(item);
             printItemGained(item);
         }
     }
@@ -92,7 +116,12 @@ public class Hero extends Character{
     
     
     public void showInventory() {
-        int i = 1;;
+        
+        System.out.println("\n======== INVENTORY ========");
+        System.out.printf("🌟GOLD: %s\n", this.getGold());
+        System.out.printf("EXP: %s\n", this.getExp());
+        System.out.println("\n🧰 ITEMS :");
+        int i = 1;
         for (Item item: this.getInventory()) {
             System.out.printf("%s. %s\n", i, item.getItemInfo());
             i++;
@@ -167,7 +196,7 @@ public class Hero extends Character{
         }
         
         this.setShieldOn(false); // remove shield
-        return true; // return alive
+        return false; // return alive
     }
     
     public void checkLevelUp() { // Upgrade LEVEL of HERO
@@ -195,7 +224,7 @@ public class Hero extends Character{
             }
             double damageIncrease = (double) currentDmg * 0.5;
             this.setPassiveDmg(currentDmg + (int) damageIncrease);
-            System.out.println(" | ✅ +%s PASSIVE DMG | EXP -60");
+            System.out.printf(" | ✅ +%s PASSIVE DMG | EXP -60", damageIncrease);
             exp -=60;
             
         }

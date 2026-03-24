@@ -25,13 +25,23 @@ public class MenuPrinter {
         System.out.println("======================================================");
     }
     
-    public static void printMainMenu() {
+    public static void printMainMenu(Player player) {
+        
         System.out.println("------------------------------------------------------");
+        System.out.printf("  TOTAL GOLD EARNED: 🌟%s\n", player.getPlayerGold());
         System.out.println("  1. Play World     ");
         System.out.println("  2. Create World   ");
         System.out.println("  3. Shop Heroes ");
         System.out.println("  4. Shop Maps ");
         System.out.println("  5. Save & Exit ");
+        System.out.println("======================================================");
+    }
+    
+    public static void printLoginRegister() {
+        System.out.println("------------------------------------------------------");
+        System.out.println("  1. Login New Player   ");
+        System.out.println("  2. Register Player ");
+        System.out.println("  5. Exit Game");
         System.out.println("======================================================");
     }
     

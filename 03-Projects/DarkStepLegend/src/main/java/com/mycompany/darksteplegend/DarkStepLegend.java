@@ -7,8 +7,8 @@ package com.mycompany.darksteplegend;
 import static com.mycompany.darksteplegend.GameLogger.*;
 import static com.mycompany.darksteplegend.InputHelper.getValidInt;
 import static com.mycompany.darksteplegend.InputHelper.getValidString;
-import static com.mycompany.darksteplegend.MenuPrinter.printHeroMainMenu;
-import static com.mycompany.darksteplegend.MenuPrinter.printMainMenu;
+
+import static com.mycompany.darksteplegend.MenuPrinter.*;
 
 /**
  *
@@ -20,50 +20,24 @@ public class DarkStepLegend {
         //  name,  maxHp,  gold,  passiveDmg,  skill2Dmg,  ultimateDmg,  type
         
         GameData data = new GameData();
-        Map map = new Map("JUNGLE", data);
-        Hero mage = new Hero("Mage", 250, 0, 400, 20, 30);
-        GameWorld world = new GameWorld(map, mage, GameWorldType.EASY,  "JUNGLE");
-        
-        Player player = new Player("Prashnam");
-        player.addPlayerWorld(world);
-        player.addPlayerHero(mage);
-        player.addPlayerMap(map);
-        
-        
-        
-        
         while (true) {
-            printMainMenu();
-            int choice = getValidInt("Enter choice: ", 1, 5);
+            printLoginRegister();
+            
+            int choice = getValidInt("Enter choice: ", 1, 3);
             
             switch(choice) {
                 case 1:
-                    
-                    playWorldOperation(player);
+                    loginOperation(data);
                     break;
-                
                 case 2:
-                    createWorldOperation(player);
+                    registerOperation(data);
                     break;
-                
                 case 3:
-                    shopHeroOperation();
-                    break;
-                    
-                case 4:
-                    shopMapOperation();
-                    break;
-                    
-                case 5:
                     return;
-                    
-                default:            
+                default:
             }
-
         }
-        
-          
-          
+            
           
     }
     
@@ -72,6 +46,7 @@ public class DarkStepLegend {
         int choice;
         int worldCount = player.getPlayerWorlds().size();
         if (worldCount <= 0) {
+            System.out.println("NO WORLDS CREATED!\n Create one to play.");
             return;
         }
         for (GameWorld w: player.getPlayerWorlds()) {
@@ -92,12 +67,13 @@ public class DarkStepLegend {
                     gameWorld.exploreWorld();
                     break;
                 case 2:
-                    System.out.println("Feature incomming");
+                    gameWorld.getHero().showInventory();
                     break;
+                  
                 case 3:
-                    System.out.println("Feature incomming");
-                    break;
-                case 4:
+                    player.depositGold(gameWorld.getHero().getGold());
+                    gameWorld.getHero().setGold(0);
+                    System.out.println("EXITING GAME WORLD....");
                     return;
 
                 default:
@@ -114,6 +90,7 @@ public class DarkStepLegend {
         System.out.println("2. HARD");
         int difficulty = getValidInt("Enter choice: ", 1, 2);
         
+        System.out.println("Pick an unlocked Hero:");
         int i = 1;
         for (Hero hero: player.getPlayerHeroes()) {
             
@@ -123,6 +100,7 @@ public class DarkStepLegend {
         }
         int heroIndex = getValidInt("Enter choice: ", 1, player.getPlayerHeroes().size()) - 1;
         
+        System.out.println("Pick an unlocked Map:");
         i = 1;
         for (Map map: player.getPlayerMaps()) {
             
@@ -146,11 +124,89 @@ public class DarkStepLegend {
         
     }
     
-    public static void shopHeroOperation() {
-        System.out.println("Feature incomming");
+    public static void shopHeroOperation(GameData data, Player player) {
+        
+        System.out.println("======= SHOP HEROS =======");
+        int i = 1;
+        for (Hero hero: data.getGameAllHeroes()) {
+            System.out.printf("%s. MAX HP: %s | PASSIVE: %s | SKILL 2: %s | ULTIMATE: %s |PRICE: 200 GOLD🌟 | NAME: %s |\n", i,
+                                hero.getMaxHp(), hero.getPassiveDmg(), hero.getSkill2Dmg(), hero.getUltimateDmg(),  hero.getName());
+            i++;
+
+        }
+        int heroIndex = getValidInt("Enter Hero No:", 1, data.getGameAllHeroes().size()) - 1;
+        if (player.getPlayerGold() < 200) {
+            System.out.println("NOT ENOUGH GOLD TO PURCHASE HERO\n Maybe collect some?");
+            return;
+        }
+        player.addPlayerHero(data.getHeroFromData(heroIndex));
+        
+        player.withdrawGold(200);
+        
+        System.out.println("SUCCESSFULLY PURCHASED HERO | -200 GOLD🌟");
+               
     }
     
     public static void shopMapOperation() {
         System.out.println("Feature incomming");
+    }
+    public static void registerOperation(GameData data) {
+        String namePlayer = getValidString("Enter New Name:");
+        String passwordPlayer = getValidString("Enter New Password:");
+        
+        for (Player p: data.getGameAllPlayers()) {
+            if (p.getPlayerName().equals(namePlayer) && p.getPassword().equals(passwordPlayer)) {
+                System.out.println("ID and PASSWORD linked with another account!");
+            }
+        }
+        Player player = new Player(namePlayer, passwordPlayer, data);
+        data.addPlayer(player);
+        System.out.println("REGISTER SUCCESSFULL");
+    }
+    
+    public static void loginOperation(GameData data) {
+        String namePlayer = getValidString("Enter Name:");
+        String passwordPlayer = getValidString("Enter Password:");
+        
+        for (Player p: data.getGameAllPlayers()) {
+            if (p.getPlayerName().equals(namePlayer) && p.getPassword().equals(passwordPlayer)) {
+                loggedInOperation(p, data);
+            }
+        }
+        System.out.println("ID not found!");
+        
+    }
+    
+    public static void loggedInOperation(Player player, GameData data) {
+        
+        while (true) {
+            printMainMenu(player);
+            int choice = getValidInt("Enter choice: ", 1, 5);
+            
+            switch(choice) {
+                case 1:
+                    
+                    playWorldOperation(player);
+                    break;
+                
+                case 2:
+                    createWorldOperation(player);
+                    break;
+                
+                case 3:
+                    shopHeroOperation(data, player);
+                    break;
+                    
+                case 4:
+                    shopMapOperation();
+                    break;
+                    
+                case 5:
+                    return;
+                    
+                default:            
+            }
+
+        }
     }
 }

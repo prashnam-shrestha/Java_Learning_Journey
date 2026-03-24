@@ -100,6 +100,13 @@ public class GameData {
     
     
     // METHODS
+    public Hero getHeroFromData(int Index) {
+        
+        Hero template = this.getGameAllHeroes().get(Index);
+        
+        return new Hero(template); // Create copy of the Hero
+    }
+    
     public Enemy getEnemyFromData(EnemyType type) {
         
         List<Enemy> templates = gameAllEnemiesHM.get(type);

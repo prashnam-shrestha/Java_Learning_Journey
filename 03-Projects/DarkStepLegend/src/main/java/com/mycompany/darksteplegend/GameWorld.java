@@ -70,7 +70,7 @@ public class GameWorld {
                     
                     hero.setCurrentHp(hero.getMaxHp());
                     hero.setIsAlive(true);
-                    hero.rewardHero(hero, enemy, map);
+                    hero.rewardHero(enemy, map);
                     hero.checkLevelUp();
                     System.out.println("\n✔ VICTORY — HP RESTORED\n");
                     return;
