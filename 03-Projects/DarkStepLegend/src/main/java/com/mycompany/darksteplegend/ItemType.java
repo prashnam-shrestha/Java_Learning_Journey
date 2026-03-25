@@ -4,11 +4,13 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public enum ItemType {
+public enum ItemType implements Serializable{
     MINOR_HP_POTION,
     MANA_POTION,
     SHIELD_SCROLL,

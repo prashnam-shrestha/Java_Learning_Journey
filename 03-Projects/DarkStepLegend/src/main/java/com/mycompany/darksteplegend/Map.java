@@ -8,6 +8,7 @@ import com.mycompany.darksteplegend.Enemy;
 import com.mycompany.darksteplegend.EnemyType;
 import com.mycompany.darksteplegend.GameData;
 import com.mycompany.darksteplegend.PhaseType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  *
  * @author prashnamshrestha
  */
-public class Map {
+public class Map implements Serializable{
     
     private PhaseType currentPhase = PhaseType.SURVIVAL;
     private String mapName;
@@ -46,6 +47,33 @@ public class Map {
         
         
     }
+    
+    public Map(Map template) {
+
+        // Copy simple fields
+        this.mapName = template.mapName;
+        this.data = template.data;
+
+        // Reset phase
+        this.currentPhase = PhaseType.SURVIVAL;
+
+        // Create new HashMap (IMPORTANT: avoid shared reference)
+        this.mapAllEnemies = new HashMap<>();
+
+        // Deep copy enemies phase by phase
+        for (PhaseType type : template.mapAllEnemies.keySet()) {
+
+            List<Enemy> newList = new ArrayList<>();
+
+            for (Enemy e : template.mapAllEnemies.get(type)) {
+                newList.add(new Enemy(e)); // 🔥 use your Enemy copy constructor
+            }
+
+            this.mapAllEnemies.put(type, newList);
+        }
+    }
+    
+    
     // METHODS
     
     // Gets enemy from phase

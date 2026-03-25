@@ -7,12 +7,13 @@ package com.mycompany.darksteplegend;
 import com.mycompany.darksteplegend.Character;
 import com.mycompany.darksteplegend.Enemy;
 import static com.mycompany.darksteplegend.GameLogger.*;
+import java.io.Serializable;
 
 /**
  *
  * @author prashnamshrestha
  */
-public class Hero extends Character{
+public class Hero extends Character implements Serializable{
     
     private int enemiesKilled = 0;
     private boolean shieldOn = false;
@@ -99,33 +100,36 @@ public class Hero extends Character{
     }
     
     public void useItem(Item item) {
+        int effect = item.getItemEffect();
         
         if (item.getItemType() == ItemType.MANA_POTION) {
-            this.mana+= 30;
+            this.mana+= effect;
         }
         else if (item.getItemType() == ItemType.MINOR_HP_POTION) {
-            this.setCurrentHp(this.getCurrentHp() + 50);
+            this.setCurrentHp(this.getCurrentHp() + effect);
         }
         else if (item.getItemType() == ItemType.SHIELD_SCROLL) {
             this.setShieldOn(true);
         }
         else if (item.getItemType() == ItemType.ELIXIR_OF_POWER) {
-            this.setPassiveDmg(this.getPassiveDmg() + 10);
+            this.setPassiveDmg(this.getPassiveDmg() + effect);
         }
     }
     
     
     public void showInventory() {
         
-        System.out.println("\n======== INVENTORY ========");
-        System.out.printf("🌟GOLD: %s\n", this.getGold());
-        System.out.printf("EXP: %s\n", this.getExp());
-        System.out.println("\n🧰 ITEMS :");
+        System.out.println("\n  🎒 ==================== INVENTORY ==================== 🎒");
+        System.out.printf("   💰 CURRENT BALANCE : %s Gold\n", this.getGold());
+        System.out.printf("   ✨ ACCUMULATED EXP : %s XP\n", this.getExp());
+        System.out.println("  ───────────────────────────────────────────────────────");
+        System.out.println("   🧰 BACKPACK CONTENTS:");
         int i = 1;
         for (Item item: this.getInventory()) {
-            System.out.printf("%s. %s\n", i, item.getItemInfo());
+            System.out.printf("   [%s] %s\n", i, item.getItemInfo());
             i++;
         }
+        System.out.println("  =======================================================");
     }
     
     public void addItem(Item item) { // Add ITEM HERO
@@ -209,13 +213,13 @@ public class Hero extends Character{
                 case (LevelType.BASIC):
                     
                     setLevel(LevelType.ELITE);;
-                    System.out.printf("📈 LEVEL UPGRADED: %s", LevelType.ELITE);
+                    System.out.printf("  📈 [PROMOTION] Rank Upgraded to: %s", LevelType.ELITE);
                     break;
                 
                 case (LevelType.ELITE):
                     
                     setLevel(LevelType.LEGEND);
-                    System.out.printf("📈 LEVEL UPGRADED: %s", LevelType.LEGEND);
+                    System.out.printf("  📈 [ASCENSION] Rank Upgraded to: %s", LevelType.LEGEND);
                     break;
                 
                 default:
@@ -224,7 +228,7 @@ public class Hero extends Character{
             }
             double damageIncrease = (double) currentDmg * 0.5;
             this.setPassiveDmg(currentDmg + (int) damageIncrease);
-            System.out.printf(" | ✅ +%s PASSIVE DMG | EXP -60", damageIncrease);
+            System.out.printf(" | ✅ ATK BUMP: +%s DMG | 📉 EXP CONVERTED: -60\n", damageIncrease);
             exp -=60;
             
         }
@@ -232,12 +236,12 @@ public class Hero extends Character{
     
 
     public String getStatus() {
-        return String.format("HP: %s | LVL: %s | KILL: %s | MB: %s | EXP: %s | NAME: %s", 
+        return String.format("❤️ HP: %-4s | 🏅 LVL: %-7s | ☠️ KILLS: %-3s | 💧 MP: %-3s | ✨ EXP: %-4s | 👤 %s", 
                 this.getCurrentHp(), this.getLevel(), this.getEnemiesKilled(), this.getMana(), this.getExp(), this.getName());
     }
     
     public String getMiniStatus() {
-        return String.format("HP: %s | MB: %s | EXP: %s", 
+        return String.format("❤️ HP: %-4s | 💧 MP: %-3s | ✨ EXP: %-4s", 
                 this.getCurrentHp(), this.getMana(), this.getExp());
     }
     

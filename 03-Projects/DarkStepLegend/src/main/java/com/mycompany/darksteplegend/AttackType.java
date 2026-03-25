@@ -4,11 +4,13 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public enum AttackType {
+public enum AttackType implements Serializable{
     PASSIVE,
     SKILL2,
     ULTIMATE

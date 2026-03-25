@@ -5,6 +5,7 @@
 package com.mycompany.darksteplegend;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Random;
  *
  * @author prashnamshrestha
  */
-public class GameData {
+public class GameData implements Serializable{
     
     private List<Player> gameAllPlayers;
     private List<Map> gameAllMaps;

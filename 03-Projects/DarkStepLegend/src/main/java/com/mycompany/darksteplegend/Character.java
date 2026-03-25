@@ -4,6 +4,7 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author prashnamshrestha
  */
-public abstract class Character {
+public abstract class Character implements Serializable{
     
     private String name;
     private int maxHp;

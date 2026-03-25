@@ -4,11 +4,13 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public enum PhaseType {
+public enum PhaseType implements Serializable{
     SURVIVAL,
     BLOODBATH,
     SLAUGHTER,

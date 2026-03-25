@@ -4,11 +4,13 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public enum EnemyType {
+public enum EnemyType implements Serializable{
     EASY,
     MEDIUM,
     HARD,

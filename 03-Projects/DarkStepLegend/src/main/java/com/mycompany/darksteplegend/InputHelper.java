@@ -20,11 +20,11 @@ public class InputHelper {
                 return input;
             } 
             catch (java.util.InputMismatchException e) {
-                System.out.println("❌ [ERROR] Please enter a valid number!");
+                System.out.println("\n  ❌ [INVALID INPUT] Only numeric values are allowed. Please try again.");
                 sc.nextLine();
             } 
             catch (IllegalArgumentException e) {
-                System.out.println("❌ [ERROR] Choice must be between " + start + " and " + end + ".");
+                System.out.println("\n  ❌ [OUT OF BOUNDS] Your selection must be an exact number between " + start + " and " + end + ".");
             }
         }
     }
@@ -34,7 +34,7 @@ public class InputHelper {
             System.out.print(text);
             String input = sc.nextLine();
             if (input.length() <= 0){
-                System.out.println("❌ [ERROR] Please enter a valid text!");
+                System.out.println("\n  ❌ [MISSING DATA] This field cannot be left blank. Please type something valid.");
             }
             else {
                 return input;

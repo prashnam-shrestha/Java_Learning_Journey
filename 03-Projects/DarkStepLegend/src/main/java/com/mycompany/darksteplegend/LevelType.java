@@ -4,11 +4,13 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public enum LevelType {
+public enum LevelType implements Serializable{
     BASIC,
     ELITE,
     LEGEND,

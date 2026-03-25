@@ -4,11 +4,13 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public class Enemy extends Character{
+public class Enemy extends Character implements Serializable{
     
     private int attackCount = 0;
     private int exp;

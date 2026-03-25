@@ -4,11 +4,13 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public class Item {
+public class Item implements Serializable{
     
     private String itemName;
     private ItemType itemType;

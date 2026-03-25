@@ -4,6 +4,7 @@
  */
 package com.mycompany.darksteplegend;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author prashnamshrestha
  */
-public class Player {
+public class Player implements Serializable{
     
     private String playerName;
     private String password;
