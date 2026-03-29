@@ -1,0 +1,1957 @@
+/* === AttackType.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public enum AttackType implements Serializable{
+    PASSIVE,
+    SKILL2,
+    ULTIMATE
+}
+
+/* === Character.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public abstract class Character implements Serializable{
+    
+    private String name;
+    private int maxHp;
+    private int currentHp;
+    private int gold;
+    private int passiveDmg;
+    private int skill2Dmg;
+    private int ultimateDmg;
+    private boolean isAlive = true;
+    private List<Item> inventory;
+    
+    public Character(String name, int maxHp, int gold, int passiveDmg, int skill2Dmg, int ultimateDmg) {
+        
+        setName(name);
+        setMaxHp(maxHp);
+        setCurrentHp(maxHp);
+        setInventory(new ArrayList<>());
+        setGold(gold);
+        setPassiveDmg(passiveDmg);
+        setSkill2Dmg(skill2Dmg);
+        setUltimateDmg(ultimateDmg); 
+        
+    }
+    // ABSTRACT METHODS
+    
+    public abstract boolean takeDamage(int damage); // Damage DEALT
+    
+    public abstract void resetStatus(); // Reset STATUS
+    
+    public abstract void addItem(Item item); // Add ITEM
+    
+    public abstract String getStatus(); // Get STATUS
+    
+    
+    // GETTERS AND SETTERS
+
+    public int getPassiveDmg() {
+        return passiveDmg;
+    }
+
+    public void setPassiveDmg(int passiveDmg) {
+        this.passiveDmg = passiveDmg;
+    }
+
+    public int getSkill2Dmg() {
+        return skill2Dmg;
+    }
+
+    public void setSkill2Dmg(int skill2Dmg) {
+        this.skill2Dmg = skill2Dmg;
+    }
+
+    public int getUltimateDmg() {
+        return ultimateDmg;
+    }
+
+    public void setUltimateDmg(int ultimateDmg) {
+        this.ultimateDmg = ultimateDmg;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public int getCurrentHp() {
+        return currentHp;
+    }
+
+    public void setCurrentHp(int currentHp) {
+        this.currentHp = currentHp;
+    }
+
+    public boolean isIsAlive() {
+        return isAlive;
+    }
+
+    public void setIsAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
+    } 
+
+    public void setInventory(List<Item> inventory) {
+        this.inventory = inventory;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+    
+    
+}
+
+
+/* === DarkStepLegend.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package com.mycompany.darksteplegend;
+
+import static com.mycompany.darksteplegend.InputHelper.getValidInt;
+import static com.mycompany.darksteplegend.InputHelper.getValidString;
+
+import static com.mycompany.darksteplegend.MenuPrinter.*;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class DarkStepLegend {
+
+    public static void main(String[] args) {
+   
+        String SAVE_FILE = "save.dat";
+        GameData data = DataManager.loadAppState(SAVE_FILE);
+        
+        while (true) {
+            printLoginRegister();
+            
+            int choice = getValidInt("  ➤ Select an option: ", 1, 3);
+            
+            switch(choice) {
+                case 1:
+                    loginOperation(data);
+                    break;
+                case 2:
+                    registerOperation(data);
+                    break;
+                case 3:
+                    DataManager.saveAppState(data, "save.dat");
+                    return;
+                default:
+            }
+        }
+          
+          
+    }
+    
+    public static void playWorldOperation(Player player) {
+        int i = 1;
+        int choice;
+        int worldCount = player.getPlayerWorlds().size();
+        if (worldCount <= 0) {
+            System.out.println("\n  [!] No worlds discovered yet.\n  ➤ Please create a new world to begin your journey.\n");
+            return;
+        }
+        
+        System.out.println("\n  🌍 =============== YOUR WORLDS =============== 🌍");
+        for (GameWorld w: player.getPlayerWorlds()) {
+            System.out.printf("  [%s] 📍 %-15s | ⚙️ Mode: %s\n", i, w.getGameWorldName(), w.getGameWorldType());
+            i++;
+        }
+        System.out.println("  ─────────────────────────────────────────────────");
+        
+        choice = getValidInt("  ➤ Enter World Number: ", 1, worldCount) - 1;
+        GameWorld gameWorld = player.getPlayerWorlds().get(choice);
+        
+        while (true) {
+            
+            printHeroMainMenu();
+            choice = getValidInt("  ➤ Select an option: ", 1, 4);
+
+            switch(choice) {
+                case 1: 
+                    gameWorld.exploreWorld();
+                    break;
+                case 2:
+                    gameWorld.getHero().showInventory();
+                    break;
+                  
+                case 3:
+                    player.depositGold(gameWorld.getHero().getGold());
+                    gameWorld.getHero().setGold(0);
+                    System.out.println("\n  🚪 Safely exiting Game World. Returning to base...\n");
+                    return;
+
+                default:
+
+            }
+        }
+
+    }
+    
+    public static void createWorldOperation(Player player) {
+        System.out.println("\n  🏗️  ============= WORLD CREATION ============= 🏗️");
+        String name = getValidString("  ➤ Enter a name for your new world: ");
+        System.out.println("\n  ⚔️  SELECT DIFFICULTY ⚔️");
+        System.out.println("  ────────────────────────");
+        System.out.println("  [1] 🟢 EASY (Forgiving, low risk)");
+        System.out.println("  [2] 🔴 HARD (Permadeath resets, high stakes)");
+        int difficulty = getValidInt("  ➤ Choose difficulty (1-2): ", 1, 2);
+        
+        System.out.println("\n  🦸 SELECT YOUR HERO 🦸");
+        System.out.println("  ──────────────────────");
+        int i = 1;
+        for (Hero hero: player.getPlayerHeroes()) {
+            
+            System.out.printf("  [%s] ", i);
+            System.out.println(hero.getStatus());
+            i++;
+        }
+        int heroIndex = getValidInt("  ➤ Choose a hero: ", 1, player.getPlayerHeroes().size()) - 1;
+        
+        System.out.println("\n  🗺️  SELECT YOUR MAP 🗺️");
+        System.out.println("  ─────────────────────");
+        i = 1;
+        for (Map map: player.getPlayerMaps()) {
+            
+            System.out.printf("  [%s] ", i);
+            System.out.println(map.getMapName());
+            i++;
+        }
+        int mapIndex = getValidInt("  ➤ Choose a map: ", 1, player.getPlayerMaps().size()) - 1;
+        Map mapCopy = new Map(player.getPlayerMaps().get(mapIndex));
+        GameWorld newWorld;
+        
+        if (difficulty == 1) {
+            newWorld = new GameWorld(mapCopy, player.getPlayerHeroes().get(heroIndex), 
+                        GameWorldType.EASY, name);
+        }
+        else {
+            newWorld = new GameWorld(mapCopy, player.getPlayerHeroes().get(heroIndex), 
+                        GameWorldType.HARD, name);
+        }
+        
+        player.addPlayerWorld(newWorld);
+        System.out.println("\n  ✅ [SUCCESS] World '" + name + "' generated successfully!\n");
+    }
+    
+    public static void shopHeroOperation(GameData data, Player player) {
+        
+        System.out.println("\n  🛒 =================== HERO TAVERN =================== 🛒");
+        System.out.println("  Recruit powerful new allies to aid your journey.");
+        System.out.println("  ───────────────────────────────────────────────────────");
+        int i = 1;
+        for (Hero hero: data.getGameAllHeroes()) {
+            System.out.printf("  [%s] ❤️ HP: %-4s | ⚔️ ATK: %-3s | ✨ S2: %-3s | ☄️ ULT: %-3s | 💰 200 Gold | 🦸 %s\n", i,
+                                hero.getMaxHp(), hero.getPassiveDmg(), hero.getSkill2Dmg(), hero.getUltimateDmg(),  hero.getName());
+            i++;
+
+        }
+        System.out.println("  ───────────────────────────────────────────────────────");
+        int heroIndex = getValidInt("  ➤ Enter Hero Number to recruit: ", 1, data.getGameAllHeroes().size()) - 1;
+        if (player.getPlayerGold() < 200) {
+            System.out.println("\n  ❌ [DECLINED] Not enough Gold to recruit this hero.\n  ➤ Return when your pockets are heavier!");
+            return;
+        }
+        player.addPlayerHero(data.getHeroFromData(heroIndex));
+        
+        player.withdrawGold(200);
+        
+        System.out.println("\n  🎉 [RECRUITED] Hero has joined your ranks! (-200 💰 Gold)\n");
+               
+    }
+    
+    public static void shopMapOperation() {
+        System.out.println("\n  🚧 [INFO] The Map Cartographer is currently out of town. Feature coming soon! 🚧\n");
+    }
+    
+    
+    public static void registerOperation(GameData data) {
+        System.out.println("\n  📝 --- NEW COMMANDER REGISTRATION ---");
+        String namePlayer = getValidString("  ➤ Enter desired Username: ");
+        String passwordPlayer = getValidString("  ➤ Enter secure Password: ");
+        
+        for (Player p: data.getGameAllPlayers()) {
+            if (p.getPlayerName().equals(namePlayer) && p.getPassword().equals(passwordPlayer)) {
+                System.out.println("\n  ⚠️ [ERROR] These credentials are already linked to an existing commander!");
+            }
+        }
+        Player player = new Player(namePlayer, passwordPlayer, data);
+        data.addPlayer(player);
+        System.out.println("\n  ✅ [SUCCESS] Account created successfully. Welcome to the shadows!\n");
+    }
+    
+    public static void loginOperation(GameData data) {
+        System.out.println("\n  🔑 --- SECURE LOGIN ---");
+        String namePlayer = getValidString("  ➤ Enter Username: ");
+        String passwordPlayer = getValidString("  ➤ Enter Password: ");
+        boolean loggedIn = true;
+        for (Player p: data.getGameAllPlayers()) {
+            if (p.getPlayerName().equals(namePlayer) && p.getPassword().equals(passwordPlayer)) {
+                loggedInOperation(p, data);
+                loggedIn = false;
+                
+            }
+        }
+        if (loggedIn) {
+            System.out.println("\n  ❌ [ERROR] Authentication failed. Invalid Username or Password.\n");
+        }
+        
+        
+    }
+    
+    public static void loggedInOperation(Player player, GameData data) {
+        
+        while (true) {
+            printMainMenu(player);
+            int choice = getValidInt("  ➤ Select an option: ", 1, 5);
+            
+            switch(choice) {
+                case 1:
+                    
+                    playWorldOperation(player);
+                    break;
+                
+                case 2:
+                    createWorldOperation(player);
+                    break;
+                
+                case 3:
+                    shopHeroOperation(data, player);
+                    break;
+                    
+                case 4:
+                    shopMapOperation();
+                    break;
+                    
+                case 5:
+                    return;
+                    
+                default:            
+            }
+
+        }
+    }
+}
+
+/* === DataManager.java === */
+package com.mycompany.darksteplegend;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class DataManager {
+
+    public static void saveAppState(GameData data, String filePath) {
+
+        try (FileOutputStream fos = new FileOutputStream(filePath);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+            oos.writeObject(data);
+            System.out.println("\n  💾 [SUCCESS] Progress safely encrypted and archived to " + filePath);
+
+        } catch (IOException e) {
+            System.out.println("\n  ❌ [CRITICAL] Failed to archive data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static GameData loadAppState(String filePath) {
+
+        try (FileInputStream fis = new FileInputStream(filePath);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            // ✅ FIXED HERE
+            GameData state = (GameData) ois.readObject();
+
+            System.out.println("\n  📂 [SUCCESS] Game state restored. Welcome back.");
+            return state;
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("\n  🌱 [INFO] No valid save file found. Initializing a fresh universe...\n");
+            return new GameData();
+        }
+    }
+}
+
+/* === Enemy.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class Enemy extends Character implements Serializable{
+    
+    private int attackCount = 0;
+    private int exp;
+    private EnemyType enemyType;
+    
+    public Enemy(String name, int maxHp, int gold, int passiveDmg, int skill2Dmg, int ultimateDmg, EnemyType type) {
+        
+        super(name, maxHp, gold, passiveDmg, skill2Dmg, ultimateDmg);
+        setExp(10);
+        setEnemyType(type);
+    }    
+    
+    // Inside Enemy.java    
+    public Enemy(Enemy template) {
+        // Call super with all the values from template
+        super(
+            template.getName(),
+            template.getMaxHp(),
+            template.getGold(),
+            template.getPassiveDmg(),
+            template.getSkill2Dmg(),
+            template.getUltimateDmg()
+        );
+
+        // Copy Enemy-specific fields
+        this.enemyType = template.enemyType;
+        this.exp = template.exp;
+
+        // Important: reset runtime state (don't copy currentHp, isAlive, attackCount!)
+        this.setCurrentHp(template.getMaxHp());
+        this.setIsAlive(true);// full health
+        this.attackCount = 0;
+    }
+    
+    // METHODS
+    public String getStatus()  {
+        return String.format("HP: %s | DIFFICULTY: %s | NAME: %s \n", 
+                this.getCurrentHp(),this.getEnemyType(), this.getName());
+    }
+    
+    public String getMiniStatus() {
+        return String.format("HP: %s | NAME: %s \n", 
+                this.getCurrentHp(), this.getName());
+    }
+    
+    public void addItem(Item item) { // Add ITEM ENEMY
+        this.getInventory().add(item);  
+    }
+    
+    public void resetStatus() { // Reset STATUS OF ENEMY
+        
+        this.setCurrentHp(this.getMaxHp());
+        this.setIsAlive(true);
+    }
+    
+    public int getRightAttack() { // GET VERITY OF ATTACKS
+        EnemyType type = getEnemyType();
+
+        attackCount++;
+
+        if (type == EnemyType.EASY) {
+            return getPassiveDmg();
+        }
+        else if (type == EnemyType.MEDIUM && attackCount % 3 == 0 && Math.random() < 0.7) {
+            return getSkill2Dmg(); // 70% chance
+        }
+        else if (type == EnemyType.MEDIUM) {
+            return getPassiveDmg();
+        }
+        else if (type == EnemyType.HARD && attackCount % 4 == 0 && Math.random() < 0.6) {
+            return getUltimateDmg(); // 60% chance
+        }
+        else if (type == EnemyType.HARD) {
+            return getPassiveDmg();
+        }
+        else if (type == EnemyType.BOSS && attackCount % 2 == 0 && Math.random() < 0.8) {
+            return getUltimateDmg(); // 80% chance
+        }
+        else {
+            return getPassiveDmg();
+        }
+    }
+    
+    public AttackType attack(Hero hero) { // Attack PASSIVE
+        
+        if (!hero.isIsAlive()) {
+            return null;
+        }
+        
+        int damage = getRightAttack();
+
+        hero.takeDamage(damage);
+        
+        if (damage > this.getSkill2Dmg()) {
+            return AttackType.ULTIMATE;
+        }
+        else if (damage > this.getPassiveDmg()) {
+            return AttackType.SKILL2;
+        }
+        return AttackType.PASSIVE;
+ 
+    }
+    
+    public boolean takeDamage(int damage) {
+        
+        this.setCurrentHp(this.getCurrentHp() - damage);
+
+        if (this.getCurrentHp() <= 0) { 
+            this.setCurrentHp(0);
+            this.setIsAlive(false); 
+            return true; // return dead
+        }
+        return false; // return alive
+    }
+    
+    // GETTERS AND SETTERS
+
+    public EnemyType getEnemyType() {
+        return enemyType;
+    }
+
+    public void setEnemyType(EnemyType enemyType) {
+        this.enemyType = enemyType;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+    
+}
+
+/* === EnemyType.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public enum EnemyType implements Serializable{
+    EASY,
+    MEDIUM,
+    HARD,
+    BOSS,
+}
+
+
+/* === FightResult.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public enum FightResult {
+    WIN,
+    LOOSE,
+    RUNAWAY,
+    CONTINUEFIGHT,
+}
+
+
+/* === GameData.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class GameData implements Serializable{
+    
+    private List<Player> gameAllPlayers;
+    private List<Map> gameAllMaps;
+    HashMap<EnemyType, List<Enemy>> gameAllEnemiesHM = new HashMap<>();
+    private List<Hero> gameAllHeroes;
+    private List<Item> gameAllItems;
+    
+    public GameData() {
+        
+        setGameAllPlayers(new ArrayList<>());
+        setGameAllMaps(new ArrayList<>());
+        setGameAllHeroes(new ArrayList<>());
+        setGameAllItems(new ArrayList<>());
+        
+        // Easy enemies
+        List<Enemy> easyEnemies = new ArrayList<>();
+        List<Enemy> mediumEnemies = new ArrayList<>();
+        List<Enemy> hardEnemies = new ArrayList<>();
+        List<Enemy> bossEnemies = new ArrayList<>();
+        
+        // parameters: name, maxHp, gold, passiveDmg, skill2Dmg, ultimateDmg, type
+
+        // 🟢 EASY
+        easyEnemies.add(new Enemy("Mini Goblin", 60, 10, 15, 20, 30, EnemyType.EASY));
+        easyEnemies.add(new Enemy("Bone Witch", 70, 15, 18, 20, 30, EnemyType.EASY));
+        easyEnemies.add(new Enemy("Mini peka", 70, 15, 18, 20, 30, EnemyType.EASY));
+
+
+        // 🟡 MEDIUM
+        mediumEnemies.add(new Enemy("Shadow Hound", 110, 30, 35, 40, 50, EnemyType.MEDIUM));
+        mediumEnemies.add(new Enemy("Iron Goblin", 130, 25, 30, 35, 45, EnemyType.MEDIUM));
+        mediumEnemies.add(new Enemy("Kings Slayer", 180, 25, 35, 40, 65, EnemyType.MEDIUM));
+
+
+        // 🔴 HARD
+        hardEnemies.add(new Enemy("Xavier", 120, 50, 70, 40, 80, EnemyType.HARD));
+        hardEnemies.add(new Enemy("Goblin Warlord", 350, 60, 65, 30, 80, EnemyType.HARD));
+        hardEnemies.add(new Enemy("MountainGod", 400, 50, 50, 40, 70, EnemyType.HARD));
+
+
+        // 👑 BOSS
+        bossEnemies.add(new Enemy("Shadow Emperor", 900, 100, 90, 60, 100, EnemyType.HARD));
+        
+
+        // Add to the AllEnemies Section
+        gameAllEnemiesHM.put(EnemyType.EASY, easyEnemies);
+        gameAllEnemiesHM.put(EnemyType.MEDIUM, mediumEnemies);
+        gameAllEnemiesHM.put(EnemyType.HARD, hardEnemies);
+        gameAllEnemiesHM.put(EnemyType.BOSS, bossEnemies);
+        
+        // All heros
+        Hero mage = new Hero("Mage", 250, 0, 10, 20, 30);
+        Hero warrior = new Hero("Warrior", 300, 0, 15, 30, 50);
+        Hero assassin = new Hero("Assassin", 180, 0, 25, 45, 90);
+        Hero paladin = new Hero("Paladin", 450, 0, 12, 25, 40);
+        Hero berserker = new Hero("Berserker", 220, 0, 30, 20, 70);
+        Hero archmage = new Hero("Archmage", 200, 0, 10, 50, 100);
+        
+        addHero(mage);
+        addHero(warrior);
+        addHero(assassin);
+        addHero(paladin);
+        addHero(berserker);
+        addHero(archmage);
+        
+        // 1. Easy Reward (Restores 50 HP)
+        Item minorHpPotion = new Item("Minor HP Potion", ItemType.MINOR_HP_POTION, 50);
+
+        // 2. Medium Reward (Restores 30 Mana)
+        Item manaPotion = new Item("Mana Potion", ItemType.MANA_POTION, 30);
+
+        // 3. Hard Reward (Gives 1 Shield - we use '1' to represent true or 1 charge)
+        Item shieldScroll = new Item("Shield Scroll", ItemType.SHIELD_SCROLL, 1);
+
+        // 4. Boss Reward (Adds +10 Permanent Damage)
+        Item elixirOfPower = new Item("Elixir of Power", ItemType.ELIXIR_OF_POWER, 10);
+        
+        addItem(minorHpPotion);
+        addItem(manaPotion);
+        addItem(shieldScroll);
+        addItem(elixirOfPower);
+    }
+    
+    
+    // METHODS
+    public Hero getHeroFromData(int Index) {
+        
+        Hero template = this.getGameAllHeroes().get(Index);
+        
+        return new Hero(template); // Create copy of the Hero
+    }
+    
+    public Enemy getEnemyFromData(EnemyType type) {
+        
+        List<Enemy> templates = gameAllEnemiesHM.get(type);
+        if (templates == null || templates.isEmpty()) {
+        return null; // or throw exception
+        }
+        Enemy template = templates.get(new Random().nextInt(templates.size()));
+        
+        return new Enemy(template); // Create copy of the enemy
+    }
+    
+    public void addPlayer(Player player) { // Add Player
+        gameAllPlayers.add(player);
+    }
+
+    // Add Map
+    public void addMap(Map map) {
+        gameAllMaps.add(map);
+    }
+
+    // Add Hero
+    public void addHero(Hero hero) {
+        
+        gameAllHeroes.add(hero);
+    }
+    
+    public void addItem(Item item) {
+        gameAllItems.add(item);
+    }
+    
+    // GETTERS AND SETTERS
+
+    public List<Player> getGameAllPlayers() {
+        return gameAllPlayers;
+    }
+
+    public void setGameAllPlayers(List<Player> gameAllPlayers) {
+        this.gameAllPlayers = gameAllPlayers;
+    }
+
+    public List<Map> getGameAllMaps() {
+        return gameAllMaps;
+    }
+
+    public void setGameAllMaps(List<Map> gameAllMaps) {
+        this.gameAllMaps = gameAllMaps;
+    }
+
+    public HashMap<EnemyType, List<Enemy>> getGameAllEnemiesHM() {
+        return gameAllEnemiesHM;
+    }
+
+    public void setGameAllEnemiesHM(HashMap<EnemyType, List<Enemy>> gameAllEnemiesHM) {
+        this.gameAllEnemiesHM = gameAllEnemiesHM;
+    }
+
+    public List<Hero> getGameAllHeroes() {
+        return gameAllHeroes;
+    }
+
+    public void setGameAllHeroes(List<Hero> gameAllHeroes) {
+        this.gameAllHeroes = gameAllHeroes;
+    }
+
+    public List<Item> getGameAllItems() {
+        return gameAllItems;
+    }
+
+    public void setGameAllItems(List<Item> gameAllItems) {
+        this.gameAllItems = gameAllItems;
+    }
+    
+    
+    
+    
+}
+
+
+/* === GameLogger.java === */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+public class GameLogger implements Serializable{
+   
+    public static void printAttack(Character who, Character target, AttackType type, boolean success) {
+        
+        if (!success) {
+            Hero hero = (Hero) who;
+            int mana = hero.getMana();
+            
+            if (type == AttackType.SKILL2) {
+                System.out.printf("    ⚠️ [FAILED] Insufficient energy! You need %s more MP to cast ✨ Skill 2.\n", 20 - mana);
+                return;
+            }
+           System.out.printf("    ⚠️ [FAILED] Insufficient energy! You need %s more MP to channel ☄️ ULTIMATE.\n", 30 - mana);
+           return;
+        }
+        
+        int damage;
+        
+        switch (type) {
+            case PASSIVE:
+                damage = who.getPassiveDmg();
+                System.out.printf("    ➤ ⚔️  %s executes a swift strike on %s! 💥 [-%s HP]\n", who.getName(), target.getName(), damage);
+                break;
+
+            case SKILL2:
+                damage = who.getSkill2Dmg();
+                System.out.printf("    ➤ ✨  %s casts Skill Two on %s! 💥 [-%s HP]\n", who.getName(), target.getName(), damage);
+                break;
+
+            default:
+                damage = who.getUltimateDmg();
+                System.out.printf("    ➤ ☄️  %s unleashes their devastating Ultimate! %s is decimated! 💥 [-%s HP]\n", who.getName(), target.getName(), damage);
+                break;
+        }
+    }
+    
+    public static void printDeath(Character died, Character killed) {
+        if (died instanceof Hero) {
+            System.out.println("\n  💀 YOU HAVE BEEN SLAUGHTERED... The darkness claims another soul.");
+        } else {
+            System.out.printf("\n  ⚔️  [ELIMINATED] %s HAS BEEN REDUCED TO DUST!\n", died.getName().toUpperCase());
+        }
+    }
+    public static void printUseItem(Hero hero, ItemType type) {
+
+        switch(type) {
+            case MINOR_HP_POTION:
+                System.out.printf("    🧪 %s hastily drinks a Health Potion! ❤️ +%d HP Restored.\n", 
+                    hero.getName(), 50);
+                break;
+
+            case MANA_POTION:
+                System.out.printf("    🔮 %s channels a Mana Potion! 💧 +%d MP Restored.\n", 
+                    hero.getName(), 30);
+                break;
+
+            case SHIELD_SCROLL:
+                System.out.printf("    🛡️ %s reads an ancient Shield Scroll! 🚫 Next incoming attack will be completely negated.\n", 
+                    hero.getName());
+                break;
+
+            case ELIXIR_OF_POWER:
+                System.out.printf("    ⚡ %s consumes the forbidden Power Elixir! 💥 Base Attack permanently enhanced!\n", 
+                    hero.getName());
+                break;
+
+            default:
+                System.out.println("    ❓ A mysterious artifact was triggered...");
+        }
+    }
+    
+    public static void printRewardHero(Hero hero, int gold, int exp) {
+        System.out.printf("  🎁 [SPOILS OF WAR] Acquired: 💰 +%d Gold | ✨ +%d EXP\n", gold, exp);
+    }
+    
+    public static void printItemGained(Item item) {
+        if (item == null) {
+            System.out.println("  ⚠️ [GLITCH DETECTED] An unknown relic dropped into the void. (Report Bug)");
+        }
+        System.out.printf("  🎒 [LOOT FOUND] Picked up: %s\n", item.getItemName().toUpperCase());
+    }
+}
+
+/* === GameWorld.java === */
+package com.mycompany.darksteplegend;
+
+import com.mycompany.darksteplegend.Enemy;
+import com.mycompany.darksteplegend.FightResult;
+import com.mycompany.darksteplegend.PhaseType;
+import static com.mycompany.darksteplegend.GameLogger.*;
+import static com.mycompany.darksteplegend.InputHelper.getValidInt;
+import static com.mycompany.darksteplegend.MenuPrinter.printHeroBattleMenu;
+import java.io.Serializable;
+
+public class GameWorld implements Serializable{
+    
+    private String gameWorldName;
+    private Map map;
+    private Hero hero;
+    PhaseType playingPhase; 
+    private GameWorldType gameWorldType;
+
+    public GameWorld(Map map, Hero hero, GameWorldType gameWorldType, String name) {
+        setMap(map);
+        setHero(hero);
+        setGameWorldType(gameWorldType);
+        setGameWorldName(name);
+        playingPhase = map.getCurrentPhase();
+    }
+
+    // METHODS
+
+    public void exploreWorld() {
+        
+        boolean showStatus = true;;
+        System.out.println("\n  ⚔️  ================ EXPEDITION BEGINS ================ ⚔️\n");
+        
+        while (true) {
+            
+            if (map.checkMapProgression()) {
+
+                // RESET
+                map.resetAllEnemies();
+                hero.setCurrentHp(hero.getMaxHp());
+
+                System.out.println("\n  🌟 ================= AREA CLEARED ================= 🌟");
+                System.out.println("  Congratulations! You have purged all threats in this sector.");
+                System.out.println("  🔄 World state reset for next expedition.\n");
+                return;
+            }
+            
+            if (map.getCurrentPhase() != playingPhase) {
+                
+                System.out.printf("\n  ⏳ [TRANSITION] Approaching new environment tier: %s...\n", map.getCurrentPhase());
+                playingPhase = map.getCurrentPhase();
+                System.out.println("  🗺️  Generating terrain layout...");
+                pause(3000);
+            }
+
+            System.out.printf("\n  📍 CURRENT SECTOR: %s\n", map.getCurrentPhase());
+
+
+            
+            Enemy enemy = map.getEnemyFromPhase();
+
+            if (showStatus) {
+                System.out.println("\n  ⚠️  A WILD ENEMY MATERIALIZES!");
+                System.out.printf("  👾 TARGET DETECTED: %s\n", enemy.getStatus());
+                printHeroBattleMenu();
+                showStatus = false;
+            }
+
+            switch (this.simulateFight(enemy)) {
+
+                case (FightResult.WIN):
+                    
+                    hero.setCurrentHp(hero.getMaxHp());
+                    hero.setIsAlive(true);
+                    hero.rewardHero(enemy, map);
+                    hero.checkLevelUp();
+                    System.out.println("\n  🏆 [VICTORY] Area secured. Health fully restored.\n");
+                    return;
+
+                case (FightResult.LOOSE):
+                    
+                    if (gameWorldType == GameWorldType.EASY) {
+                        hero.setCurrentHp(hero.getMaxHp());
+                        hero.setIsAlive(true);
+                        System.out.println("\n  🩹 [RESCUED] You suffered a fatal blow, but Easy Mode engaged! Health fully restored.\n");
+            
+                        
+                    } else if (gameWorldType == GameWorldType.HARD) {
+                        
+                        System.out.println("\n  💀 [DEFEAT] You have fallen. Hard Mode penalty: ALL PROGRESS PURGED.\n");
+                        hero.resetStatus();
+                        map.resetAllEnemies();
+            
+                    }
+                    return;
+
+                case (FightResult.RUNAWAY):
+                    int gold = hero.getGold();
+                    double goldLost = (double) gold * 0.2;
+                    hero.setGold(gold - (int) goldLost);
+
+                    System.out.println("\n  💨 [FLED] You barely managed to escape with your life...");
+                    System.out.printf("  📉 PENALTY: %s Gold scattered during the retreat.\n", goldLost);
+                    return;
+
+                case (FightResult.CONTINUEFIGHT):
+                    break;
+
+                default:
+            }
+        }
+    }
+
+    public FightResult simulateFight(Enemy enemy) {
+
+        AttackType type;
+        type = enemy.attack(hero);
+//        pause(500);
+        
+        // Clean, single-line turn separator
+        System.out.println("\n  📊 ================= BATTLE STATS ================= 📊");
+        System.out.printf("   👾 ENEMY : %s\n", enemy.getMiniStatus());
+        System.out.printf("   🛡️ HERO  : %s\n", hero.getMiniStatus());
+        System.out.println("  ──────────────────────────────────────────────────────");
+        
+
+        System.out.println("\n  🛑 --- ENEMY'S TURN ---");
+//        pause(2000);
+        printAttack(enemy, hero, type, true);
+        
+        if (!hero.isIsAlive()) {
+            printDeath(hero, enemy);
+            return FightResult.LOOSE;
+            
+        }
+
+//        pause(1000); 
+         // Print menu right before asking for input
+
+
+        boolean success;
+                System.out.println("\n  🟢 --- YOUR TURN ---");
+
+                // ADD THIS DO-WHILE LOOP
+                do {
+                    int choice = getValidInt("  ➤ Select Combat Action: ", 1, 5);
+                    success = true; // Assume success unless a skill fails
+
+                    switch (choice) {
+                        case 1:
+                            success = hero.attack(enemy);
+                            printAttack(hero, enemy, AttackType.PASSIVE, success);
+                            break;
+                        case 2:
+                            success = hero.attack(enemy, AttackType.SKILL2);
+                            printAttack(hero, enemy, AttackType.SKILL2, success);
+                            break;
+                        case 3:
+                            success = hero.attack(enemy, AttackType.ULTIMATE);
+                            printAttack(hero, enemy, AttackType.ULTIMATE, success);
+                            break;
+                        case 4:
+                            int size = hero.getInventory().size();
+                            if (size <= 0) {
+                                System.out.println("\n  ⚠️ [EMPTY] Your backpack is completely bare. Choose another action!");
+                                success = false; // Force them to pick again!
+                                break;
+                            }
+                            hero.showInventory();
+                            int itemIndex = getValidInt("  ➤ Select Item to consume: ", 1, size) - 1;
+                            Item item = hero.getInventory().get(itemIndex);
+                            hero.useItem(item);
+                            printUseItem(hero, item.getItemType());
+                            hero.removeItem(item);
+                            break;
+                        case 5:
+                            System.out.println("\n  ➤ Attempting emergency retreat...\n");
+                            return FightResult.RUNAWAY;
+                        default:
+                            break;
+                    }
+
+                    // If success is false (not enough mana, empty inventory), loop again!
+                } while (!success);
+
+//        pause(1000); 
+
+        if (!enemy.isIsAlive()) {
+            hero.setEnemiesKilled(hero.getEnemiesKilled() + 1);
+            printDeath(enemy, hero);
+            return FightResult.WIN;
+            
+        } else {
+            return FightResult.CONTINUEFIGHT;
+        }
+    }
+
+    private void pause(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); 
+        }
+    }
+
+    // GETTERS AND SETTERS
+    public Map getMap() { return map; }
+    public void setMap(Map map) { this.map = map; }
+    public Hero getHero() { return hero; }
+    public void setHero(Hero hero) { this.hero = hero; }
+    public GameWorldType getGameWorldType() { return gameWorldType; }
+    public void setGameWorldType(GameWorldType gameWorldType) { this.gameWorldType = gameWorldType; }
+
+    public String getGameWorldName() {
+        return gameWorldName;
+    }
+
+    public void setGameWorldName(String gameWorldName) {
+        this.gameWorldName = gameWorldName;
+    }
+    
+}
+
+/* === GameWorldType.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public enum GameWorldType {
+    EASY,
+    MEDIUM,
+    HARD,
+}
+
+
+/* === Hero.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import com.mycompany.darksteplegend.Character;
+import com.mycompany.darksteplegend.Enemy;
+import static com.mycompany.darksteplegend.GameLogger.*;
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class Hero extends Character implements Serializable{
+    
+    private int enemiesKilled = 0;
+    private boolean shieldOn = false;
+    private int mana;
+    private int exp;
+    private LevelType level = LevelType.BASIC;
+            
+    public Hero(String name, int maxHp, int gold, int passiveDmg, int skill2Dmg, int ultimateDmg) {
+        
+        super(name, maxHp, gold, passiveDmg, skill2Dmg, ultimateDmg);
+        setMana(0);
+        setExp(0);
+    }
+    
+    public Hero(Hero template) {
+
+        super(
+            template.getName(),
+            template.getMaxHp(),
+            template.getGold(),
+            template.getPassiveDmg(),
+            template.getSkill2Dmg(),
+            template.getUltimateDmg()
+        );
+
+        // Copy Hero-specific fields
+        this.mana = template.mana;
+        this.exp = template.exp;
+        this.level = template.level;
+
+        // Reset runtime state
+        this.setCurrentHp(template.getMaxHp());
+        this.setIsAlive(true);
+        this.enemiesKilled = 0;
+        this.shieldOn = false;
+        this.exp = 0;
+    }
+    
+        // METHODS
+    public void rewardHero(Enemy enemy, Map map) {
+
+        // ✅ REWARD EXP AND GOLD
+        int goldReward = 0;
+        int expReward = 0;
+
+        switch (enemy.getEnemyType()) {
+            case EASY -> { goldReward = 10; expReward = 15; }
+            case MEDIUM -> { goldReward = 20; expReward = 40; }
+            case HARD -> { goldReward = 50; expReward = 100; }
+            case BOSS -> { goldReward = 200; expReward = 400; }
+        }
+
+        // Update hero stats
+        this.setGold(this.getGold() + goldReward);
+        this.setExp(this.getExp() + expReward);
+
+        // Print reward
+        printRewardHero(this, goldReward, expReward);
+
+        // ✅ ITEM DROP BASED ON PHASE
+        Item item = null;
+        boolean itemGot = false;
+
+        switch (map.getCurrentPhase()) {
+            case SURVIVAL -> {
+                if (Math.random() < 0.30) { item = map.getData().getGameAllItems().get(0); itemGot = true; }
+            }
+            case BLOODBATH -> {
+                if (Math.random() < 0.40) { item = map.getData().getGameAllItems().get(1); itemGot = true; }
+            }
+            case SLAUGHTER -> {
+                if (Math.random() < 0.70) { item = map.getData().getGameAllItems().get(2); itemGot = true; }
+            }
+            case EXTINCTION -> {
+                item = map.getData().getGameAllItems().get(3);
+                itemGot = true;
+            }
+        }
+
+        if (itemGot && item != null) {
+            this.addItem(item);
+            printItemGained(item);
+        }
+    }
+    
+    public void useItem(Item item) {
+        int effect = item.getItemEffect();
+        
+        if (item.getItemType() == ItemType.MANA_POTION) {
+            this.mana+= effect;
+        }
+        else if (item.getItemType() == ItemType.MINOR_HP_POTION) {
+            this.setCurrentHp(this.getCurrentHp() + effect);
+        }
+        else if (item.getItemType() == ItemType.SHIELD_SCROLL) {
+            this.setShieldOn(true);
+        }
+        else if (item.getItemType() == ItemType.ELIXIR_OF_POWER) {
+            this.setPassiveDmg(this.getPassiveDmg() + effect);
+        }
+    }
+    
+    
+    public void showInventory() {
+        
+        System.out.println("\n  🎒 ==================== INVENTORY ==================== 🎒");
+        System.out.printf("   💰 CURRENT BALANCE : %s Gold\n", this.getGold());
+        System.out.printf("   ✨ ACCUMULATED EXP : %s XP\n", this.getExp());
+        System.out.println("  ───────────────────────────────────────────────────────");
+        System.out.println("   🧰 BACKPACK CONTENTS:");
+        int i = 1;
+        for (Item item: this.getInventory()) {
+            System.out.printf("   [%s] %s\n", i, item.getItemInfo());
+            i++;
+        }
+        System.out.println("  =======================================================");
+    }
+    
+    public void addItem(Item item) { // Add ITEM HERO
+        this.getInventory().add(item);  
+    }
+    
+    public void removeItem(Item item) { // Remove ITEM
+        this.getInventory().remove(item);
+    }
+    
+    public void resetStatus() { // Reset STATUS OF HERO
+        
+        this.setCurrentHp(this.getMaxHp());
+        this.setMana(0);
+        this.setExp(0);
+        this.setLevel(LevelType.BASIC);
+        this.setIsAlive(true);
+        this.setGold(0);
+        this.getInventory().clear();
+    }
+    
+    public boolean attack(Enemy enemy) { // Attack PASSIVE
+        
+        if (enemy.isIsAlive() && enemy.takeDamage(this.getPassiveDmg())) {
+            this.enemiesKilled++;
+            
+        }
+        this.mana += 10;
+        return true; // Passive attack is always successful 
+ 
+    }
+    
+    public boolean attack(Enemy enemy, AttackType type) { // Attack SKILL 2 OR ULTIMATE
+        
+        if (type == AttackType.SKILL2 && this.getMana() >= 20) {
+            
+            if (enemy.takeDamage(this.getSkill2Dmg())) {
+                this.enemiesKilled++;
+            }
+            this.mana -=20;
+            return true;
+        }
+        else if (type == AttackType.ULTIMATE && this.getMana() >= 30) {
+            
+            if (enemy.takeDamage(this.getUltimateDmg())) {
+                this.enemiesKilled++;
+            }
+            
+            this.mana -=30;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean takeDamage(int damage) { // Deal DAMAGE OF HERO
+        
+        if (!shieldOn) { // Only if shield is off
+            
+            this.setCurrentHp(this.getCurrentHp() - damage);
+            
+            if (this.getCurrentHp() <= 0) { 
+                this.setCurrentHp(0);
+                this.setIsAlive(false); 
+                return true; // return dead
+            }
+            return false; // return alive
+            
+        }
+        
+        this.setShieldOn(false); // remove shield
+        return false; // return alive
+    }
+    
+    public void checkLevelUp() { // Upgrade LEVEL of HERO
+        int currentDmg = this.getPassiveDmg();
+        
+        if (exp >= 60) {
+            
+            switch(getLevel()) {
+                
+                case (LevelType.BASIC):
+                    
+                    setLevel(LevelType.ELITE);;
+                    System.out.printf("  📈 [PROMOTION] Rank Upgraded to: %s", LevelType.ELITE);
+                    break;
+                
+                case (LevelType.ELITE):
+                    
+                    setLevel(LevelType.LEGEND);
+                    System.out.printf("  📈 [ASCENSION] Rank Upgraded to: %s", LevelType.LEGEND);
+                    break;
+                
+                default:
+                    return;
+                            
+            }
+            double damageIncrease = (double) currentDmg * 0.5;
+            this.setPassiveDmg(currentDmg + (int) damageIncrease);
+            System.out.printf(" | ✅ ATK BUMP: +%s DMG | 📉 EXP CONVERTED: -60\n", damageIncrease);
+            exp -=60;
+            
+        }
+    }
+    
+
+    public String getStatus() {
+        return String.format("❤️ HP: %-4s | 🏅 LVL: %-7s | ☠️ KILLS: %-3s | 💧 MP: %-3s | ✨ EXP: %-4s | 👤 %s", 
+                this.getCurrentHp(), this.getLevel(), this.getEnemiesKilled(), this.getMana(), this.getExp(), this.getName());
+    }
+    
+    public String getMiniStatus() {
+        return String.format("❤️ HP: %-4s | 💧 MP: %-3s | ✨ EXP: %-4s", 
+                this.getCurrentHp(), this.getMana(), this.getExp());
+    }
+    
+    // GETTERS AND SETTERS
+
+    public int getEnemiesKilled() {
+        return enemiesKilled;
+    }
+
+    public void setEnemiesKilled(int enemiesKilled) {
+        this.enemiesKilled = enemiesKilled;
+    }
+    
+
+    public boolean isShieldOn() {
+        return shieldOn;
+    }
+
+    public void setShieldOn(boolean shieldOn) {
+        this.shieldOn = shieldOn;
+    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public LevelType getLevel() {
+        return level;
+    }
+
+    public void setLevel(LevelType level) {
+        this.level = level;
+    }
+    
+}
+
+/* === InputHelper.java === */
+package com.mycompany.darksteplegend;
+
+import java.util.Scanner;
+
+public class InputHelper {
+    
+    public static Scanner sc = new Scanner(System.in);
+    
+    public static int getValidInt(String text, int start, int end) {
+        while (true) {
+            try {
+                System.out.print(text);
+                int input = sc.nextInt();
+                sc.nextLine();
+
+                if (input < start || input > end) {
+                    throw new IllegalArgumentException();
+                }
+
+                return input;
+            } 
+            catch (java.util.InputMismatchException e) {
+                System.out.println("\n  ❌ [INVALID INPUT] Only numeric values are allowed. Please try again.");
+                sc.nextLine();
+            } 
+            catch (IllegalArgumentException e) {
+                System.out.println("\n  ❌ [OUT OF BOUNDS] Your selection must be an exact number between " + start + " and " + end + ".");
+            }
+        }
+    }
+    
+    public static String getValidString(String text) {
+        while (true) {
+            System.out.print(text);
+            String input = sc.nextLine();
+            if (input.length() <= 0){
+                System.out.println("\n  ❌ [MISSING DATA] This field cannot be left blank. Please type something valid.");
+            }
+            else {
+                return input;
+            }  
+        }
+    }
+}
+
+/* === Item.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class Item implements Serializable{
+    
+    private String itemName;
+    private ItemType itemType;
+    private int itemEffect;
+    
+    public Item(String name, ItemType type, int effect) {
+        
+        setItemName(name);
+        setItemType(type);
+        setItemEffect(effect);
+    }
+    // METHODS
+    public String getItemInfo() {
+        return String.format("NAME: %s | TYPE: %s | EFFECT: %s\n", itemName, itemType, itemEffect);
+    }
+    
+
+    // GETTERS AND SETTERS
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public int getItemEffect() {
+        return itemEffect;
+    }
+
+    public void setItemEffect(int itemEffect) {
+        this.itemEffect = itemEffect;
+    }
+    
+    
+}
+
+
+/* === ItemType.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public enum ItemType implements Serializable{
+    MINOR_HP_POTION,
+    MANA_POTION,
+    SHIELD_SCROLL,
+    ELIXIR_OF_POWER,
+}
+
+
+/* === LevelType.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public enum LevelType implements Serializable{
+    BASIC,
+    ELITE,
+    LEGEND,
+}
+
+
+/* === Map.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import com.mycompany.darksteplegend.Enemy;
+import com.mycompany.darksteplegend.EnemyType;
+import com.mycompany.darksteplegend.GameData;
+import com.mycompany.darksteplegend.PhaseType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class Map implements Serializable{
+    
+    private PhaseType currentPhase = PhaseType.SURVIVAL;
+    private String mapName;
+    private GameData data;
+    HashMap<PhaseType, List<Enemy>> mapAllEnemies = new HashMap<>();
+    
+    public Map(String name, GameData data) {
+        
+        setData(data);
+        setMapName(name);
+        
+        // Fill up with enemies;
+        List<Enemy> phase1 = new ArrayList<>();
+        List<Enemy> phase2 = new ArrayList<>();
+        List<Enemy> phase3 = new ArrayList<>();
+        List<Enemy> phase4 = new ArrayList<>();
+        
+        addEnemyMap(phase1, EnemyType.EASY, 3);
+        addEnemyMap(phase2, EnemyType.MEDIUM, 3);
+        addEnemyMap(phase3, EnemyType.HARD, 3);
+        addEnemyMap(phase4, EnemyType.BOSS, 1);
+        
+        mapAllEnemies.put(PhaseType.SURVIVAL, phase1);
+        mapAllEnemies.put(PhaseType.BLOODBATH, phase2);
+        mapAllEnemies.put(PhaseType.SLAUGHTER, phase3);
+        mapAllEnemies.put(PhaseType.EXTINCTION, phase4);
+        
+        
+    }
+    
+    public Map(Map template) {
+
+        // Copy simple fields
+        this.mapName = template.mapName;
+        this.data = template.data;
+
+        // Reset phase
+        this.currentPhase = PhaseType.SURVIVAL;
+
+        // Create new HashMap (IMPORTANT: avoid shared reference)
+        this.mapAllEnemies = new HashMap<>();
+
+        // Deep copy enemies phase by phase
+        for (PhaseType type : template.mapAllEnemies.keySet()) {
+
+            List<Enemy> newList = new ArrayList<>();
+
+            for (Enemy e : template.mapAllEnemies.get(type)) {
+                newList.add(new Enemy(e)); // 🔥 use your Enemy copy constructor
+            }
+
+            this.mapAllEnemies.put(type, newList);
+        }
+    }
+    
+    
+    // METHODS
+    
+    // Gets enemy from phase
+    public Enemy getEnemyFromPhase() {
+
+        for (Enemy e: mapAllEnemies.get(currentPhase)) {
+
+   
+            if (e.isIsAlive()) {
+                return e;
+            }
+        }
+        return null;
+    }
+    
+    // Checks map progression and increases phases
+    public boolean checkMapProgression() {
+        
+        // LOOP THROUGH CURRENT PHASE
+        for (Enemy e: mapAllEnemies.get(currentPhase)) {
+            
+            // If even one enemy is alive
+            if (e.isIsAlive()) {
+                
+                return false; // Do ntg and return map incomplete
+            }
+        }
+        // IF all are dead in specific phase
+        
+        switch (currentPhase) {
+            
+            
+            case (PhaseType.SURVIVAL):
+                currentPhase = PhaseType.BLOODBATH;
+                break;
+                
+            case (PhaseType.BLOODBATH):
+                currentPhase = PhaseType.SLAUGHTER;
+                break;
+                
+            case (PhaseType.SLAUGHTER):
+                currentPhase = PhaseType.EXTINCTION;
+                break;
+             
+            case (PhaseType.EXTINCTION):
+                return true; // Return map complete
+            
+            default:
+                break;   
+                
+        }
+        return false; // Return map incomplete
+    }
+    
+    public void resetAllEnemies() { // Reset all ENEMIES
+        for (PhaseType type : mapAllEnemies.keySet()) {
+
+            for (Enemy e : mapAllEnemies.get(type)) {
+                e.resetStatus();
+            }
+        }
+        currentPhase = PhaseType.SURVIVAL;
+    }
+    
+    private void addEnemyMap(List<Enemy> phaseList, EnemyType type, int count) { // Add enemy in the map
+        
+        for (int i = 0; i < count; i++) {
+            phaseList.add(data.getEnemyFromData(type));
+        }
+    }
+
+    public String getMapName() {
+        return mapName;
+    }
+
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
+    }
+
+    public GameData getData() {
+        return data;
+    }
+
+    public void setData(GameData data) {
+        this.data = data;
+    }
+
+    public HashMap<PhaseType, List<Enemy>> getMapAllEnemies() {
+        return mapAllEnemies;
+    }
+
+    public void setMapAllEnemies(HashMap<PhaseType, List<Enemy>> mapAllEnemies) {
+        this.mapAllEnemies = mapAllEnemies;
+    }
+
+    public PhaseType getCurrentPhase() {
+        return currentPhase;
+    }
+
+    public void setCurrentPhase(PhaseType currentPhase) {
+        this.currentPhase = currentPhase;
+    }
+    
+    
+    
+    
+}
+
+
+/* === MenuPrinter.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class MenuPrinter {
+    public static void printHeroBattleMenu() {
+        System.out.println("\n  ⚔️  ================ COMMAND MATRIX ================ ⚔️");
+        System.out.println("  ──────────────────────────────────────────────────────");
+        System.out.println("    [1] ⚔️  Basic Strike      [4] 🎒 Access Backpack");
+        System.out.println("    [2] ✨  Skill Two         [5] 💨 Tactical Retreat");
+        System.out.println("    [3] ☄️  Ultimate                        ");
+        System.out.println("  ======================================================");
+    }
+    
+    public static void printHeroMainMenu() {
+        System.out.println("\n  🏕️  ============= CAMP FIRE HEADQUARTERS ============= 🏕️");
+        System.out.println("  ──────────────────────────────────────────────────────");
+        System.out.println("    [1] ⚔️  Embark / Continue Exploring ");
+        System.out.println("    [2] 🎒 Review Inventory Setup  ");
+        System.out.println("    [3] 🚪 Save Progress & Return to Hub ");
+        System.out.println("  ======================================================");
+    }
+    
+    public static void printMainMenu(Player player) {
+        System.out.println("\n  ======================================================");
+        System.out.printf("   👤 COMMANDER: %-15s |  💰 VAULT: %s Gold\n", player.getPlayerName(), player.getPlayerGold());
+        System.out.println("  ======================================================");
+        System.out.println("    [1] 🌍 Enter a Created World     ");
+        System.out.println("    [2] 🏗️  Forge a New World   ");
+        System.out.println("    [3] 🦸 Enter Hero Tavern (Shop) ");
+        System.out.println("    [4] 🗺️  Consult Cartographer (Maps) ");
+        System.out.println("    [5] 💾 Save Protocol & Exit Game ");
+        System.out.println("  ──────────────────────────────────────────────────────");
+    }
+    
+    public static void printLoginRegister() {
+        System.out.println("\n  🌌 ================================================== 🌌");
+        System.out.println("                     DARK STEP LEGEND                     ");
+        System.out.println("  🌌 ================================================== 🌌");
+        System.out.println("    [1] 🔑 Login to Existing Profile   ");
+        System.out.println("    [2] 📝 Register New Commander ");
+        System.out.println("    [3] ❌ Terminate Session");
+        System.out.println("  ──────────────────────────────────────────────────────");
+    }
+    
+}
+
+/* === PhaseType.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Enum.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public enum PhaseType implements Serializable{
+    SURVIVAL,
+    BLOODBATH,
+    SLAUGHTER,
+    EXTINCTION,
+}
+
+
+/* === Player.java === */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.darksteplegend;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author prashnamshrestha
+ */
+public class Player implements Serializable{
+    
+    private String playerName;
+    private String password;
+    // PLAYER DATA
+    private List<GameWorld> playerWorlds;
+    private List<Hero> playerHeroes;
+    private List<Map> playerMaps;
+    
+    private int playerGold;
+    
+    // CONSTRUCTOR
+    public Player(String name, String pass, GameData data) {
+        
+        setPlayerName(name);
+        setPlayerWorlds(new ArrayList<>());
+        setPlayerHeroes(new ArrayList<>());
+        setPlayerMaps(new ArrayList<>());
+        setPlayerGold(100);
+        setPassword(pass);
+        
+        Map map = new Map("JUNGLE", data);
+        Hero mage = new Hero("Mage", 250, 0, 15, 20, 30);
+        this.addPlayerHero(mage);
+        this.addPlayerMap(map);
+        
+    }
+    //  METHODS 
+    public void addPlayerHero(Hero hero) { // Add new unlocked HERO
+        getPlayerHeroes().add(hero);
+    }
+    
+    public void addPlayerMap(Map newMap) { // Add new unlocked MAP
+        getPlayerMaps().add(newMap);
+    }
+    
+    public void addPlayerWorld(GameWorld newWorld) { // Add new WORLD
+        getPlayerWorlds().add(newWorld);
+    }
+    
+    public boolean depositGold(int amount) { // Deposit GOLD
+        playerGold += amount;
+        return true;
+    }
+    
+    public boolean withdrawGold(int amount) { // Withdraw GOLD
+        if (getPlayerGold() < amount) {
+            return false;
+        }
+        playerGold -= amount;
+        return true;
+    }
+
+    // GETTERS AND SETTERS  
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public List<GameWorld> getPlayerWorlds() {
+        return playerWorlds;
+    }
+
+    public void setPlayerWorlds(List<GameWorld> playerWorlds) {
+        this.playerWorlds = playerWorlds;
+    }
+
+    public List<Hero> getPlayerHeroes() {
+        return playerHeroes;
+    }
+
+    public void setPlayerHeroes(List<Hero> playerHeros) {
+        this.playerHeroes = playerHeros;
+    }
+
+    public List<Map> getPlayerMaps() {
+        return playerMaps;
+    }
+
+    public void setPlayerMaps(List<Map> playerMaps) {
+        this.playerMaps = playerMaps;
+    }
+
+    public int getPlayerGold() {
+        return playerGold;
+    }
+
+    public void setPlayerGold(int playerGold) {
+        this.playerGold = playerGold;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    
+    
+    
+}
+
+
