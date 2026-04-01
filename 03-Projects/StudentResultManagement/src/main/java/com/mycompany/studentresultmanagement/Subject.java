@@ -4,11 +4,13 @@
  */
 package com.mycompany.studentresultmanagement;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public class Subject {
+public class Subject implements Serializable{
     
     private String subjectName;
     private String subjectCode;

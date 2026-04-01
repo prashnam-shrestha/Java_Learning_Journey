@@ -7,19 +7,22 @@ package com.mycompany.studentresultmanagement;
 import static com.mycompany.studentresultmanagement.InputHelper.*;
 import static com.mycompany.studentresultmanagement.MenuPrinter.*;
 import static com.mycompany.studentresultmanagement.AdminOperation.*;
+import static com.mycompany.studentresultmanagement.DataManager.saveAppState;
+import static com.mycompany.studentresultmanagement.StudentResultManagement.filePath;
+import java.io.Serializable;
 
 /**
  *
  * @author prashnamshrestha
  */
-public class Admin extends User {
+public class Admin extends User implements Serializable {
     
     public Admin(String name, String password) {
         super(name, password);
     }
     
     // METHODS
-    public void manageStudents(Data data) {
+    public void manageStudents(Data data){
         
         while (true) {
             printStudentManagementMenu();
@@ -35,14 +38,17 @@ public class Admin extends User {
                 
                 // Remove student;
                 case 2:
+                    removeStudentOperation(data);
                     break;
                    
                 // View all student;
                 case 3:
+                    viewStudentOperation(data);
                     break;
                 
                 // Exit back
                 case 4:
+                    saveAppState(data, filePath);
                     return;
                     
                 default:
@@ -51,7 +57,7 @@ public class Admin extends User {
         }
     }
     
-    public void manageSubjects() {
+    public void manageSubjects(Data data) {
         
     }
     

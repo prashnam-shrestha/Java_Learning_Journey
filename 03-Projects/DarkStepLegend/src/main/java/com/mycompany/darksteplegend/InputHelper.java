@@ -21,7 +21,6 @@ public class InputHelper {
             } 
             catch (java.util.InputMismatchException e) {
                 System.out.println("\n  ❌ [INVALID INPUT] Only numeric values are allowed. Please try again.");
-                sc.nextLine();
             } 
             catch (IllegalArgumentException e) {
                 System.out.println("\n  ❌ [OUT OF BOUNDS] Your selection must be an exact number between " + start + " and " + end + ".");

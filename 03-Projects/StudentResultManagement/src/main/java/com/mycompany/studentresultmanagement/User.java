@@ -4,11 +4,13 @@
  */
 package com.mycompany.studentresultmanagement;
 
+import java.io.Serializable;
+
 /**
  *
  * @author prashnamshrestha
  */
-public abstract class User {
+public abstract class User implements Serializable{
     
     private String name;
     private String password;

@@ -21,6 +21,8 @@ public class InputHelper {
                 System.out.print(text);
                 
                 int input = sc.nextInt();
+                sc.nextLine();
+                
                 if (input < start || input > end) {
                     throw new InputOutOfBoundary(String.format("- Please enter between %s-%s\n", start, end));
                 }
@@ -30,10 +32,11 @@ public class InputHelper {
             catch (InputMismatchException e) {
                 System.out.println("- Please enter a number!");
                 sc.nextLine();
+
             }
             catch (InputOutOfBoundary e) {
                 System.out.println(e.getMessage());
-                sc.nextLine();
+     
             }
         }
     }

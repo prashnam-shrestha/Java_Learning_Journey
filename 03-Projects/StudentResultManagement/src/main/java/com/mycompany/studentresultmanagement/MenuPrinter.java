@@ -29,7 +29,7 @@ public class MenuPrinter {
         System.out.println("5. View Results");
         System.out.println("6. Generate Report Card");
         System.out.println("7. Manage Admins");
-        System.out.println("8. Logout");
+        System.out.println("8. Save & Logout");
     }
 
     public static void printStudentMenu() {
@@ -48,7 +48,7 @@ public class MenuPrinter {
         System.out.println("1. Add Student");
         System.out.println("2. Remove Student");
         System.out.println("3. View All Students");
-        System.out.println("4. Back");
+        System.out.println("4. Save & Back");
     }
 
     public static void printSubjectManagementMenu() {
@@ -58,7 +58,7 @@ public class MenuPrinter {
         System.out.println("1. Add Subject");
         System.out.println("2. Remove Subject");
         System.out.println("3. View All Subjects");
-        System.out.println("4. Back");
+        System.out.println("4. Save & Back");
     }
 
     public static void printEnrollmentMenu() {
@@ -67,7 +67,7 @@ public class MenuPrinter {
         System.out.println("=========================================");
         System.out.println("1. Enroll Student in Subject");
         System.out.println("2. View Enrollments");
-        System.out.println("3. Back");
+        System.out.println("3. Save & Back");
     }
 
     public static void printAdminManagementMenu() {
@@ -77,7 +77,7 @@ public class MenuPrinter {
         System.out.println("1. Add Admin");
         System.out.println("2. Remove Admin");
         System.out.println("3. View All Admins");
-        System.out.println("4. Back");
+        System.out.println("4. Save & Back");
     }
 
 }

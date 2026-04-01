@@ -4,9 +4,11 @@
 
 package com.mycompany.studentresultmanagement;
 
+import static com.mycompany.studentresultmanagement.AdminOperation.*;
 import static com.mycompany.studentresultmanagement.DataManager.*;
 import static com.mycompany.studentresultmanagement.InputHelper.*;
 import static com.mycompany.studentresultmanagement.MenuPrinter.*;
+import java.util.Optional;
 
 /**
  *
@@ -45,20 +47,45 @@ public class StudentResultManagement {
     
     public static void loginOperation(Data data) {
         
-        String name = getValidString("Enter name: ");
+        String nameOrId = getValidString("Admin name / Student ID: ");
         
         String password = getValidString("Enter password: ");
         
-        for (User user: data.getUsers()) {
-   
+        Optional<User> matched = data.getUsers().stream()
+            .filter(u ->  matchesCredentials(u,nameOrId,password))
+            .findFirst();
+                
+        User user;
+        if (matched.isPresent()) {
+            
+            user = matched.get();
+            
+            if (user instanceof Admin) {
+                loggedAdminOperation((Admin) user, data);
+            }
+            else {
+                loggedStudentOperation((Student) user);
+            }
+            
         }
-        
-        // else back to main menu 
+        else {
+            System.out.println("- Invalid credentials!");
+        } 
     }
     
-    public static void loggedOperation(User user) {
-        
+    public static void loggedStudentOperation(Student student) {
+        System.out.println("STUDENT LOGGED IN....");
     }
     
     public static String filePath = "InstitutionData";
+    
+    private static boolean matchesCredentials(User u, String nameOrId, String password) {
+        if (u instanceof Admin) {
+            return u.getName().equals(nameOrId) && u.getPassword().equals(password);
+        }
+        if (u instanceof Student s) {
+            return s.getStudentId().equals(nameOrId) && s.getPassword().equals(password);
+        }
+        return false;
+    }
 }

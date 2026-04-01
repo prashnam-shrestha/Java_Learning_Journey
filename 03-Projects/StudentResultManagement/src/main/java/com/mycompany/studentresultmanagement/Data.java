@@ -4,6 +4,7 @@
  */
 package com.mycompany.studentresultmanagement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author prashnamshrestha
  */
-public class Data {
+public class Data implements Serializable{
     private List<User> users;
     private List<Admin> admins;
     private List<Student> students;
@@ -23,10 +24,39 @@ public class Data {
         setAdmins(new ArrayList<>());
         setStudents(new ArrayList<>());
         setSubjects(new ArrayList<>());
+        
+        Admin defaultAdmin = new Admin("Admin", "Admin123");
+        this.addAdmin(defaultAdmin);
     }
     // METHODS
     public void addStudent(Student student) {
         students.add(student);
+        addUser(student);
+    }
+    
+    public void removeStudent(Student student) {
+        students.remove(student);
+        removeUser(student);
+    }
+    
+    // ADMIN ADD REMOVE
+    public void addAdmin(Admin admin) {
+        admins.add(admin);
+        addUser(admin);
+    }
+    
+    public void removeAdmin(Admin admin) {
+        admins.remove(admin);
+       removeUser(admin);
+    }
+    
+    // USER ADD REMOVE
+    private void addUser(User user) {
+        users.add(user);
+    }
+    
+    private void removeUser(User user) {
+        users.remove(user);
     }
 
     // GETTERS AND SETTERS
