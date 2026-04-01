@@ -4,6 +4,9 @@
  */
 package com.mycompany.studentresultmanagement;
 
+import static com.mycompany.studentresultmanagement.StudentResultManagement.getGradeGpa;
+import static com.mycompany.studentresultmanagement.StudentResultManagement.getGradeLetter;
+
 /**
  *
  * @author prashnamshrestha
@@ -78,6 +81,44 @@ public class MenuPrinter {
         System.out.println("2. Remove Admin");
         System.out.println("3. View All Admins");
         System.out.println("4. Save & Back");
+    }
+    
+    public static void printFormatedResult(Student student) {
+        
+        if (student.getEnrolledSubjects().isEmpty()) {
+            System.out.println("- Student has not enrolled in any subject!");
+            return;
+        }
+
+        StringBuilder result = new StringBuilder(
+            String.format(
+                "=========================================\n" +
+                "              VIEW RESULTS\n" +
+                "=========================================\n" + 
+                "\n-----------------------------------------\n" +
+                "   Results for: %s (%s)\n" +
+                "-----------------------------------------\n" + 
+                "   Subject              Grade    Letter\n" +
+                "-----------------------------------------\n",
+                student.getName(), student.getStudentId()
+            )
+        );
+
+
+        student.getEnrolledSubjects()
+            .forEach(s -> result.append(
+                String.format("%-20s %-8d %s\n",
+                    s.getSubjectName(),
+                    s.getObtainedMarks(),
+                    getGradeLetter(s))
+            ));
+
+        result.append(String.format("-----------------------------------------\n" +
+                                    "GPA : %s / 4.00\n" +
+                                    "-----------------------------------------", getGradeGpa(student)));
+
+
+        System.out.println(result);
     }
 
 }

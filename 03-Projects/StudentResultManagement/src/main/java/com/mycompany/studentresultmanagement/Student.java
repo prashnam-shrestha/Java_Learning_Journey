@@ -4,6 +4,7 @@
  */
 package com.mycompany.studentresultmanagement;
 
+import static com.mycompany.studentresultmanagement.MenuPrinter.printFormatedResult;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +28,32 @@ public class Student extends User implements Serializable{
         
     
     }
+    // METHODS
+    
     
     public boolean enrollSubject(Subject subject) {
         
-        for (Subject s: this.enrolledSubjects) {
-            if (s.getSubjectCode().equals(subject.getSubjectCode())) {
+        boolean enrolled = enrolledSubjects.stream()
+                .anyMatch(s -> s.getSubjectCode().equals(subject.getSubjectCode()));
                 
-                // PRINT THAT SUBJECT ALREADY ENROLLED
-                return false;
-            }
+        if (enrolled) {
+            // PRINT THAT SUBJECT ALREADY ENROLLED
+            return false;
         }
+        
         enrolledSubjects.add(new Subject(subject));
         return true;
     }
     
-    public String getResult() {
-        return "";
+    public void viewResult() {
+        
+        if (this.getEnrolledSubjects().isEmpty()) {
+            System.out.println("- Student has not enrolled in any subject!");
+        }
+        
+        printFormatedResult(this);
+        
+        
     }
     
     public String getReportCard() {

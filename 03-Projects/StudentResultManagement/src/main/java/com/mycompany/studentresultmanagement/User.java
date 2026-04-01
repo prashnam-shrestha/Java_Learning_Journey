@@ -21,9 +21,7 @@ public abstract class User implements Serializable{
         setPassword(password);
     }
     // METHODS
-    public abstract String getResult();
-    
-    public abstract String getReportCard();
+
     
 
     // GETTERS AND SETTERS

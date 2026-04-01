@@ -69,11 +69,4 @@ public class Admin extends User implements Serializable {
         
     }
     
-    public String getResult() {
-        return "";
-    }
-    
-    public String getReportCard() {
-        return "";
-    }
 }

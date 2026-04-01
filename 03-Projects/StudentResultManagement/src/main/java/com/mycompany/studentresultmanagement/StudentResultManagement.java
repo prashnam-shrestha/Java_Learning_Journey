@@ -53,7 +53,7 @@ public class StudentResultManagement {
         
         Optional<User> matched = data.getUsers().stream()
             .filter(u ->  matchesCredentials(u,nameOrId,password))
-            .findFirst();
+            .findFirst(); 
                 
         User user;
         if (matched.isPresent()) {
@@ -74,7 +74,32 @@ public class StudentResultManagement {
     }
     
     public static void loggedStudentOperation(Student student) {
-        System.out.println("STUDENT LOGGED IN....");
+        
+        boolean run = true;
+        
+        while (run) {
+            printStudentMenu();
+            
+            int stdChoice = getValidInt("Enter Choice: ", 1, 3);
+            
+            switch(stdChoice) {
+                
+                case 1:
+                    
+                    break;
+                    
+                case 2:
+                    break;
+                    
+                case 3:
+                    run = false;
+                    break;
+                    
+                default:
+                    
+            }
+        }
+        
     }
     
     public static String filePath = "InstitutionData";
@@ -87,5 +112,39 @@ public class StudentResultManagement {
             return s.getStudentId().equals(nameOrId) && s.getPassword().equals(password);
         }
         return false;
+    }
+    
+    public static String getGradeLetter(Subject s) {
+        int m = s.getObtainedMarks();
+        return (m >= 90) ? "A+" :
+               (m >= 80) ? "A"  :
+               (m >= 70) ? "B+" :
+               (m >= 60) ? "B"  :
+               (m >= 50) ? "C+" :
+               (m >= 40) ? "C"  : "F";
+    }
+    
+    public static double getGradeGpa(Student student) {
+        int totalMarks = 0;
+        int obtainedMarks = 0;
+
+        if (student.getEnrolledSubjects().size() == 0) {
+            return 0.0;
+        }
+
+        for (Subject s : student.getEnrolledSubjects()) {
+            totalMarks += s.getTotalMarks();
+            obtainedMarks += s.getObtainedMarks();
+        }
+
+        double percentage = (obtainedMarks * 100.0) / totalMarks;
+
+        if (percentage >= 90) return 4.0;
+        else if (percentage >= 80) return 3.7;
+        else if (percentage >= 70) return 3.3;
+        else if (percentage >= 60) return 3.0;
+        else if (percentage >= 50) return 2.7;
+        else if (percentage >= 40) return 2.0;
+        else return 0.0;
     }
 }
