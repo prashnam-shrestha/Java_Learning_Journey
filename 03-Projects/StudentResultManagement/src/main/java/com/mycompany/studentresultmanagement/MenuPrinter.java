@@ -4,8 +4,8 @@
  */
 package com.mycompany.studentresultmanagement;
 
-import static com.mycompany.studentresultmanagement.StudentResultManagement.getGradeGpa;
-import static com.mycompany.studentresultmanagement.StudentResultManagement.getGradeLetter;
+import static com.mycompany.studentresultmanagement.StudentOperation.*;
+
 
 /**
  *
@@ -94,24 +94,20 @@ public class MenuPrinter {
             String.format(
                 "=========================================\n" +
                 "              VIEW RESULTS\n" +
-                "=========================================\n" + 
-                "\n-----------------------------------------\n" +
-                "   Results for: %s (%s)\n" +
-                "-----------------------------------------\n" + 
-                "   Subject              Grade    Letter\n" +
-                "-----------------------------------------\n",
-                student.getName(), student.getStudentId()
+                "=========================================\n\n" +
+                "-----------------------------------------\n" +
+                "Results for: %s (%s)\n" +
+                "-----------------------------------------\n" +
+                "%-25s %-8s %-6s\n" +
+                "-----------------------------------------\n" +
+                "%s",
+                student.getName(),
+                student.getStudentId(),
+                "Subject", "Grade", "Letter",
+                getEnrolledGrades(student)
             )
         );
 
-
-        student.getEnrolledSubjects()
-            .forEach(s -> result.append(
-                String.format("%-20s %-8d %s\n",
-                    s.getSubjectName(),
-                    s.getObtainedMarks(),
-                    getGradeLetter(s))
-            ));
 
         result.append(String.format("-----------------------------------------\n" +
                                     "GPA : %s / 4.00\n" +
@@ -120,5 +116,7 @@ public class MenuPrinter {
 
         System.out.println(result);
     }
+
+
 
 }

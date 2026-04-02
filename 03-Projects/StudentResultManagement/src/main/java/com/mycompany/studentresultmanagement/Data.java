@@ -29,6 +29,16 @@ public class Data implements Serializable{
         this.addAdmin(defaultAdmin);
     }
     // METHODS
+    // SUBJECT ADD AND REMOVE
+    public void addSubject(Subject subject) {
+        subjects.add(subject);
+    }
+    
+    public void removeSubject(Subject subject) {
+        subjects.remove(subject);
+    }
+    
+    // STUDENT ADD AND REMOVE
     public void addStudent(Student student) {
         students.add(student);
         addUser(student);

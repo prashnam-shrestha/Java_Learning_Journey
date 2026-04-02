@@ -36,19 +36,31 @@ public class AdminOperation implements Serializable{
                     break;
                     
                 case 3:
-                    admin.manageEnrollments(); // MANAGE ENROLLMENTS
+                    admin.manageEnrollments(data); // MANAGE ENROLLMENTS
                     break;
                     
                 case 4:
-                    admin.manageGrades(); // ENTER GRADES
+                    admin.manageGrades(data); // ENTER GRADES
                     break;
                     
                 case 5:
-                    admin.getResult(); // VIEW RESULT
+                    String studentId = getValidString("Enter Student ID: ");
+        
+                    Optional<Student> student = data.getStudents().stream()
+                            .filter(s -> s.getStudentId().equals(studentId))
+                            .findFirst();
+
+                    if (student.isPresent()) {
+                        student.get().viewResult();
+                        
+                    }
+                    else {
+                        System.out.printf("- Student [%s] not found!\n", studentId);
+                    }
                     break;
                     
                 case 6:
-                    admin.getReportCard(); // GET REPORT CARD
+                     // GET REPORT CARD
                     break; 
                     
                 case 7:
@@ -121,5 +133,119 @@ public class AdminOperation implements Serializable{
         System.out.println("==============================");
         data.getStudents().stream()
                 .forEach(s -> System.out.printf(" %s | %s\n", s.getStudentId(), s.getName()));
+    }
+    
+    public static void addSubjectOperation(Data data) {
+        
+        String subName = getValidString("Enter Subject Name: ");
+        String subCode = getValidString("Create Subject code: ");
+        int subTotalMarks = getValidInt("Create Total Marks: ", 0, 100);
+        
+        boolean exists = data.getSubjects().stream()
+                .anyMatch(s -> s.getSubjectName().equals(subName) || s.getSubjectCode().equals(subCode));
+                
+        if (exists) {
+            System.out.println("- Subject name or code already exists");
+            return;
+        }
+        
+        Subject newSubject = new Subject(subName, subCode, subTotalMarks, 0);
+        data.addSubject(newSubject);
+        
+        
+    }
+    
+    public static void removeSubjectOperation(Data data) {
+        
+        if (data.getSubjects().isEmpty()) {
+            System.out.println("- Insufficient subjects to delete!");
+            return;
+        }
+        String subCode = getValidString("Enter Subject code: ");
+        
+        Optional<Subject> subject = data.getSubjects().stream()
+                .filter(s -> s.getSubjectCode().equals(subCode))
+                .findFirst();
+        
+        if (subject.isPresent()) {
+            data.removeSubject(subject.get());
+        }
+        else {
+            System.out.printf("- Subject [%s] not found\n", subCode);
+        }   
+    }
+    
+    public static void viewSubjectOperation(Data data) {
+        
+        if (data.getSubjects().isEmpty()) {
+            System.out.println("- Insufficient subjects to display!");
+        }
+        
+        System.out.println("==============================");
+        System.out.println("  CODE     |   NAME ");
+        System.out.println("==============================");
+        data.getSubjects().stream()
+                .forEach(s -> System.out.printf(" %s | %s\n", s.getSubjectCode(), s.getSubjectName()));
+    }
+    
+    public static void enrollStudent(Data data) {
+        
+        if (data.getSubjects().isEmpty()) {
+            System.out.println("- Insufficient subjects to enroll!");
+            return;
+        }
+        else if (data.getStudents().isEmpty()) {
+            System.out.println("- Insufficient students to enroll!");
+            return;
+        }
+        
+        String studentId = getValidString("Enter Student ID: ");
+        String subCode = getValidString("Enter Subject CODE: ");
+        
+        Optional<Student> student = data.getStudents().stream()
+                .filter(std -> std.getStudentId().equals(studentId))
+                .findFirst();
+        
+        Optional<Subject> subject = data.getSubjects().stream()
+                .filter(sub -> sub.getSubjectCode().equals(subCode))
+                .findFirst();
+                
+        if (student.isPresent() && subject.isPresent() ) {
+            student.get().enrollSubject(subject.get());
+        }
+        else {
+            System.out.printf("- Student [%s] or Subject [%s] not found!\n", studentId, subCode );
+        }
+        
+    }
+    
+    public static void viewEnrollment(Data data) {
+        if (data.getSubjects().isEmpty()) {
+            System.out.println("- Insufficient subjects to enroll!");
+            return;
+        }
+        else if (data.getStudents().isEmpty()) {
+            System.out.println("- Insufficient students to enroll!");
+            return;
+        }
+        
+        String studentId = getValidString("Enter Student ID: ");
+        
+        Optional<Student> student = data.getStudents().stream()
+                .filter(std -> std.getStudentId().equals(studentId))
+                .findFirst();
+        
+
+        if (student.isPresent()) {
+            
+            System.out.println("==============================");
+            System.out.println("  CODE     |   NAME ");
+            System.out.println("==============================");
+            student.get().getEnrolledSubjects().stream()
+                    .forEach(enrollSub -> System.out.printf("%s | %s\n", enrollSub.getSubjectCode(), enrollSub.getSubjectName()));
+        }
+        else {
+            System.out.printf("- Student [%s] not found!\n", studentId);
+        }
     }
 }

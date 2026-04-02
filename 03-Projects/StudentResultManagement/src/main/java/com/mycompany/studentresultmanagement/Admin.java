@@ -10,6 +10,7 @@ import static com.mycompany.studentresultmanagement.AdminOperation.*;
 import static com.mycompany.studentresultmanagement.DataManager.saveAppState;
 import static com.mycompany.studentresultmanagement.StudentResultManagement.filePath;
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  *
@@ -58,15 +59,107 @@ public class Admin extends User implements Serializable {
     }
     
     public void manageSubjects(Data data) {
+        while (true) {
+            printSubjectManagementMenu();
+            
+            int choice = getValidInt("Ente choice: ", 1, 4);
+
+            switch(choice) {
+                
+                // Add subject;
+                case 1:
+                    addSubjectOperation(data);
+                    break;
+                
+                // Remove subject;
+                case 2:
+                    removeSubjectOperation(data);
+                    break;
+                   
+                // View all subject;
+                case 3:
+                    viewSubjectOperation(data);
+                    break;
+                
+                // Exit back
+                case 4:
+                    saveAppState(data, filePath);
+                    return;
+                    
+                default:
+
+            }
+        }
         
     }
     
-    public void manageEnrollments() {
-        
+    public void manageEnrollments(Data data) {
+        while (true) {
+            
+            printEnrollmentMenu();
+            
+            int choice = getValidInt("Ente choice: ", 1, 3);
+
+            switch(choice) {
+                
+                // Enroll student to subject
+                case 1:
+                    enrollStudent(data);
+                    break;
+                
+                // View Enrollment;
+                case 2:
+                    viewEnrollment(data);
+                    break;
+                
+                // Exit back
+                case 3:
+                    saveAppState(data, filePath);
+                    return;
+                    
+                default:
+
+            }
+        }
     }
     
-    public void manageGrades() {
+    public void manageGrades(Data data) {
         
+        String studentId = getValidString("Enter Student ID: ");
+        
+        Optional<Student> student = data.getStudents().stream()
+                .filter(std -> std.getStudentId().equals(studentId))
+                .findFirst();
+        
+        if (student.isPresent()) {
+            Student studentFound = student.get();
+            
+            if (studentFound.getEnrolledSubjects().isEmpty()) {
+                System.out.printf("- Student [%s] not enrolled in any subject\n", studentId);
+                return;
+            }
+            
+            String subjectId = getValidString("Enter Subject ID: ");
+            
+            Optional<Subject> subject = studentFound.getEnrolledSubjects().stream()
+                .filter(sub -> sub.getSubjectCode().equals(subjectId))
+                .findFirst();
+            
+            if (subject.isPresent()) {
+                int totalMarks = subject.get().getTotalMarks();
+                int mark = getValidInt(String.format("Enter Mark(0-%s): ", totalMarks), 0, totalMarks);
+                
+                subject.get().setObtainedMarks(mark);
+                System.out.printf("- Grade entered successfully for %s\n", subject.get().getSubjectName());
+                
+            }
+            else {
+                System.out.printf("Subject [%s] not in enrollments\n", subjectId);
+            }
+        }
+        else {
+            System.out.printf("- Student [%s] not found\n", studentId);
+        }
     }
     
 }

@@ -41,18 +41,13 @@ public class Student extends User implements Serializable{
             return false;
         }
         
-        enrolledSubjects.add(new Subject(subject));
-        return true;
+        enrolledSubjects.add(new Subject(subject)); // ADD TEMPLATE AVOID ORIGINAL COPY
+        return true; 
     }
     
     public void viewResult() {
         
-        if (this.getEnrolledSubjects().isEmpty()) {
-            System.out.println("- Student has not enrolled in any subject!");
-        }
-        
         printFormatedResult(this);
-        
         
     }
     
