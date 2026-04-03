@@ -5,7 +5,10 @@
 package com.mycompany.studentresultmanagement;
 
 import static com.mycompany.studentresultmanagement.InputHelper.getValidInt;
+import static com.mycompany.studentresultmanagement.MenuPrinter.printFormatedResult;
 import static com.mycompany.studentresultmanagement.MenuPrinter.printStudentMenu;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -30,6 +33,7 @@ public class StudentOperation {
                         break;
 
                     case 2:
+                        printFormatedResult(getFormatedResult(student, true));
                         break;
 
                     case 3:
@@ -90,4 +94,76 @@ public class StudentOperation {
         else if (percentage >= 40) return 2.0;
         else return 0.0;
     }
+    
+    public static void generateReportCard(Student student) {
+        
+         String filePath = String.format("%s_report", student.getStudentId());
+         
+         try {
+            StringBuilder report = getFormatedResult(student, true);
+            System.out.println(report);
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(report.toString());
+            writer.close();
+
+            System.out.println(String.format("-----------------------------------------\n" +
+                                "   Report saved to: %s\n" +
+                                "=========================================", filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static StringBuilder getFormatedResult(Student student, boolean reportCase) {
+        
+        if (student.getEnrolledSubjects().isEmpty()) {
+
+            return new StringBuilder("- Student has not enrolled in any subject!");
+        }
+        String resultCase;
+        
+        if (reportCase) {
+            resultCase = "REPORT CARD";
+        }
+        else {
+             resultCase = "VIEW RESULTS";
+        }
+        
+        StringBuilder result = new StringBuilder(
+            String.format(
+                "=========================================\n" +
+                "              %s\n" +
+                "=========================================\n\n" +
+                "-----------------------------------------\n" +
+                "Results for: %s (%s)\n" +
+                "-----------------------------------------\n" +
+                "%-25s %-8s %-6s\n" +
+                "-----------------------------------------\n" +
+                "%s",
+                resultCase,
+                student.getName(),
+                student.getStudentId(),
+                "Subject", "Grade", "Letter",
+                getEnrolledGrades(student)
+            )
+        );
+
+
+        result.append(String.format("-----------------------------------------\n" +
+                                    "GPA : %s / 4.00\n", student.getGpa()));
+        if (reportCase) {
+            result.append(getGradeStatus(student.getGpa()));
+        }
+        result.append("\n-----------------------------------------");
+        return result;
+    }
+    
+    public static String getGradeStatus( double gpa) {
+        if (gpa >= 2.0) {
+            return "Result Status: PASS" ;
+        }
+        
+         return "Result Status: FAIL" ;
+    }
+    
 }

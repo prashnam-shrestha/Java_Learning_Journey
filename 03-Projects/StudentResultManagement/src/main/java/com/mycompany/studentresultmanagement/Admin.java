@@ -28,7 +28,7 @@ public class Admin extends User implements Serializable {
         while (true) {
             printStudentManagementMenu();
             
-            int choice = getValidInt("Ente choice: ", 1, 4);
+            int choice = getValidInt("Enter choice: ", 1, 4);
 
             switch(choice) {
                 
@@ -62,7 +62,7 @@ public class Admin extends User implements Serializable {
         while (true) {
             printSubjectManagementMenu();
             
-            int choice = getValidInt("Ente choice: ", 1, 4);
+            int choice = getValidInt("Enter choice: ", 1, 4);
 
             switch(choice) {
                 
@@ -98,7 +98,7 @@ public class Admin extends User implements Serializable {
             
             printEnrollmentMenu();
             
-            int choice = getValidInt("Ente choice: ", 1, 3);
+            int choice = getValidInt("Enter choice: ", 1, 3);
 
             switch(choice) {
                 

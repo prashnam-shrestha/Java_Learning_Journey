@@ -6,6 +6,7 @@ package com.mycompany.studentresultmanagement;
 
 import static com.mycompany.studentresultmanagement.InputHelper.*;
 import static com.mycompany.studentresultmanagement.MenuPrinter.*;
+import static com.mycompany.studentresultmanagement.StudentOperation.generateReportCard;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +61,19 @@ public class AdminOperation implements Serializable{
                     break;
                     
                 case 6:
-                     // GET REPORT CARD
+                    String studentId2 = getValidString("Enter Student ID: ");
+        
+                    Optional<Student> student2 = data.getStudents().stream()
+                            .filter(s -> s.getStudentId().equals(studentId2))
+                            .findFirst();
+
+                    if (student2.isPresent()) {
+                        generateReportCard(student2.get());
+                        
+                    }
+                    else {
+                        System.out.printf("- Student [%s] not found!\n", studentId2);
+                    }
                     break; 
                     
                 case 7:
@@ -179,6 +192,7 @@ public class AdminOperation implements Serializable{
         
         if (data.getSubjects().isEmpty()) {
             System.out.println("- Insufficient subjects to display!");
+            return;
         }
         
         System.out.println("==============================");
@@ -206,15 +220,22 @@ public class AdminOperation implements Serializable{
                 .filter(std -> std.getStudentId().equals(studentId))
                 .findFirst();
         
+        if (!student.isPresent()) {
+             System.out.printf("- Student [%s] not found!\n", studentId );
+             return;
+        }
+        
         Optional<Subject> subject = data.getSubjects().stream()
                 .filter(sub -> sub.getSubjectCode().equals(subCode))
                 .findFirst();
                 
-        if (student.isPresent() && subject.isPresent() ) {
-            student.get().enrollSubject(subject.get());
+        if (!subject.isPresent() ) {
+             System.out.printf("- Subject [%s] not found!\n", subCode );
+             return;
         }
-        else {
-            System.out.printf("- Student [%s] or Subject [%s] not found!\n", studentId, subCode );
+        
+        if (!student.get().enrollSubject(subject.get())) {
+            printStudentEnrolled();
         }
         
     }

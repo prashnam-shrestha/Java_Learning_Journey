@@ -83,40 +83,13 @@ public class MenuPrinter {
         System.out.println("4. Save & Back");
     }
     
-    public static void printFormatedResult(Student student) {
-        
-        if (student.getEnrolledSubjects().isEmpty()) {
-            System.out.println("- Student has not enrolled in any subject!");
-            return;
-        }
-
-        StringBuilder result = new StringBuilder(
-            String.format(
-                "=========================================\n" +
-                "              VIEW RESULTS\n" +
-                "=========================================\n\n" +
-                "-----------------------------------------\n" +
-                "Results for: %s (%s)\n" +
-                "-----------------------------------------\n" +
-                "%-25s %-8s %-6s\n" +
-                "-----------------------------------------\n" +
-                "%s",
-                student.getName(),
-                student.getStudentId(),
-                "Subject", "Grade", "Letter",
-                getEnrolledGrades(student)
-            )
-        );
-
-
-        result.append(String.format("-----------------------------------------\n" +
-                                    "GPA : %s / 4.00\n" +
-                                    "-----------------------------------------", getGradeGpa(student)));
-
-
+    public static void printFormatedResult(StringBuilder result){
         System.out.println(result);
     }
-
+    
+    public static void  printStudentEnrolled() {
+        System.out.println("- Student already enrolled in this subject!");
+    };
 
 
 }

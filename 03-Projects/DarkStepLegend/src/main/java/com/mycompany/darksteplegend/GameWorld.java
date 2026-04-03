@@ -115,7 +115,7 @@ public class GameWorld implements Serializable{
 
         AttackType type;
         type = enemy.attack(hero);
-//        pause(500);
+        pause(500);
         
         // Clean, single-line turn separator
         System.out.println("\n  📊 ================= BATTLE STATS ================= 📊");
@@ -125,7 +125,7 @@ public class GameWorld implements Serializable{
         
 
         System.out.println("\n  🛑 --- ENEMY'S TURN ---");
-//        pause(2000);
+        pause(2000);
         printAttack(enemy, hero, type, true);
         
         if (!hero.isIsAlive()) {
@@ -134,7 +134,7 @@ public class GameWorld implements Serializable{
             
         }
 
-//        pause(1000); 
+        pause(1000); 
          // Print menu right before asking for input
 
 
@@ -183,7 +183,7 @@ public class GameWorld implements Serializable{
                     // If success is false (not enough mana, empty inventory), loop again!
                 } while (!success);
 
-//        pause(1000); 
+        pause(1000); 
 
         if (!enemy.isIsAlive()) {
             hero.setEnemiesKilled(hero.getEnemiesKilled() + 1);

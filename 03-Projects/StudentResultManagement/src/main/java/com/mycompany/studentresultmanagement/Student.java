@@ -4,7 +4,8 @@
  */
 package com.mycompany.studentresultmanagement;
 
-import static com.mycompany.studentresultmanagement.MenuPrinter.printFormatedResult;
+import static com.mycompany.studentresultmanagement.MenuPrinter.*;
+import static com.mycompany.studentresultmanagement.StudentOperation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,6 @@ public class Student extends User implements Serializable{
                 .anyMatch(s -> s.getSubjectCode().equals(subject.getSubjectCode()));
                 
         if (enrolled) {
-            // PRINT THAT SUBJECT ALREADY ENROLLED
             return false;
         }
         
@@ -47,12 +47,9 @@ public class Student extends User implements Serializable{
     
     public void viewResult() {
         
-        printFormatedResult(this);
+        setGpa(getGradeGpa(this));
+        printFormatedResult(getFormatedResult(this, false));
         
-    }
-    
-    public String getReportCard() {
-        return "";
     }
 
     // GETTERS AND SETTERS

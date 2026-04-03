@@ -10,4 +10,19 @@
         <maven.compiler.release>25</maven.compiler.release>
         <exec.mainClass>com.mycompany.darksteplegend.DarkStepLegend</exec.mainClass>
     </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.mycompany.darksteplegend.DarkStepLegend</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
