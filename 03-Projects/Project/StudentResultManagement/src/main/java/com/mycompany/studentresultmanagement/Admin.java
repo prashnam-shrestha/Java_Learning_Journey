@@ -184,6 +184,7 @@ public class Admin extends User implements Serializable {
                     
                 case 3:
                     viewAdminOperation(data);
+                    break;
                 
                 // Exit back
                 case 4:
