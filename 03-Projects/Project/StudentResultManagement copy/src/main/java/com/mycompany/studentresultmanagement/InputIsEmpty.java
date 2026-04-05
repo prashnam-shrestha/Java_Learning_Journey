@@ -8,8 +8,10 @@ package com.mycompany.studentresultmanagement;
  *
  * @author prashnamshrestha
  */
-class InputUserExists extends Exception{
-    public InputUserExists(String message) {
-        super(message);
+public class InputIsEmpty extends Exception {
+
+    public InputIsEmpty(String _Blank_text) {
+        super(_Blank_text);
     }
+    
 }

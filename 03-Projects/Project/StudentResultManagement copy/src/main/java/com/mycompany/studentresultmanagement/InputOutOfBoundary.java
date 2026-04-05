@@ -8,6 +8,9 @@ package com.mycompany.studentresultmanagement;
  *
  * @author prashnamshrestha
  */
-public class ExportTxt {
+public class InputOutOfBoundary extends Exception{
     
+    public InputOutOfBoundary(String message) {
+        super(message);
+    }
 }
